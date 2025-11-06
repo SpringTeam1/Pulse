@@ -58,7 +58,7 @@
 	</filter-mapping>
 
 	<!-- 시큐리티 필터 -->
-	<filter>
+<!-- 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy
 		</filter-class>
@@ -66,6 +66,6 @@
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<servlet-name>appServlet</servlet-name>
-	</filter-mapping>
+	</filter-mapping> -->
 
 </web-app>
