@@ -1,43 +1,35 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
-	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd"
-	xmlns:context="http://www.springframework.org/schema/context">
-	
-	<context:property-placeholder location="classpath:config/db.properties" />
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder location="classpath:config/db.properties"/>
+
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-		<property name="driverClassName" value="${db.driverClassName}"></property>
-		<property name="jdbcUrl" value="${db.jdbcUrl}"></property>
-		<property name="username" value="${db.username}"></property>
-		<property name="password" value="${db.password}"></property>
+		<property name="driverClassName" value="${db.driverClassName}"/>
+		<property name="jdbcUrl" value="${db.jdbcUrl}"/>
+		<property name="username" value="${db.username}"/>
+		<property name="password" value="${db.password}"/>
 		<property name="dataSourceProperties">
-            <props>
-                <prop key="oracle.net.TNS_ADMIN">C:/dev/Wallet_jspteam1</prop>
-            </props>
+			<props>
+				<prop key="oracle.net.tns_admin">C:/dev/Wallet_jspteam1</prop>
+			</props>
 		</property>
 	</bean>
-	
+
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
-		<constructor-arg ref="hikariConfig"></constructor-arg>
+		<constructor-arg ref="hikariConfig"/>
 	</bean>
-	
+
 	<bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource"></property>
-		<property name="mapperLocations" value="classpath:mappers/*.xml"></property>
-		<property name="configLocation" value="classpath:config/mybatis-config.xml"></property>
+		<property name="dataSource" ref="dataSource"/>
+		<property name="mapperLocations" value="classpath:mappers/*.xml"/>
+		<property name="configLocation" value="classpath:config/mybatis-config.xml"/>
 	</bean>
-	
-	<mybatis-spring:scan base-package="com.test.project.mapper" />
-		
+
+	<mybatis-spring:scan base-package="com.test.pulse.mapper"/>
 </beans>
-
-
-
-
-
-
-
-
