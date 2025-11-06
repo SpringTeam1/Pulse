@@ -5,11 +5,17 @@
 	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 	
+	<context:property-placeholder location="classpath:config/db.properties" />
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:xe"></property>
-		<property name="username" value="jspteam1"></property>
-		<property name="password" value="@Project1234"></property>
+		<property name="driverClassName" value="${db.driverClassName}"></property>
+		<property name="jdbcUrl" value="${db.jdbcUrl}"></property>
+		<property name="username" value="${db.username}"></property>
+		<property name="password" value="${db.password}"></property>
+		<property name="dataSourceProperties">
+            <props>
+                <prop key="oracle.net.TNS_ADMIN">C:/dev/Wallet_jspteam1</prop>
+            </props>
+		</property>
 	</bean>
 	
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
