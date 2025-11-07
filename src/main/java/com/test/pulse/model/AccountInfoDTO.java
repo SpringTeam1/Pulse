@@ -29,5 +29,8 @@ public class AccountInfoDTO {
 	private String regionDistrict;
 	private String exerciseFrequency;
 	private String joinDate;
+	
+	private String id;
+	private String pw;
 
 }

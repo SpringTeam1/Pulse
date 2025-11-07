@@ -17,6 +17,12 @@
 	
 	</insert>
 	
+	<insert id="add" parameterType="com.test.pulse.model.AccountInfoDTO">
+		
+		insert into tblUser (id, pw) values ('hong', '1111')
+		
+	</insert>
+	
 </mapper>
 
 

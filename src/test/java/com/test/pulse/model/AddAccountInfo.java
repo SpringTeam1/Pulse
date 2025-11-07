@@ -30,10 +30,8 @@ public class AddAccountInfo {
 		
 		AccountInfoDTO dto = new AccountInfoDTO();
 		
-		dto.setAccountId("dog");
-		dto.setPassword("1111");
-		dto.setNickname("강아지");
-		dto.setRegisterType("기본");
+		dto.setId("hong");
+		dto.setPw("1111");
 		
 		mapper.add(dto);
 		
