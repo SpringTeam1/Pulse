@@ -9,7 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.test.pulse.model.SecurityMapper;
+import com.test.pulse.mapper.UserMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -19,9 +19,9 @@ import com.test.pulse.model.SecurityMapper;
 		"file:src/main/webapp/WEB-INF/spring/security-context.xml"
 })
 public class AddAccountInfo {
-	
+
 	@Autowired
-	private SecurityMapper mapper;
+	private UserMapper mapper;
 	
 	@Test
 	public void add() {
@@ -30,8 +30,15 @@ public class AddAccountInfo {
 		
 		AccountInfoDTO dto = new AccountInfoDTO();
 		
-		dto.setId("hong");
-		dto.setPw("1111");
+		dto.setAccountId("hong");
+		dto.setPassword("1111");
+		dto.setProfilePhoto("default");
+		dto.setNickname("홍길동");
+		dto.setAccountRole("일반");
+		dto.setAccountSeq("1");
+		dto.setAccountLevel("1");
+		dto.setRegisterType("기본");
+		dto.setAccountCategory("활성");
 		
 		mapper.add(dto);
 		
