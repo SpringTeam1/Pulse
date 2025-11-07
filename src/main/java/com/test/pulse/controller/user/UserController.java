@@ -26,7 +26,7 @@ public class UserController {
 		
 		mapper.add(adto);
 		
-		return "userregisterok";
+		return "user.registerok";
 	}
 	
 
