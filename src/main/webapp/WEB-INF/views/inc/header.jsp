@@ -16,10 +16,10 @@
         extend: {
           colors: {
             brand: {
-              DEFAULT: '#1DA1F2', // 인디고
+              DEFAULT: '#1DA1F2', 
               dark: '#4338CA'
             }
-          },
+          },  
           fontFamily: {
             display: ['"Poppins"', 'sans-serif']
           }
