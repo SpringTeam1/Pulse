@@ -27,45 +27,44 @@
 			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
-		
+
 		<multipart-config>
 			<location>c:\\code\\spring\\temp</location>
 			<max-file-size>10485760</max-file-size>
 			<max-request-size>52428800</max-request-size>
 			<file-size-threshold>10485760</file-size-threshold>
 		</multipart-config>
-		
+
 	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-	
-	<!-- 인코딩 필터 -->
+
+	<!-- ✅ CharacterEncodingFilter : 모든 요청/응답 UTF-8 강제 -->
 	<filter>
-		<filter-name>encoding</filter-name>
-		<filter-class>org.springframework.web.filter.CharacterEncodingFilter
-		</filter-class>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
 		<init-param>
 			<param-name>encoding</param-name>
 			<param-value>UTF-8</param-value>
 		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
 	</filter>
+
 	<filter-mapping>
-		<filter-name>encoding</filter-name>
-		<servlet-name>appServlet</servlet-name>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
+
 	<!-- 시큐리티 필터 -->
-<!-- 	<filter>
-		<filter-name>springSecurityFilterChain</filter-name>
-		<filter-class>org.springframework.web.filter.DelegatingFilterProxy
-		</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>springSecurityFilterChain</filter-name>
-		<servlet-name>appServlet</servlet-name>
-	</filter-mapping> -->
+	<!-- <filter> <filter-name>springSecurityFilterChain</filter-name> <filter-class>org.springframework.web.filter.DelegatingFilterProxy 
+		</filter-class> </filter> <filter-mapping> <filter-name>springSecurityFilterChain</filter-name> 
+		<servlet-name>appServlet</servlet-name> </filter-mapping> -->
 
 </web-app>
