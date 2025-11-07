@@ -11,7 +11,7 @@
 	
 	</insert>
 	
-	<insert id="addAccountInfoDetail" parameterType="com.test.pulse.model.AccountInfoDTO">
+	<insert id="addDetail" parameterType="com.test.pulse.model.AccountInfoDTO">
 	
 		INSERT INTO tblAccountInfoDetail(accountInfoDetailSeq, accountId, name, phoneNum, birthday, gender, regionCity, regionCounty, regionDistrict, exerciseFrequency, joinDate) values (seqAccountInfoDetail.nextVal, #{accountId}, #{name}, #{phoneNum}, #{birthday}, #{gender}, #{regionCity}, #{regionCounty}, #{regionDistrict}, #{exerciseFrequency}, #{joinDate})
 	
