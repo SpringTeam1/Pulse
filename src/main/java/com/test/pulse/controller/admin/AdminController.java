@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AdminController {
 
-	@GetMapping("/header")
+	@GetMapping("/admin")
 	public String header() {
 		
 		
-		return "inc/header";
+		return "admin.admin";
 	}
 }
