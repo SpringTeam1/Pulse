@@ -52,6 +52,7 @@ desktop.ini
 # End of https://www.toptal.com/developers/gitignore/api/java,eclipse,maven
 
 /src/main/resources/config/db.properties
+/src/main/resources/config/email.properties
 .factorypath
 node_modules
 package-lock.json
