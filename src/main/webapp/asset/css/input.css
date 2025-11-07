@@ -1,1 +1,10 @@
+/* src/main/webapp/asset/css/input.css */
 @import "tailwindcss";
+/* tailwind.config.js에 있던 theme.extend 설정을
+  여기로 그대로 옮겨옵니다.
+*/
+@theme {
+  --color-brand: #1DA1F2;
+  --color-brand-dark: #4338CA;
+  --font-display: "Poppins", sans-serif;
+}

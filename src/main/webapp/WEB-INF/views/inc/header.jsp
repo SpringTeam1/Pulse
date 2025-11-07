@@ -6,27 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tails Header</title>
   <link href="${pageContext.request.contextPath}/asset/css/output.css" rel="stylesheet">
-  <!-- ✅ Tailwind CDN 
-  <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- ✅ Optional: Tailwind 커스터마이즈 (색상 / 폰트 등)
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              DEFAULT: '#1DA1F2', 
-              dark: '#4338CA'
-            }
-          },  
-          fontFamily: {
-            display: ['"Poppins"', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script> -->
 </head>
 
 <body class="bg-gray-50 font-display">
@@ -52,7 +32,7 @@
             <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">Overview</a>
             <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">Pricing</a>
             <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">FAQ</a>
-          </div>
+          </div> 
         </div>
 
         <!-- ✅ 커스텀 카테고리 추가 예시 -->
