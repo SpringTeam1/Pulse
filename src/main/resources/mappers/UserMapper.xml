@@ -5,7 +5,17 @@
 
 <mapper namespace="com.test.pulse.mapper.UserMapper">
 	
+	<insert id="addAccountInfo" parameterType="com.test.pulse.model.AccountInfoDTO">
 	
+		INSERT INTO tblAccountInfo(accountId, password, profilePhoto, nickname, accountRole, accountSeq, accountLevel, registerType, accountCategory) VALUES (#{accountId}, #{password}, DEFAULT, #{nickname}, DEFAULT, seqaccountinfo.nextval, DEFAULT, #{registerType}, DEFAULT)
+	
+	</insert>
+	
+	<insert id="addAccountInfoDetail" parameterType="com.test.pulse.model.AccountInfoDTO">
+	
+		INSERT INTO tblAccountInfoDetail(accountInfoDetailSeq, accountId, name, phoneNum, birthday, gender, regionCity, regionCounty, regionDistrict, exerciseFrequency, joinDate) values (seqAccountInfoDetail.nextVal, #{accountId}, #{name}, #{phoneNum}, #{birthday}, #{gender}, #{regionCity}, #{regionCounty}, #{regionDistrict}, #{exerciseFrequency}, #{joinDate})
+	
+	</insert>
 	
 </mapper>
 
