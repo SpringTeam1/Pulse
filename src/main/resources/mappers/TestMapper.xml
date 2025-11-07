@@ -7,7 +7,7 @@
 	
 	<select id="getTest" resultType="String">
 		
-		select * from TEST_TABLE
+		select * from TEST_TABLE where id=1
 	
 	</select>
 	
