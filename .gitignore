@@ -55,3 +55,8 @@ desktop.ini
 .factorypath
 node_modules
 package-lock.json
+
+package.json
+
+output.css
+src/main/webapp/asset/css/output.css
