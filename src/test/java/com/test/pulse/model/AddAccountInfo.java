@@ -23,26 +23,26 @@ public class AddAccountInfo {
 	@Autowired
 	private UserMapper mapper;
 	
-//	@Test
-//	public void add() {
-//		
-//		assertNotNull(mapper);
-//		
-//		AccountInfoDTO dto = new AccountInfoDTO();
-//		
-//		dto.setAccountId("hong");
-//		dto.setPassword("1111");
-//		dto.setProfilePhoto("default");
-//		dto.setNickname("홍길동");
-//		dto.setAccountRole("일반");
-//		dto.setAccountSeq("1");
-//		dto.setAccountLevel("1");
-//		dto.setRegisterType("기본");
-//		dto.setAccountCategory("활성");
-//		
-//		mapper.add(dto);
-//		
-//	}
+	@Test
+	public void add() {
+		
+		assertNotNull(mapper);
+		
+		AccountInfoDTO dto = new AccountInfoDTO();
+		
+		dto.setAccountId("test3");
+		dto.setPassword("1111");
+		dto.setProfilePhoto("default");
+		dto.setNickname("홍길동");
+		dto.setAccountRole("일반");
+		dto.setAccountSeq("1");
+		dto.setAccountLevel("1");
+		dto.setRegisterType("기본");
+		dto.setAccountCategory("활성");
+		
+		mapper.add(dto);
+		
+	}
 	
 	@Test
     public void addDetail() {
@@ -51,7 +51,7 @@ public class AddAccountInfo {
 
         AccountInfoDTO dto = new AccountInfoDTO();
 
-        dto.setAccountInfoDetailSeq("4");
+        dto.setAccountInfoDetailSeq("5");
         dto.setAccountId("hong");
         dto.setName("강아지");
         dto.setPhoneNum("010-1111-1111");

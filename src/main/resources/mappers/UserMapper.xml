@@ -6,7 +6,7 @@
 <mapper namespace="com.test.pulse.mapper.UserMapper">
 	
 	<insert id="add" parameterType="com.test.pulse.model.AccountInfoDTO">
-
+	
 		INSERT INTO tblAccountInfo(accountId, password, profilePhoto, nickname, accountRole, accountSeq, accountLevel, registerType, accountCategory) VALUES (#{accountId}, #{password}, DEFAULT, #{nickname}, DEFAULT, seqaccountinfo.nextval, DEFAULT, #{registerType}, DEFAULT)
 	
 	</insert>

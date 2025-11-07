@@ -10,9 +10,5 @@ public interface UserMapper {
 	void add(AccountInfoDTO adto);
 
 	void addDetail(AccountInfoDTO dto);
-
-	
-	
-
 	
 }
