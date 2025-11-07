@@ -53,3 +53,5 @@ desktop.ini
 
 /src/main/resources/config/db.properties
 .factorypath
+node_modules
+package-lock.json
