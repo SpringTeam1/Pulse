@@ -5,11 +5,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tails Header</title>
-
-  <!-- ✅ Tailwind CDN -->
+  <link href="${pageContext.request.contextPath}/asset/css/output.css" rel="stylesheet">
+  <!-- ✅ Tailwind CDN 
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- ✅ Optional: Tailwind 커스터마이즈 (색상 / 폰트 등) -->
+  <!-- ✅ Optional: Tailwind 커스터마이즈 (색상 / 폰트 등)
   <script>
     tailwind.config = {
       theme: {
@@ -26,7 +26,7 @@
         }
       }
     }
-  </script>
+  </script> -->
 </head>
 
 <body class="bg-gray-50 font-display">
