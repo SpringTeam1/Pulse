@@ -19,10 +19,6 @@ public class AccountInfoDTO {
 	private String registerType;
 	private String accountCategory;
 	
-}
-
-class AccountInfoDetailDTO {
-	
 	private String accountInfoDetailSeq;
 	private String name;
 	private String phoneNum;
@@ -33,6 +29,5 @@ class AccountInfoDetailDTO {
 	private String regionDistrict;
 	private String exerciseFrequency;
 	private String joinDate;
-	
-	
+
 }
