@@ -8,6 +8,9 @@ import com.test.pulse.model.AccountInfoDTO;
 public interface UserMapper {
 
 	void add(AccountInfoDTO adto);
+
+	void addDetail(AccountInfoDTO dto);
+
 	
 	
 
