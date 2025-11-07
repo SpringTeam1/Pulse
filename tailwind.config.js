@@ -1,14 +1,25 @@
+// tailwind.config.js (Cleaned)
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  // ⭐️ 이 부분이 가장 중요합니다.
-  // JSP 파일이 있는 경로를 지정합니다.(tailwind의 스캔 대상)
   content: [
-    "./src/main/webapp/WEB-INF/views/**/*.jsp",
-    "./src/main/webapp/**/*.jsp" 
-    // 혹시 다른 경로에도 JSP/HTML 파일이 있다면 추가
+    // 이 패턴 하나면 /webapp/ 아래의 모든 .jsp 파일을 스캔합니다.
+    // (/WEB-INF/views/inc/header.jsp 포함)
+    "./src/main/webapp/**/*.jsp"
   ],
+
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        brand: {
+          DEFAULT: '#1DA1F2',
+          dark: '#4338CA',
+        },
+      },
+      fontFamily: {
+        display: ['"Poppins"', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }
