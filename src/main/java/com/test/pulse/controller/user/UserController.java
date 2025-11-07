@@ -18,15 +18,15 @@ public class UserController {
 	@GetMapping("/register")
 	public String register() {
 		 
-		return "register";
+		return "user.register";
 	}
 	
-	@PostMapping("/registerok.do")
+	@PostMapping("/registerok")
 	public String registerok(AccountInfoDTO adto) {
 		
 		mapper.add(adto);
 		
-		return "registerok";
+		return "userregisterok";
 	}
 	
 
