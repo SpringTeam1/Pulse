@@ -6,6 +6,17 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
+<style>
+.photo-box{position:relative;width:220px;aspect-ratio:1/1}
+.photo-box img{width:100%;height:100%;object-fit:cover;display:block;cursor:pointer}
+.photo-box .overlay{position:absolute;inset:0;cursor:pointer} /* 이미지 전체를 덮는 클릭 영역 */
+.hint{margin-top:6px;font-size:12px;color:#666}
+.btn-main,
+.btn-sub {
+  cursor: pointer;
+}
+
+</style>
 </head>
 <body>	
 	<!-- register.jsp -->
@@ -16,7 +27,19 @@
 	<table class="vertical">
 		<tr>
 			<th>프로필 사진</th>
-			<td><input type="file" name="profilePhoto" value="pic.png" accept="image/png,image/jpeg" required></td>
+			<td>
+				<!-- 미리보기 영역 -->
+			    <div class="photo-box">
+			      <img id="preview" src="${pageContext.request.contextPath}/asset/pic/pic.png" alt="프로필 미리보기">
+			      <label class="overlay" for="photo" title="이미지 선택"></label>
+			    </div>
+			
+			    <!-- 실제 파일 선택 input -->
+			    <input type="file" id="photo" name="profilePhoto" accept="image/png,image/jpeg" style="display:none;">
+			
+				<button type="button" class="btn btn-main" onclick="photo.click()">이미지 선택</button>
+			    <button type="button" class="btn btn-sub" onclick="resetPhoto()">이미지 삭제</button>
+			</td>
 		</tr>
 		<tr>
 			<th>이메일</th>
@@ -29,10 +52,6 @@
 		<tr>
 			<th>닉네임</th>
 			<td><input type="text" name="nickname" value="테스트" required></td>
-		</tr>
-		<tr>
-			<th>회원가입 유형</th>
-			<td><input type="text" name="registerType" value="기본" required></td>
 		</tr>
 		<tr>
 			<th>이름</th>
@@ -72,6 +91,35 @@
 	</div>
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 	</form>
+	
+	
+	<script>
+	
+	//이미지
+	//미리보기 + 확장자 검증
+	const photo = document.getElementById('photo');
+	const preview = document.getElementById('preview');
+	photo.addEventListener('change', e=>{
+	  const f = e.target.files[0];
+	  if(!f) return;
+	  const ok = /(png|jpg|jpeg)$/i.test(f.name);
+	  if(!ok){ alert('png, jpg, jpeg만 업로드 가능합니다.'); photo.value=''; return; }
+	  const url = URL.createObjectURL(f);
+	  preview.src = url;
+	});
+	
+	//이미지 초기화
+	function resetPhoto() {
+		  const preview = document.getElementById('preview');
+		  const input = document.getElementById('photo');
+		  const hidden = document.getElementById('photoName');
+
+		  preview.src = '${pageContext.request.contextPath}/asset/pic/pic.png';
+		  input.value = '';
+		  hidden.value = 'pic.png';
+		}
+	
+	</script>
 	
 </body>
 </html>
