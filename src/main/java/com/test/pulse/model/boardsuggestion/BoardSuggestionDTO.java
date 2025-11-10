@@ -12,7 +12,7 @@ public class BoardSuggestionDTO {
 	private String regdate;
 	private int readCount;
 	private int favoriteCount;
-	private int boardContentTypeSeq;
+	private String boardContentTypeSeq;
 	
 	private AccountInfoDTO adto;
 	

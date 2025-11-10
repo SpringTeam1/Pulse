@@ -17,14 +17,14 @@ public class BoardSuggestionController {
 	
 	private final BoardSuggestionMapper mapper;
 	
-	@GetMapping("/boardsuggestion")
+	@GetMapping("/boardsuggestion/list")
 	public String list(Model model) {
 		
 		List<BoardSuggestionDTO> slist = mapper.suggestionList();
 		
 		model.addAttribute("list", slist);
-				
-		return "list";
+		
+		return "boardsuggestion.list";
 	}
 
 }

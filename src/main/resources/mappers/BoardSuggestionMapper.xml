@@ -10,16 +10,16 @@
 		<result column="name" property="name"/>
 	</resultMap>
 	
-	<resultMap type="sdto" id="boardsuggestionMap">
+	<resultMap type="sdto" id="boardSuggestionMap">
 		<id column="boardContentSeq" property="boardContentSeq"/>
 		<result column="title" property="title" />
 		<result column="regdate" property="regdate" />
-		<result column="readcount" property="readcount"/>
+		<result column="readcount" property="readCount"/>
 		<result column="bid" property="accountId"/>
-		<association property="adto" resultMap="accountInfoMap"></association>
+		<association property="adto" resultMap="accountInfoMap" />
 	</resultMap>
 	
-	<select id="suggestionList" resultMap="boardsuggestionMap">
+	<select id="suggestionList" resultMap="boardSuggestionMap">
 	
 		select
 			b.boardContentSeq,
