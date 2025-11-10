@@ -34,7 +34,8 @@ public class BoardSuggestionTest {
 		List<BoardSuggestionDTO> slist = mapper.suggestionList();
 		
 		assertNotNull(mapper);
-		assertEquals(1, slist.size());
+		assertEquals(2, slist.size());
+		
 		
 	}
 	

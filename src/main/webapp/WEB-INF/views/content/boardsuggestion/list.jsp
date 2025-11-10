@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- ======================================================================
   ✅ [게시판 목록 페이지 가이드라인]
@@ -38,12 +39,11 @@
           <tr class="hover:bg-gray-50 transition">
             <td class="px-6 py-3 text-center">${dto.boardContentSeq}</td>
             <td class="px-6 py-3">
-            <%-- 
-              <a href="${pageContext.request.contextPath}/board/view.do?seq=${dto.boardContentSeq}"
+            <a href="${pageContext.request.contextPath}/board/view.do?seq=${dto.boardContentSeq}"
                  class="text-brand hover:text-brand-dark font-medium">
-                  --%>
+                
                 ${dto.title}
-              <!-- </a> -->
+            </a>
             </td>
             <td class="px-6 py-3">${dto.adto.name}</td>
             <td class="px-6 py-3">${dto.regdate}</td>

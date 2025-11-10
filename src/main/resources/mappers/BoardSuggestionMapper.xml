@@ -20,7 +20,7 @@
 	</resultMap>
 	
 	<select id="suggestionList" resultMap="boardSuggestionMap">
-	
+<!-- 
 		select
 			b.boardContentSeq,
 			b.title,
@@ -34,6 +34,18 @@
 			inner join tblAccountInfoDetail d
 				on a.accountId = d.accountId
 					order by b.boardContentSeq desc
+		 -->
+		 
+		 SELECT
+            b.boardContentSeq,
+            b.title,
+            b.regdate,
+            a.accountId AS aid,
+            d.name
+        FROM tblBoardSuggestion b
+        INNER JOIN tblAccountInfo a ON b.accountId = a.accountId
+        LEFT JOIN tblAccountInfoDetail d ON a.accountId = d.accountId
+        ORDER BY b.boardContentSeq DESC
 	
 	</select>
 	
