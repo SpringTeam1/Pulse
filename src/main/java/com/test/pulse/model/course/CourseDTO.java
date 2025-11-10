@@ -6,12 +6,12 @@ import lombok.ToString;
 
 @Getter @Setter @ToString
 public class CourseDTO {
-	private String courseSeq;
+	private int courseSeq;
 	private String courseName;
 	private String accountId;
 	private String courseApproval;
 	private String description;
-	private String courseLength;
+	private double courseLength;
 	private String startAddress;
 	private String endAddress;
 	private String trackData;
