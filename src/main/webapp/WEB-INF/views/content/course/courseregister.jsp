@@ -8,3 +8,4 @@
 
     <button type="button" id="submitBtn">코스 등록 요청하기</button>
 </form>
+<script src="/pulse/asset/js/courseregister.js"></script>
