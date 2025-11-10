@@ -31,6 +31,8 @@
 		<property name="mapperLocations" value="classpath:mappers/*.xml"/>
 		<property name="configLocation" value="classpath:config/mybatis-config.xml"/>
 	</bean>
-
+	
+	<bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
+	
 	<mybatis-spring:scan base-package="com.test.pulse.mapper"/>
 </beans>
