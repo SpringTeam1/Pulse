@@ -74,11 +74,4 @@
 
 
 <!-- ✅ 페이지별 JS를 직접 작성 가능 -->
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const btn = document.getElementById("alertBtn");
-    if (btn) {
-      btn.addEventListener("click", () => alert("example.jsp에서 JS 실행됨 ✅"));
-    }
-  });
-</script>
+
