@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="com.test.pulse.mapper.BoardSuggestionMapper">
+	
+	<resultMap type="adto" id="accountInfoMap">
+		<id column="aid" property="accountId"/>
+		<result column="name" property="name"/>
+	</resultMap>
+	
+	<resultMap type="sdto" id="boardsuggestionMap">
+		<id column="boardContentSeq" property="boardContentSeq"/>
+		<result column="title" property="title" />
+		<result column="regdate" property="regdate" />
+		<result column="readcount" property="readcount"/>
+		<result column="bid" property="accountId"/>
+		<association property="adto" resultMap="accountInfoMap"></association>
+	</resultMap>
+	
+	<select id="suggestionList" resultMap="boardsuggestionMap">
+	
+		select
+			b.boardContentSeq,
+			b.title,
+			b.regdate,
+			d.name,
+			a.accountId as aid,
+			b.accountId as bid
+		from tblBoardSuggestion b
+			inner join tblAccountInfo a
+				on b.accountId = a.accountId
+			inner join tblAccountInfoDetail d
+				on a.accountId = d.accountId
+					order by b.boardContentSeq desc
+	
+	</select>
+	
+</mapper>

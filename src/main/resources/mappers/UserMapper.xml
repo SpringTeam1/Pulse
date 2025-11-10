@@ -5,15 +5,17 @@
 
 <mapper namespace="com.test.pulse.mapper.UserMapper">
 	
-	<insert id="add" parameterType="com.test.pulse.model.AccountInfoDTO">
+	<insert id="add" parameterType="com.test.pulse.model.user.AccountInfoDTO">
 	
-		INSERT INTO tblAccountInfo(accountId, password, profilePhoto, nickname, accountRole, accountSeq, accountLevel, registerType, accountCategory) VALUES (#{accountId}, #{password}, DEFAULT, #{nickname}, DEFAULT, seqaccountinfo.nextval, DEFAULT, #{registerType}, DEFAULT)
+		INSERT INTO tblAccountInfo(accountId, password, profilePhoto, nickname, accountRole, accountSeq, accountLevel, registerType, accountCategory)
+			VALUES (#{accountId}, #{password}, DEFAULT, #{nickname}, DEFAULT, seqaccountinfo.nextval, DEFAULT, DEFAULT, DEFAULT)
 	
 	</insert>
 	
-	<insert id="addDetail" parameterType="com.test.pulse.model.AccountInfoDTO">
+	<insert id="addDetail" parameterType="com.test.pulse.model.user.AccountInfoDTO">
 	
-		INSERT INTO tblAccountInfoDetail(accountInfoDetailSeq, accountId, name, phoneNum, birthday, gender, regionCity, regionCounty, regionDistrict, exerciseFrequency, joinDate) values (seqAccountInfoDetail.nextVal, #{accountId}, #{name}, #{phoneNum}, #{birthday}, #{gender}, #{regionCity}, #{regionCounty}, #{regionDistrict}, #{exerciseFrequency}, #{joinDate})
+		INSERT INTO tblAccountInfoDetail(accountInfoDetailSeq, accountId, name, phoneNum, birthday, gender, regionCity, regionCounty, regionDistrict, exerciseFrequency, joinDate)
+			VALUES (seqAccountInfoDetail.nextVal, #{accountId}, #{name}, #{phoneNum}, #{birthday}, #{gender}, #{regionCity}, #{regionCounty}, #{regionDistrict}, #{exerciseFrequency}, #{joinDate})
 	
 	</insert>
 	

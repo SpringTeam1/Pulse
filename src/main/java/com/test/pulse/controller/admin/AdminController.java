@@ -9,7 +9,6 @@ public class AdminController {
 	@GetMapping("/admin")
 	public String header() {
 		
-		
 		return "admin.admin";
 	}
 }

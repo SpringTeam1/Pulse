@@ -1,4 +1,4 @@
-package com.test.pulse.model;
+package com.test.pulse.model.user;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -30,7 +30,4 @@ public class AccountInfoDTO {
 	private String exerciseFrequency;
 	private String joinDate;
 	
-	private String id;
-	private String pw;
-
 }

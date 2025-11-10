@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.test.pulse.mapper.UserMapper;
-import com.test.pulse.model.AccountInfoDTO;
+import com.test.pulse.model.user.AccountInfoDTO;
 
 import lombok.RequiredArgsConstructor;
 

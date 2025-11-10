@@ -2,7 +2,7 @@ package com.test.pulse.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.test.pulse.model.AccountInfoDTO;
+import com.test.pulse.model.user.AccountInfoDTO;
 
 @Mapper
 public interface UserMapper {
