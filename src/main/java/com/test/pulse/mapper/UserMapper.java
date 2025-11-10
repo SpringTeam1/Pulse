@@ -12,5 +12,9 @@ public interface UserMapper {
 	void addDetail(AccountInfoDTO dto);
 
 	AccountInfoDTO get(String username);
+
+	static int countByNickname(String nickname) {
+		return 0;
+	}
 	
 }

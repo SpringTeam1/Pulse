@@ -5,12 +5,16 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<meta name="_csrf" content="${_csrf.token}"/>
+	<meta name="_csrf_header" content="${_csrf.headerName}"/>
+	
 	<title>Insert title here</title>
 <style>
 .photo-box{position:relative;width:220px;aspect-ratio:1/1}
 .photo-box img{width:100%;height:100%;object-fit:cover;display:block;cursor:pointer}
 .photo-box .overlay{position:absolute;inset:0;cursor:pointer} /* 이미지 전체를 덮는 클릭 영역 */
 .hint{margin-top:6px;font-size:12px;color:#666}
+button,
 .btn-main,
 .btn-sub {
   cursor: pointer;
@@ -50,40 +54,101 @@
 			<td><input type="password" name="password" value="1111" required></td>
 		</tr>
 		<tr>
-			<th>닉네임</th>
-			<td><input type="text" name="nickname" value="테스트" required></td>
-		</tr>
-		<tr>
 			<th>이름</th>
 			<td><input type="text" name="name" value="테스트" required></td>
 		</tr>
 		<tr>
+			<th>닉네임</th>
+			<td>
+				<input type="text" id="nickname" name="nickname" value="테스트" required>
+				<label>&nbsp;</label>
+					<button type="button" id="btnNick" class="btn btn-sub">중복 검사</button>
+				<span id="nickMsg" class="msg"></span>
+			</td>
+		</tr>
+		<tr>
 			<th>전화번호</th>
-			<td><input type="text" name="phoneNum" value="010-1111-1111"required></td>
+			<td><input type="text" name="phoneNum" value="010-1111-1111" required oninput="this.value = this.value.replace(/[^0-9]/g, '');"></td>
+			<td><div class="hint">'-' 없이 숫자로만 입력해주세요.</div></td>
 		</tr>
 		<tr>
 			<th>생년월일</th>
-			<td><input type="text" name="birthday" value="2000.11.11" required></td>
+			<td>
+				<div class="col">
+					<label>연도</label>
+			    	<select class="input" id="yyyy" name="yyyy"></select>
+			    </div>
+			    <div class="col">
+			    	<label>월</label>
+			    	<select class="input" id="mm" name="mm"></select>
+			    </div>
+			    <div class="col">
+			    	<label>일</label>
+			    	<select class="input" id="dd" name="dd"></select>
+			    </div>
+			</td>
 		</tr>
 		<tr>
 			<th>성별</th>
-			<td><input type="text" name="gender" value="남자" required></td>
+			<td>
+				<label class="chip"><input type="radio" name="gender" value="남자"<c:if test="${empty gender or gender == '남자'}">checked</c:if>>남자</label>
+				<label class="chip"><input type="radio" name="gender" value="여자"<c:if test="${gender == '여자'}">checked</c:if>>여자</label>
+			</td>
 		</tr>
 		<tr>
 			<th>광역시</th>
-			<td><input type="text" name="regionCity" value="서울특별시" required></td>
+			<td>
+				<select id="sido" name="regionCity">
+				 	<option value="">선택</option>
+				 	<option value="서울특별시" <c:if test="${empty regionCity or regionCity == '서울특별시'}">selected</c:if>>서울특별시</option>
+					<option value="부산광역시" <c:if test="${regionCity == '부산광역시'}">selected</c:if>>부산광역시</option>
+					<option value="대구광역시" <c:if test="${regionCity == '대구광역시'}">selected</c:if>>대구광역시</option>
+					<option value="인천광역시" <c:if test="${regionCity == '인천광역시'}">selected</c:if>>인천광역시</option>
+				 	<option value="광주광역시" <c:if test="${regionCity == '광주광역시'}">selected</c:if>>광주광역시</option>
+					<option value="대전광역시" <c:if test="${regionCity == '대전광역시'}">selected</c:if>>대전광역시</option>
+					<option value="울산광역시" <c:if test="${regionCity == '울산광역시'}">selected</c:if>>울산광역시</option>
+					<option value="세종특별자치시" <c:if test="${regionCity == '세종특별자치시'}">selected</c:if>>세종특별자치시</option>
+					<option value="경기도" <c:if test="${regionCity == '경기도'}">selected</c:if>>경기도</option>
+					<option value="강원특별자치도" <c:if test="${regionCity == '강원특별자치도'}">selected</c:if>>강원특별자치도</option>
+					<option value="충청북도" <c:if test="${regionCity == '충청북도'}">selected</c:if>>충청북도</option>
+					<option value="충청남도" <c:if test="${regionCity == '충청남도'}">selected</c:if>>충청남도</option>
+					<option value="전북특별자치도" <c:if test="${regionCity == '전북특별자치도'}">selected</c:if>>전북특별자치도</option>
+					<option value="전라남도" <c:if test="${regionCity == '전라남도'}">selected</c:if>>전라남도</option>
+					<option value="경상북도" <c:if test="${regionCity == '경상북도'}">selected</c:if>>경상북도</option>
+					<option value="경상남도" <c:if test="${regionCity == '경상남도'}">selected</c:if>>경상남도</option>
+					<option value="제주특별자치도" <c:if test="${regionCity == '제주특별자치도'}">selected</c:if>>제주특별자치도</option>
+				</select>
+					<c:if test="${not empty regionCityMsg}">
+						<div class="msg err">${regionCityMsg}</div>
+					</c:if>
+			</td>
 		</tr>
 		<tr>
 			<th>시군구</th>
-			<td><input type="text" name="regionCounty" value="강남구" required></td>
+			<td>
+				<input type="text" id="sigungu" name="regionCounty" value="${empty regionCounty ? '강남구' : regionCounty}">
+					<c:if test="${not empty regionCountyMsg}">
+						<div class="msg err">${regionCountyMsg}</div>
+					</c:if>
+			</td>
 		</tr>
 		<tr>
 			<th>동읍면</th>
-			<td><input type="text" name="regionDistrict" value="서초동" required></td>
+			<td>
+				<input type="text" id="dong" name="regionDistrict" value="${empty regionDistrict ? '삼성동' : regionDistrict}">
+					<c:if test="${not empty regionDistrictMsg}">
+						<div class="msg err">${regionDistrictMsg}</div>
+					</c:if>
+			</td>
 		</tr>
 		<tr>
 			<th>운동빈도</th>
-			<td><input type="text" name="exerciseFrequency" value="1-3" required></td>
+			<td>
+				<label class="chip"><input type="radio" name="freq" value="0" <c:if test="${freq == '0'}">checked</c:if>> 주 1회 미만</label>
+				<label class="chip"><input type="radio" name="freq" value="1-3" <c:if test="${empty freq or freq == '1-3'}">checked</c:if>> 주 1~3회</label>
+				<label class="chip"><input type="radio" name="freq" value="4-6" <c:if test="${freq == '4-5'}">checked</c:if>> 주 4~6회</label>
+				<label class="chip"><input type="radio" name="freq" value="7" <c:if test="${freq == '6+'}">checked</c:if>> 주 7회</label>
+			</td>
 		</tr>
 	</table>
 	<div>
@@ -93,33 +158,7 @@
 	</form>
 	
 	
-	<script>
-	
-	//이미지
-	//미리보기 + 확장자 검증
-	const photo = document.getElementById('photo');
-	const preview = document.getElementById('preview');
-	photo.addEventListener('change', e=>{
-	  const f = e.target.files[0];
-	  if(!f) return;
-	  const ok = /(png|jpg|jpeg)$/i.test(f.name);
-	  if(!ok){ alert('png, jpg, jpeg만 업로드 가능합니다.'); photo.value=''; return; }
-	  const url = URL.createObjectURL(f);
-	  preview.src = url;
-	});
-	
-	//이미지 초기화
-	function resetPhoto() {
-		  const preview = document.getElementById('preview');
-		  const input = document.getElementById('photo');
-		  const hidden = document.getElementById('photoName');
 
-		  preview.src = '${pageContext.request.contextPath}/asset/pic/pic.png';
-		  input.value = '';
-		  hidden.value = 'pic.png';
-		}
-	
-	</script>
 	
 </body>
 </html>

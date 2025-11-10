@@ -19,6 +19,13 @@
 	
 	</insert>
 	
+	<select id="countByNickname" parameterType="string" resultType="int">
+	
+  		SELECT COUNT(*) FROM tblAccountInfo WHERE nickname = #{nickname}
+  		
+	</select>
+	
+	
 </mapper>
 
 

@@ -2,6 +2,7 @@ package com.test.pulse.controller.user;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.test.pulse.mapper.UserMapper;
@@ -70,6 +72,14 @@ public class UserController {
 		
 		return "user.registerok";
 	}
+	
+	@PostMapping(value="/api/nick/check", produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public Map<String,Object> checkNick(@RequestParam String nickname){
+	    boolean dup = UserMapper.countByNickname(nickname) > 0;
+	    return Map.of("duplicate", dup);
+	}
+
 	
 
 }

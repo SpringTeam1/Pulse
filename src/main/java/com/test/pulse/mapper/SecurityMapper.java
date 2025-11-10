@@ -1,4 +1,4 @@
-package com.test.pulse.model;
+package com.test.pulse.mapper;
 
 import com.test.pulse.model.user.AccountInfoDTO;
 
