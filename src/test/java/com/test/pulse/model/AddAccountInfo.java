@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.test.pulse.mapper.UserMapper;
+import com.test.pulse.model.user.AccountInfoDTO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
