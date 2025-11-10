@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.test.pulse.mapper.TestMapper">
+	
+	<insert id="insertCourse">
+		
+		insert into tblCourse
+    (courseSeq, courseName, accountId, courseApproval, description, courseLength, startAddress, endAddress, trackData, regdate)
+		VALUES
+		    (seqCourse.nextval,
+		     '테스트2',
+		     'hong',
+		     default,
+		     '코스 insert 테스트',
+		     2.0,
+		     '서울시 강남구 역삼동',
+		     '서울시 강남구 대치동',
+		     '[{"lat":37.5013068,"lon":127.0396567},{"lat":37.502124,"lon":127.042231},{"lat":37.502398,"lon":127.043423}]',
+		     default
+		);
+	
+	</insert>
+	
+	
+	
+</mapper>

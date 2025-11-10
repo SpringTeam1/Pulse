@@ -23,9 +23,9 @@ public class CourseRestController {
 	@PostMapping
 	public ResponseEntity<CourseDTO> registerCourse(
 		@RequestParam("gpxFile") MultipartFile gpxFile,
-		@RequestParam("courseName") MultipartFile courseName,
-		@RequestParam("description") MultipartFile description,
-		@RequestParam("accountId") MultipartFile accountId
+		@RequestParam("courseName") String courseName,
+		@RequestParam("description") String description,
+		@RequestParam("accountId") String accountId
 	) {
 		try {
 			CourseDTO savedCourse = courseService.parseAndSaveGpxCourse(gpxFile, courseName, description, accountId);

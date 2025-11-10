@@ -27,9 +27,9 @@ public class CourseService {
 	
 	public CourseDTO parseAndSaveGpxCourse(
 			MultipartFile gpxFile, 
-			MultipartFile courseName, 
-			MultipartFile description, 
-			MultipartFile accountId) throws Exception {
+			String courseName, 
+			String description, 
+			String accountId) throws Exception {
 		
 		List<CoordinateDTO> coords = new ArrayList<>();
 		try (InputStream in = gpxFile.getInputStream()){
@@ -56,10 +56,40 @@ public class CourseService {
 			e.printStackTrace();
 		}
 		
-		// --2. 데이터 계산
+		//2. 데이터 계산
+		double courseLengthInMeters = calculateTotalDistance(coords);
 		
+		String trackDataJson = objectMapper.writeValueAsString(coords);
 		
-		return null;
+		//3. 주소 변환(Kakao API 연동 후 추가 작업 필요 TODO)
+		CoordinateDTO startCoord = coords.get(0);
+        CoordinateDTO endCoord = coords.get(coords.size() - 1);
+        
+        String startAddress = "임시 시작 주소"; 
+        // TODO: kakaoAPIService.coordToAddress(startCoord.getLat(), startCoord.getLon());
+        String endAddress = "임시 종료 주소";   
+        // TODO: kakaoAPIService.coordToAddress(endCoord.getLat(), endCoord.getLon());
+		
+        //4. DTO세팅
+        CourseDTO course = new CourseDTO();
+        course.setCourseName(courseName);     // (폼에서 받은 값)
+        course.setDescription(description); // (폼에서 받은 값)
+        course.setAccountId(accountId);     // (폼에서 받은 값)
+        
+        course.setCourseLength(courseLengthInMeters / 1000.0); // (예: km 단위로 변환 저장)
+        course.setTrackData(trackDataJson); // (계산된 JSON)
+        course.setStartAddress(startAddress); // (변환된 주소)
+        course.setEndAddress(endAddress);   // (변환된 주소)
+        
+        //5. DB작업(인터페이스매퍼)
+        courseMapper.insertCourse(course);
+                
+		return course;
+	}
+
+	private double calculateTotalDistance(List<CoordinateDTO> coords) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	
