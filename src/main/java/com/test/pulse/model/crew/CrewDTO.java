@@ -16,7 +16,7 @@ public class CrewDTO {
     private String crewAttach;
     private double latitude;
     private double longitude;
-    private String distance;
+    private Double distance;
     private String nickname;
 
 }

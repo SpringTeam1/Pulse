@@ -5,5 +5,96 @@
 
 <mapper namespace="com.test.pulse.mapper.CrewMapper">
 
+    <insert id="add" parameterType="CrewDTO">
+        INSERT INTO tblCrew
+        VALUES (seqCrew.nextVal, #{crewName}, #{description}, 0,
+        #{regionCity}, #{regionCounty}, #{regionDistrict},
+        #{crewAttach}, #{latitude}, #{longitude}, #{accountId})
+    </insert>
+
+    <select id="get" parameterType="string" resultType="CrewDTO">
+        SELECT c.*, a.NICKNAME
+        FROM tblCrew c
+        LEFT JOIN tblAccountInfo a ON c.ACCOUNTID = a.ACCOUNTID
+        WHERE c.CREWSEQ = #{crewSeq}
+    </select>
+
+    <select id="isUserInCrew" parameterType="string" resultType="boolean">
+        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
+        FROM (
+        SELECT accountId FROM tblCrew WHERE accountId = #{accountId}
+        UNION ALL
+        SELECT accountId FROM tblCrewMember WHERE accountId = #{accountId}
+        )
+    </select>
+
+    <select id="getCrewSeq" parameterType="string" resultType="string">
+        SELECT crewSeq FROM tblCrew WHERE accountId = #{accountId}
+        UNION
+        SELECT crewSeq FROM tblCrewMember WHERE accountId = #{accountId}
+        FETCH FIRST 1 ROWS ONLY
+    </select>
+
+    <select id="listPopular" resultType="CrewDTO">
+        SELECT *
+        FROM (
+        SELECT c.*, a.NICKNAME, ROWNUM AS rnum
+        FROM tblCrew c
+        LEFT JOIN tblAccountInfo a ON c.ACCOUNTID = a.ACCOUNTID
+        ORDER BY c.MEMBERCOUNT DESC
+        )
+        WHERE rnum &lt;= 4
+    </select>
+
+    <select id="listNearby" resultType="CrewDTO">
+        SELECT *
+        FROM (
+        SELECT c.*, a.NICKNAME,
+        (6371 * ACOS(
+        COS(#{lat}*(ACOS(-1)/180)) *
+        COS(c.LATITUDE*(ACOS(-1)/180)) *
+        COS(c.LONGITUDE*(ACOS(-1)/180) - #{lng}*(ACOS(-1)/180)) +
+        SIN(#{lat}*(ACOS(-1)/180)) *
+        SIN(c.LATITUDE*(ACOS(-1)/180))
+        )) AS distance
+        FROM tblCrew c
+        LEFT JOIN tblAccountInfo a ON c.ACCOUNTID = a.ACCOUNTID
+        ORDER BY distance ASC
+        )
+        WHERE ROWNUM &lt;= 8
+    </select>
+
+    <insert id="addCrewJoinRequest">
+        INSERT INTO tblCrewJoin (CREWJOINSEQ, CREWSEQ, ACCOUNTID, REQUESTSTATE)
+        VALUES (SEQCREWJOIN.nextVal, #{crewSeq}, #{accountId}, '대기')
+    </insert>
+
+    <select id="isCrewLeader" resultType="boolean">
+        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
+        FROM tblCrew
+        WHERE accountId = #{accountId}
+        AND crewSeq = #{crewSeq}
+    </select>
+
+    <select id="getJoinRequestsByCrewSeq" resultType="CrewJoinRequestDTO">
+        SELECT cj.*, ai.nickname
+        FROM tblCrewJoin cj
+        INNER JOIN tblAccountInfo ai ON cj.ACCOUNTID = ai.ACCOUNTID
+        WHERE cj.CREWSEQ = #{crewSeq}
+        ORDER BY cj.CREWJOINSEQ DESC
+    </select>
+
+    <update id="approveJoinRequest">
+        UPDATE tblCrewJoin
+        SET REQUESTSTATE = '승인'
+        WHERE CREWJOINSEQ = #{crewJoinSeq}
+    </update>
+
+    <update id="rejectJoinRequest">
+        UPDATE tblCrewJoin
+        SET REQUESTSTATE = '거절'
+        WHERE CREWJOINSEQ = #{crewJoinSeq}
+    </update>
+
 
 </mapper>

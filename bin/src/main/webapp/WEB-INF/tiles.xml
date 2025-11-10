@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+
+  <!-- ✅ 공통 템플릿 -->
+  <definition name="baseLayout" template="/WEB-INF/views/layout/layout.jsp">
+    <put-attribute name="header" value="/WEB-INF/views/inc/header.jsp" />
+  </definition>
+
+<!--   =======================================================
+      📘 [팀원용 페이지 등록 가이드라인]
+      ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+      ┃ 각자 맡은 기능의 JSP를 아래 예시처럼 추가하세요. 
+      ┃                                        
+      ┃ <definition name="crew" extends="baseLayout">   
+      ┃   <put-attribute name="title" value="크루 관리" />  
+      ┃   <put-attribute name="content" value="/WEB-INF/views/pages/crew.jsp" /> 
+      ┃    crew.jsp 안에 <script>를 직접 쓴다면 아래는 생략
+      ┃   <put-attribute name="script" value="/WEB-INF/views/scripts/crew-script.jsp" /> 
+      ┃ </definition>                             
+      ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+      
+      📌 name → Controller에서 return할 뷰 이름
+      📌 content → 본인이 맡은 JSP 경로
+      📌 script → 선택 (페이지별 JS 따로 둘 때만)
+  ======================================================= -->
+  
+    <!-- ===========================================================
+      📘 [Crew 기능 세트 등록 예시]
+      - 모든 크루 관련 페이지는 extends="baseLayout"
+      - 각 페이지마다 독립 definition을 추가
+      - 컨트롤러에서 return할 뷰 이름과 definition name이 같아야 함
+    =========================================================== -->
+<!-- 
+  ✅ 크루 메인 페이지 (예: /crew.do)
+  <definition name="crew" extends="baseLayout">
+    <put-attribute name="title" value="크루 메인" />
+    <put-attribute name="content" value="/WEB-INF/views/pages/crew/crew.jsp" />
+  </definition>
+
+  ✅ 크루 게시판 페이지 (예: /crew/board.do)
+  <definition name="crewBoard" extends="baseLayout">
+    <put-attribute name="title" value="크루 게시판" />
+    <put-attribute name="content" value="/WEB-INF/views/pages/crew/crewBoard.jsp" />
+  </definition>
+
+  ✅ 크루 상세 페이지 (예: /crew/detail.do)
+  <definition name="crewDetail" extends="baseLayout">
+    <put-attribute name="title" value="크루 상세보기" />
+    <put-attribute name="content" value="/WEB-INF/views/pages/crew/crewDetail.jsp" />
+  </definition>
+  
+ -->
+<!--  
+ @Controller
+@RequestMapping("/crew")
+public class CrewController {
+
+    // 크루 메인
+    @GetMapping
+    public String crewMain() {
+        return "crew";  // tiles.xml의 <definition name="crew"> 를 찾음
+    }
+
+    // 크루 게시판
+    @GetMapping("/board")
+    public String crewBoard() {
+        return "crewBoard";  // tiles.xml의 crewBoard definition을 렌더링
+    }
+
+    // 크루 상세
+    @GetMapping("/detail")
+    public String crewDetail() {
+        return "crewDetail";
+    }
+}
+ 
+  -->
+ 
+  <definition name="*.*" extends="baseLayout">
+    <put-attribute name="content" value="/WEB-INF/views/content/{1}/{2}.jsp" />
+  </definition>
+  
+
+
+</tiles-definitions>
