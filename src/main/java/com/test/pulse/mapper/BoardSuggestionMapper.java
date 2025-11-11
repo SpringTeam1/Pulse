@@ -8,6 +8,11 @@ public interface BoardSuggestionMapper {
 
 	List<BoardSuggestionDTO> suggestionList();
 	
-	BoardSuggestionDTO get(String boardContentSeq);
+	BoardSuggestionDTO getSuggestion(String boardContentSeq);
+	
+	void addSuggestion(BoardSuggestionDTO sdto);
+	
+	void editSuggestion(BoardSuggestionDTO sdto);
 
+	void delSuggestion(String boardContentSeq);
 }
