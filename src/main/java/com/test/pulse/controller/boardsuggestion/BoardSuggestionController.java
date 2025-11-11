@@ -1,14 +1,21 @@
 package com.test.pulse.controller.boardsuggestion;
 
+import java.io.File;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.test.pulse.mapper.BoardSuggestionMapper;
 import com.test.pulse.model.boardsuggestion.BoardSuggestionDTO;
+import com.test.pulse.model.user.AccountInfoDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -47,7 +54,7 @@ public class BoardSuggestionController {
 		
 //		CustomUser cuser = (CustomUser)auth.getPrincipal();
 //		AccountInfoDTO adto = member.getDto(); 
-//		sdto.setAccountId(adto.getAccountId());
+		sdto.setAccountId(((BoardSuggestionDTO) mapper).getAccountId());
 
 		mapper.addSuggestion(sdto);
 		
@@ -60,16 +67,51 @@ public class BoardSuggestionController {
 		BoardSuggestionDTO sdto = mapper.getSuggestion(boardContentSeq);
 		model.addAttribute("dto", sdto);
 		
-		return "board.edit";
+		return "boardsuggestion.edit";
 	}
 	
+	
+	
 	@PostMapping("/boardsuggestion/editok")
-	public String editok(Model model, BoardSuggestionDTO sdto) {
-		
-		mapper.editSuggestion(sdto);
-		
-		return "redirect:/boardsuggestion/view?boardContentSeq=" + sdto.getBoardContentSeq();
+	public String editok(
+			@ModelAttribute BoardSuggestionDTO sdto,
+	                     @RequestParam(value = "attach", required = false) MultipartFile attach,
+	                     HttpServletRequest req) {
+
+	    try {
+	        // 파일 업로드가 있을 경우
+	        if (attach != null && !attach.isEmpty()) {
+
+	            // webapp/boardsuggestion 경로 지정
+	            String path = req.getServletContext().getRealPath("/boardsuggestion");
+	            File dir = new File(path);
+	            if (!dir.exists()) dir.mkdirs();
+
+	            // 실제 업로드 파일명
+	            String filename = attach.getOriginalFilename();
+
+	            // 저장 경로
+	            File saveFile = new File(dir, filename);
+	            attach.transferTo(saveFile);
+
+	            // DTO에 파일명 저장
+	            sdto.setAttach(filename);
+	        }
+
+	        // DB 수정 처리
+	        mapper.editSuggestion(sdto);
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "redirect:/boardsuggestion/edit?boardContentSeq=" + sdto.getBoardContentSeq() + "&error=upload";
+	    }
+
+	    // 정상 완료 시 상세보기로 리다이렉트
+	    return "redirect:/boardsuggestion/view?boardContentSeq=" + sdto.getBoardContentSeq();
 	}
+	
+	
+	
 	
 	@GetMapping("/boardsuggestion/del")
 	public String del(Model model, String boardContentSeq) {

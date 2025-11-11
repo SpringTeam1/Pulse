@@ -6,7 +6,7 @@
   <h1 class="text-3xl font-bold text-black">✏️ 건의글 작성</h1>
   <p class="text-gray-600 text-sm">새로운 건의사항을 작성해주세요.</p>
 
-  <form method="post" action="${pageContext.request.contextPath}/boardsuggestion/addok" enctype="multipart/form-data" class="space-y-5">
+  <form method="POST" action="${pageContext.request.contextPath}/boardsuggestion/addok" enctype="multipart/form-data" class="space-y-5">
 
     <div>
       <label class="block text-gray-700 font-medium mb-2">제목</label>

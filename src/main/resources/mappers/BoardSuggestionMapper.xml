@@ -67,9 +67,9 @@
 	<!-- edit 게시글 수정 -->
 	<update id="editSuggestion" parameterType="sdto">
 		update tblBoardSuggestion set
-			tilte = #{title},
+			title = #{title},
 			content = #{content}
-				where boardContentSeq = #{boadrContentSeq}		
+				where boardContentSeq = #{boardContentSeq}		
 	</update>
 	
 	
