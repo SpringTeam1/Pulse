@@ -18,6 +18,7 @@
 		        class="block text-sm font-medium text-gray-700">코스 이름</label> 
 		    <input
 		        type="text" id="courseName" name="courseName"
+		        maxlength="30"
 				placeholder="코스 이름을 입력해주세요"
 		        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm 
 		               sm:text-sm p-2
@@ -31,6 +32,7 @@
 			<label for="description"
 				class="block text-sm font-medium text-gray-700">코스 설명</label>
 			<textarea id="description" name="description" rows="3"
+				maxlength="650"
 				placeholder="코스 설명을 입력해주세요"
 				class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2
 				focus:border-gray-500 focus:ring-gray-500 focus:ring-1 focus:outline-none sm:text-sm"></textarea>
