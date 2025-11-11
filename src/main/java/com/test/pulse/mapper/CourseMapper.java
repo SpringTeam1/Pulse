@@ -1,9 +1,9 @@
 package com.test.pulse.mapper;
 
-import com.test.pulse.model.course.CourseDTO;
+import com.test.pulse.model.course.GPXCourseDTO;
 
 public interface CourseMapper {
 
-	void insertCourse(CourseDTO course);
+	void insertCourse(GPXCourseDTO course);
 	
 }

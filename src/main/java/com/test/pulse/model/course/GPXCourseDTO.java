@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Getter @Setter @ToString
-public class CourseDTO {
+public class GPXCourseDTO {
 	private int courseSeq;
 	private String courseName;
 	private String accountId;

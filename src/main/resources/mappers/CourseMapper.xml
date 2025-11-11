@@ -6,7 +6,7 @@
 
 <mapper namespace="com.test.pulse.mapper.CourseMapper">
 	
-	<insert id="insertCourse" parameterType="cdto">
+	<insert id="insertCourse" parameterType="gdto">
 		<selectKey keyProperty="courseSeq" resultType="int" order="BEFORE">
         	SELECT seqCourse.NEXTVAL FROM DUAL
     	</selectKey>
@@ -27,6 +27,8 @@
 		    default
 		)
 	</insert>
+	
+	<!-- <insert id="insertManualCourse" parameterType="mdto"></insert> -->
 	
 	
 	

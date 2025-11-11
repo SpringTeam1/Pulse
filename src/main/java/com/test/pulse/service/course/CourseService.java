@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.pulse.mapper.CourseMapper;
 import com.test.pulse.model.course.CoordinateDTO;
-import com.test.pulse.model.course.CourseDTO;
+import com.test.pulse.model.course.GPXCourseDTO;
 import com.test.pulse.service.api.OpenStreetMapAPIService;
 import com.test.pulse.service.course.util.CourseCalc;
 
@@ -41,7 +41,7 @@ public class CourseService {
 	 * @return
 	 * @throws Exception
 	 */
-	public CourseDTO parseAndSaveGpxCourse(
+	public GPXCourseDTO parseAndSaveGpxCourse(
 			MultipartFile gpxFile, 
 			String courseName, 
 			String description, 
@@ -64,7 +64,7 @@ public class CourseService {
 	 * @throws Exception
 	 */
 	@Transactional
-	public CourseDTO saveCourse(
+	public GPXCourseDTO saveCourse(
 			List<CoordinateDTO> coords, 
 			String courseName, 
 			String description, 
@@ -82,7 +82,7 @@ public class CourseService {
         String endAddress = mapapiservice.coordToAddress(endCoord.getLat(), endCoord.getLon());   
 		
         //4. DTO세팅
-        CourseDTO course = new CourseDTO();
+        GPXCourseDTO course = new GPXCourseDTO();
         course.setCourseName(courseName);     // (폼에서 받은 값)
         course.setDescription(description); // (폼에서 받은 값)
         course.setAccountId(accountId);     // (폼에서 받은 값)
