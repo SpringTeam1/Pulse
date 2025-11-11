@@ -9,13 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.test.pulse.service.api.MapAPIService;
+import com.test.pulse.service.api.NaverMapAPIService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
-public class MapAPITests {
+public class NaverMapAPITests {
 	@Autowired
-    private MapAPIService mapApiService;
+    private NaverMapAPIService mapApiService;
 	
 	@Test
     public void coordToAddress_API_호출_테스트() {

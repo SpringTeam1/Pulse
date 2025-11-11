@@ -15,24 +15,23 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
-public class MapAPIService {
-	private static final Logger log = LoggerFactory.getLogger(MapAPIService.class);
+public class NaverMapAPIService {
+	private static final Logger log = LoggerFactory.getLogger(NaverMapAPIService.class);
 	private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
     private final String NAVER_CLIENT_ID;
     private final String NAVER_CLIENT_SECRET;
 	@Autowired
-	public MapAPIService(
+	public NaverMapAPIService(
 			RestTemplate restTemplate,
 			ObjectMapper objectMapper,
 			@Value("${naver.api.clientId}") String naverClientId,
 			@Value("${naver.api.clientSecret}") String naverClientSecret) {
 		
 		// 주입된 값이 null이거나, 대괄호[] 안에 공백이 있는지 확인
-        log.info("===== MapAPIService 생성자 ======");
-        log.info("주입된 Client ID: [" + naverClientId + "]");
-        log.info("주입된 Client Secret: [" + naverClientSecret + "]");
-        // ---------------------
+//        log.info("===== MapAPIService 생성자 ======");
+//        log.info("주입된 Client ID: [" + naverClientId + "]");
+//        log.info("주입된 Client Secret: [" + naverClientSecret + "]");
 		
 		this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
