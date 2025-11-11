@@ -43,7 +43,8 @@ public class CourseRestController {
 	//코스 등록 요청하기(사용자가 직접)
 	@PostMapping("/manual")
 	public ResponseEntity<GPXCourseDTO> registerManualCourse(@RequestBody ManualCourseDTO request){
-//		@RequestBody ManualCourseRequest request
+//		log.info("===== RestController (Manual) 진입 =====");
+//        log.info("받은 좌표 수: {}", request.getCoords().size());
 		
 		return null;
 	}

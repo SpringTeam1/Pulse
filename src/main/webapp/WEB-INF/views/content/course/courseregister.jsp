@@ -2,7 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <form id="registerForm" 
     enctype="multipart/form-data"
-    data-api-url="<c:url value='/api/course' />" 
+    data-api-url="<c:url value='/api/course/gpx' />" 
     data-redirect-url="<c:url value='/' />">
     코스 이름: <input type="text" id="courseName" name="courseName" value="테스트1"><br>
     코스 설명: <textarea id="description" name="description">테스트1</textarea><br>
