@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class CrewDTO {
 
-    private int crewSeq;
+    private String crewSeq;
     private String crewName;
     private String description;
     private int memberCount;

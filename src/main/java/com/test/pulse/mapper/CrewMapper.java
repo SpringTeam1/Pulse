@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import com.test.pulse.model.crew.CrewDTO;
 import com.test.pulse.model.crew.CrewJoinRequestDTO;
+import org.springframework.security.core.parameters.P;
 
 @Mapper
 public interface CrewMapper {
@@ -13,7 +14,7 @@ public interface CrewMapper {
 
     CrewDTO get(@Param("crewSeq") String crewSeq);
 
-    boolean isUserInCrew(@Param("accountId") String accountId);
+    int isUserInCrew(@Param("accountId") String accountId);
 
     String getCrewSeq(@Param("accountId") String accountId);
 
@@ -25,11 +26,19 @@ public interface CrewMapper {
 
     int addCrewJoinRequest(@Param("crewSeq") String crewSeq, @Param("accountId") String accountId);
 
-    boolean isCrewLeader(@Param("accountId") String accountId, @Param("crewSeq") String crewSeq);
+    Boolean isAlreadyRequested(@Param("crewSeq") String crewSeq, @Param("accountId") String accountId);
+
+    int upCountCrewMember(@Param("crewSeq") String crewSeq );
+
+    int isCrewLeader(@Param("accountId") String accountId, @Param("crewSeq") String crewSeq);
 
     List<CrewJoinRequestDTO> getJoinRequestsByCrewSeq(@Param("crewSeq") String crewSeq);
 
     int approveJoinRequest(@Param("crewJoinSeq") String crewJoinSeq);
 
     int rejectJoinRequest(@Param("crewJoinSeq") String crewJoinSeq);
+
+    String getCrewName(@Param("crewSeq") String crewSeq);
+
+    String getAccountIdsNickname(@Param("accountId")  String accountId);
 }

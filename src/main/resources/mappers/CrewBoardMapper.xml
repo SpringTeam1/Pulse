@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.test.pulse.mapper.CrewBoardMapper">
+
+    <!-- 게시글 목록 -->
+    <select id="list" parameterType="map" resultType="BoardDTO">
+        SELECT *
+        FROM (
+        SELECT
+        b.BOARDCONTENTSEQ,
+        b.CREWSEQ,
+        b.ACCOUNTID,
+        b.TITLE,
+        b.CONTENT,
+        b.ATTACH,
+        TO_CHAR(b.REGDATE, 'YYYY-MM-DD') AS REGDATE,   <!-- ✅ 날짜 포맷 -->
+        b.READCOUNT,
+        b.FAVORITECOUNT,
+        b.BOARDCONTENTTYPESEQ,
+        a.NICKNAME,
+        ROWNUM AS RNUM
+        FROM tblCrewBoardGeneral b
+        LEFT JOIN tblAccountInfo a
+        ON b.ACCOUNTID = a.ACCOUNTID
+        WHERE b.CREWSEQ = #{crewSeq}
+        ORDER BY b.BOARDCONTENTSEQ DESC
+        )
+        WHERE RNUM BETWEEN #{map.begin} AND #{map.end}
+    </select>
+
+    <!-- 게시글 상세보기 -->
+    <select id="get" resultType="BoardDTO">
+        SELECT b.*, a.NICKNAME
+        FROM tblCrewBoardGeneral b
+        LEFT JOIN tblAccountInfo a ON b.ACCOUNTID = a.ACCOUNTID
+        WHERE b.BOARDCONTENTSEQ = #{boardContentSeq}
+    </select>
+
+    <!-- 게시글 작성 -->
+    <insert id="add" parameterType="BoardDTO">
+            INSERT INTO TBLCREWBOARDGENERAL
+            (
+            BOARDCONTENTSEQ,
+            CREWSEQ,
+            ACCOUNTID,
+            TITLE,
+            CONTENT,
+            ATTACH,
+            REGDATE,
+            READCOUNT,
+            FAVORITECOUNT,
+            BOARDCONTENTTYPESEQ
+            )
+            VALUES
+            (
+            seqCrewBoardGeneral.NEXTVAL,   <!-- ✅ 시퀀스 (PK 자동증가) -->
+            #{crewSeq, jdbcType=NUMERIC},
+            #{accountId, jdbcType=VARCHAR},
+            #{title, jdbcType=VARCHAR},
+            #{content, jdbcType=CLOB},
+            #{attach, jdbcType=VARCHAR},       <!-- ✅ null 가능 -->
+            SYSDATE,                           <!-- regdate 기본값 -->
+            0,                                 <!-- readCount 기본값 -->
+            0,                                 <!-- favoriteCount 기본값 -->
+            1                                  <!-- 자유게시판: 1 -->
+            )
+        </insert>
+
+
+
+    <!-- 게시글 수정 -->
+    <update id="update" parameterType="BoardDTO">
+        UPDATE tblCrewBoardGeneral
+        SET title = #{title},
+        content = #{content},
+        attach = #{attach}
+        WHERE boardContentSeq = #{boardContentSeq}
+    </update>
+
+    <!-- 게시글 삭제 -->
+    <delete id="remove">
+        DELETE FROM tblCrewBoardGeneral
+        WHERE boardContentSeq = #{boardContentSeq}
+    </delete>
+
+    <!-- 조회수 증가 -->
+    <update id="updateReadCount">
+        UPDATE tblCrewBoardGeneral
+        SET readCount = readCount + 1
+        WHERE boardContentSeq = #{boardContentSeq}
+    </update>
+
+    <!-- 좋아요 증가 -->
+    <update id="updateLike">
+        UPDATE tblCrewBoardGeneral
+        SET favoriteCount = favoriteCount + 1
+        WHERE boardContentSeq = #{boardContentSeq}
+    </update>
+
+    <!-- 총 게시글 수 -->
+    <select id="getTotalCount" resultType="int">
+        SELECT count(*) FROM tblCrewBoardGeneral WHERE crewSeq = #{crewSeq}
+    </select>
+
+    <!-- 사진 게시글 -->
+    <select id="getBoardPhotosByCrewSeq" resultType="BoardDTO">
+        SELECT BOARDCONTENTSEQ, ATTACH, TITLE
+        FROM tblCrewBoardGeneral
+        WHERE CREWSEQ = #{crewSeq} AND ATTACH IS NOT NULL
+        ORDER BY REGDATE DESC
+    </select>
+
+</mapper>

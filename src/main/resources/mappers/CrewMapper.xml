@@ -6,11 +6,26 @@
 <mapper namespace="com.test.pulse.mapper.CrewMapper">
 
     <insert id="add" parameterType="CrewDTO">
-        INSERT INTO tblCrew
-        VALUES (seqCrew.nextVal, #{crewName}, #{description}, 0,
-        #{regionCity}, #{regionCounty}, #{regionDistrict},
-        #{crewAttach}, #{latitude}, #{longitude}, #{accountId})
+        INSERT INTO tblCrew (
+        crewSeq, crewName, description, memberCount,
+        regionCity, regionCounty, regionDistrict,
+        latitude, longitude, crewAttach, accountId
+        )
+        VALUES (
+        seqCrew.NEXTVAL,
+        #{crewName},
+        #{description},
+        0,
+        #{regionCity},
+        #{regionCounty},
+        #{regionDistrict},
+        #{latitude},
+        #{longitude},
+        #{crewAttach},
+        'hong'
+        )
     </insert>
+
 
     <select id="get" parameterType="string" resultType="CrewDTO">
         SELECT c.*, a.NICKNAME
@@ -19,7 +34,7 @@
         WHERE c.CREWSEQ = #{crewSeq}
     </select>
 
-    <select id="isUserInCrew" parameterType="string" resultType="boolean">
+    <select id="isUserInCrew" parameterType="string" resultType="int">
         SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
         FROM (
         SELECT accountId FROM tblCrew WHERE accountId = #{accountId}
@@ -69,15 +84,36 @@
         VALUES (SEQCREWJOIN.nextVal, #{crewSeq}, #{accountId}, '대기')
     </insert>
 
-    <select id="isCrewLeader" resultType="boolean">
+    <!-- 중복 신청 체크 -->
+    <select id="isAlreadyRequested" parameterType="map" resultType="boolean">
+        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
+        FROM tblCrewJoin
+        WHERE crewSeq = #{crewSeq}
+        AND accountId = #{accountId}
+    </select>
+
+    <select id="isCrewLeader" resultType="int">
         SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
         FROM tblCrew
         WHERE accountId = #{accountId}
         AND crewSeq = #{crewSeq}
     </select>
 
+    <select id="getCrewName" resultType="string">
+
+        SELECT CREWNAME as crewName
+        FROM TBLCREW
+        WHERE CREWSEQ = #{crewSeq}
+
+    </select>
+
     <select id="getJoinRequestsByCrewSeq" resultType="CrewJoinRequestDTO">
-        SELECT cj.*, ai.nickname
+        SELECT
+        cj.CREWJOINSEQ AS crewJoinSeq,
+        cj.CREWSEQ AS crewSeq,
+        cj.ACCOUNTID AS accountId,
+        cj.REQUESTSTATE AS requestState,
+        ai.NICKNAME AS nickname
         FROM tblCrewJoin cj
         INNER JOIN tblAccountInfo ai ON cj.ACCOUNTID = ai.ACCOUNTID
         WHERE cj.CREWSEQ = #{crewSeq}
@@ -90,11 +126,27 @@
         WHERE CREWJOINSEQ = #{crewJoinSeq}
     </update>
 
+    <update id="upCountCrewMember">
+        UPDATE tblCREW
+        SET MemberCount = MemberCount + 1
+        WHERE CREWSEQ = #{crewSeq}
+    </update>
+
     <update id="rejectJoinRequest">
         UPDATE tblCrewJoin
         SET REQUESTSTATE = '거절'
         WHERE CREWJOINSEQ = #{crewJoinSeq}
     </update>
+
+    <select id="getAccountIdsNickname" parameterType="String" resultType="String">
+
+        SELECT NICKNAME as nickname
+        FROM TBLACCOUNTINFO
+        WHERE ACCOUNTID = #{accountId}
+
+
+    </select>
+
 
 
 </mapper>

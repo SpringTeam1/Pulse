@@ -41,6 +41,15 @@
         <a href="${pageContext.request.contextPath}/contact.do" class="text-gray-700 hover:text-brand font-medium">Contact</a>
       </nav>
 
+        <!-- ✅ 로그인한 사람의 아이디 표시 (임시용) -->
+        <div class="flex items-center space-x-3">
+            <div class="hidden md:flex items-center bg-brand/10 text-brand text-sm font-semibold px-3 py-1 rounded-full shadow-sm border border-brand/20">
+                <span>현재 로그인:</span>
+                <span class="ml-1 text-brand-dark">
+            <%= session.getAttribute("accountId") != null ? session.getAttribute("accountId") : "게스트" %>
+          </span>
+            </div>
+
       <!-- ✅ 모바일 햄버거 버튼 -->
       <div class="md:hidden">
         <button id="menuBtn" class="text-gray-600 hover:text-brand focus:outline-none">

@@ -1,13 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!-- ==========================================================
-✅ crewregister.jsp (Tiles content only)
-- HTML, HEAD, BODY는 layout.jsp에서 자동 처리
-- TailwindCSS는 이미 로드되어 있음
-- Kakao 지도 모바일 터치 대응 및 폼 검증 포함
-========================================================== -->
-
 <section class="max-w-3xl mx-auto mt-10 bg-white rounded-xl shadow p-6 space-y-6">
 
     <header>
@@ -15,7 +8,7 @@
         <p class="text-gray-600">우리 크루의 이름, 소개, 활동 지역을 입력해주세요.</p>
     </header>
 
-    <form method="POST" action="/pulse/crewregisterok"
+    <form method="POST" action="/pulse/api/v1/crew"
           enctype="multipart/form-data"
           onsubmit="return validateForm()"
           class="space-y-6">
@@ -138,4 +131,22 @@
         }
         return true;
     }
+
+        document.querySelector("form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (!validateForm()) return;
+
+        const formData = new FormData(e.target);
+        const res = await fetch("/pulse/api/v1/crew", { method: "POST", body: formData });
+        const data = await res.json();
+
+        if (data.success) {
+        alert(data.message);
+        location.href = "/pulse/crewmain";
+    } else {
+        alert("❌ " + data.message);
+    }
+    });
+
+
 </script>

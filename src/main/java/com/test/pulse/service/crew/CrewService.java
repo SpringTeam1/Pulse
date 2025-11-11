@@ -5,6 +5,7 @@ import com.test.pulse.model.crew.CrewDTO;
 import com.test.pulse.model.crew.CrewJoinRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class CrewService {
     }
 
     public boolean isUserInCrew(String accountId) {
-        return mapper.isUserInCrew(accountId);
+        return mapper.isUserInCrew(accountId) > 0; // ✅ true / false로 반환
     }
 
     public String getCrewSeq(String accountId) {
@@ -46,19 +47,30 @@ public class CrewService {
         return mapper.addCrewJoinRequest(crewSeq, accountId);
     }
 
+    public boolean isAlreadyRequested(String  crewSeq, String accountId) { return  mapper.isAlreadyRequested(crewSeq, accountId); }
+
     public boolean isCrewLeader(String accountId, String crewSeq) {
-        return mapper.isCrewLeader(accountId, crewSeq);
+        return mapper.isCrewLeader(accountId, crewSeq) == 1;
     }
 
     public List<CrewJoinRequestDTO> getJoinRequests(String crewSeq) {
         return mapper.getJoinRequestsByCrewSeq(crewSeq);
     }
 
-    public int approveJoin(String crewJoinSeq) {
-        return mapper.approveJoinRequest(crewJoinSeq);
-    }
+    public int approveJoin(String crewJoinSeq) { return mapper.approveJoinRequest(crewJoinSeq);}
+
+    public int upCountCrewMember(String crewSeq) { return mapper.upCountCrewMember(crewSeq);}
 
     public int rejectJoin(String crewJoinSeq) {
         return mapper.rejectJoinRequest(crewJoinSeq);
+    }
+
+
+    public String getCrewName(String crewSeq) {
+        return mapper.getCrewName(crewSeq);
+    }
+
+    public String getAccountIdsNickname(String accountId) {
+        return mapper.getAccountIdsNickname(accountId);
     }
 }
