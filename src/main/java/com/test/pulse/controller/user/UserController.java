@@ -2,6 +2,8 @@ package com.test.pulse.controller.user;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,10 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.test.pulse.mapper.UserMapper;
 import com.test.pulse.model.user.AccountInfoDTO;
+import com.test.pulse.service.user.MailService;
+import com.test.pulse.service.user.VerificationService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,6 +29,8 @@ public class UserController {
 	
 	private final UserMapper mapper;
 	private final BCryptPasswordEncoder encoder;
+	private final MailService mailService;
+	private final VerificationService verificationService;
 	
 	@GetMapping("/registerselect")
 	public String registerselect() {
@@ -32,8 +39,10 @@ public class UserController {
 	}
 	
 	@GetMapping("/register")
-	public String register() {
+	public String register(@RequestParam(required=false) String registerType, HttpServletRequest req) {
 		 
+		req.setAttribute("registerType", registerType);
+		
 		return "user.register";
 	}
 	
@@ -41,6 +50,12 @@ public class UserController {
 	@PostMapping("/registerok")
 	public String registerok(AccountInfoDTO adto, @RequestParam(value = "profilePhoto", required = false) MultipartFile profilePhoto,
             HttpServletRequest req) {
+		
+		if (!"true".equalsIgnoreCase(req.getParameter("emailVerified"))) {
+			// 인증 안 했으면 다시 폼으로
+			req.setAttribute("emailMsg", "이메일 인증이 필요합니다.");
+			return "user.register";
+		}
 		
 		adto.setPassword(encoder.encode(adto.getPassword()));
 		

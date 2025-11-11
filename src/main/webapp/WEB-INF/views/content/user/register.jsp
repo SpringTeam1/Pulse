@@ -48,8 +48,8 @@ button,
 		<tr>
 			<th>이메일</th>
 			<td>
-				<input type="text" id="email" name="email" placeholder="이메일 주소 입력" value="${empty emailValue ? 'test@gmail.com' : emailValue}">
-			    <button id="btnSend" class="btn btn-sub">인증번호 발송</button>
+				<input type="text" id="accountId" name="accountId" placeholder="이메일 주소 입력" value="${empty emailValue ? 'zkfps411@naver.com' : emailValue}">
+			    <button type="button" id="btnSend" class="btn btn-sub">인증번호 발송</button>
 			    
 			    <!-- 인증번호 입력(별도 form 없음) -->
 			    <div id="verifyWrap" class="row" style="margin-top:8px; display:none;">

@@ -21,20 +21,20 @@
 	<security:http>
 	
 		<!-- 허가 -->
-		<security:intercept-url pattern="/index.do" access="permitAll" />
-		<security:intercept-url pattern="/member.do" 
+		<security:intercept-url pattern="/index" access="permitAll" />
+		<security:intercept-url pattern="/member" 
 					access="hasRole('ROLE_MEMBER')" />
-		<security:intercept-url pattern="/admin.do" 
+		<security:intercept-url pattern="/admin" 
 					access="hasRole('ROLE_ADMIN')" />
 		
 		<!-- 8.1 403 처리 -->
 		<security:access-denied-handler ref="customAccessDeniedHandler" />
 
 		<!-- 10. 로그아웃 처리 -->
-		<security:logout logout-url="/customlogout.do" invalidate-session="true" logout-success-url="/index.do" />
+		<security:logout logout-url="/customlogout" invalidate-session="true" logout-success-url="/index" />
 
 		<!-- 11. 로그인 성공 후 처리 핸들러 -->
-		<security:form-login login-page="/customlogin.do" authentication-success-handler-ref="customLoginSuccessHandler" />
+		<security:form-login login-page="/customlogin" authentication-success-handler-ref="customLoginSuccessHandler" />
 		
 	</security:http>
 
