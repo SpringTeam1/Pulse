@@ -83,13 +83,35 @@ public class CourseService {
         
         //5. DB작업(인터페이스매퍼)
         courseMapper.insertCourse(course);
-                
+        
 		return course;
 	}
 
 	private double calculateTotalDistance(List<CoordinateDTO> coords) {
-		// TODO Auto-generated method stub
-		return 0;
+		double totalDistance = 0.0;
+        // 0번부터 마지막-1번까지 순회
+        for (int i = 0; i < coords.size() - 1; i++) {
+            CoordinateDTO start = coords.get(i);
+            CoordinateDTO end = coords.get(i + 1);
+            // 두 점 사이의 거리를 계속 더함
+            totalDistance += haversineDistance(start.getLat(), start.getLon(), end.getLat(), end.getLon());
+        }
+        return totalDistance;
+	}
+
+	private double haversineDistance(double lat1, double lon1, double lat2, double lon2) {
+		final int R = 6371; // 지구 반지름 (km)
+        
+        double latDistance = Math.toRadians(lat2 - lat1);
+        double lonDistance = Math.toRadians(lon2 - lon1);
+        
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        
+        return R * c * 1000; // m 단위로 변환
 	}
 	
 	
