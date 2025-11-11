@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CourseController {
 	@GetMapping("/register")
 	public String gpxRegPage() {
-		return "course.courseregister";
+		return "course.gpxcourseregister";
 	}
 	
 	

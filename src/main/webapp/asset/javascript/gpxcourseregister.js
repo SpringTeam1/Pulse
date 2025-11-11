@@ -1,7 +1,7 @@
 $(function() {
 
-    const registerForm = $('#registerForm');
-    const submitBtn = $('#submitBtn');
+    const registerForm = $('#gpxRegisterForm');
+    const submitBtn = $('#gpxSubmitBtn');
 
     if (submitBtn.length) {
 
@@ -12,7 +12,7 @@ $(function() {
 
         submitBtn.on('click', function() {
 
-            const formData = new FormData(document.getElementById('registerForm')); // 폼 객체[0] = DOM 요소
+            const formData = new FormData(registerForm[0]); // 폼 객체[0] = DOM 요소
 
             if (!$('#gpxFile').val()) {
                  alert('GPX 파일을 첨부해주세요.');

@@ -22,7 +22,7 @@
 
   <!-- ✅ 공통 스크립트 -->
   <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-  <script src="<c:url value='/asset/js/common.js' />"></script>
+  <script src="<c:url value='/asset/javascript/common.js' />"></script>
 
   <!-- ✅ 페이지별 추가 스크립트 -->
   <tiles:insertAttribute name="script" ignore="true" />
