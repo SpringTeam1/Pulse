@@ -1,6 +1,7 @@
 package com.test.pulse.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import com.test.pulse.model.user.AccountInfoDTO;
 
@@ -12,9 +13,5 @@ public interface UserMapper {
 	void addDetail(AccountInfoDTO dto);
 
 	AccountInfoDTO get(String username);
-
-	static int countByNickname(String nickname) {
-		return 0;
-	}
 	
 }

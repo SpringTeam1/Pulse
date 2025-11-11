@@ -58,62 +58,6 @@
 	})();
 	
 	
-	//닉네임 중복 검사
-	(function(){
-	  const ctx = '${pageContext.request.contextPath}';
-	  const csrfHeader = '${_csrf.headerName}';
-	  const csrfToken  = '${_csrf.token}';
-
-	  const btn  = document.getElementById('btnNick');
-	  const nick = document.getElementById('nickname');
-	  const msg  = document.getElementById('nickMsg');
-
-	  if(!btn || !nick || !msg) return;
-
-	  btn.addEventListener('click', async function(){
-	    const value = nick.value.trim();
-	    const rule = /^(?=.*[가-힣A-Za-z0-9])[가-힣A-Za-z0-9]{1,12}$/;
-
-	    if (!rule.test(value)) {
-	      msg.textContent = '닉네임 형식을 확인해주세요.';
-	      msg.style.color = '#b00020';
-	      return;
-	    }
-
-	    msg.textContent = '검사 중...';
-	    msg.style.color = '#666';
-
-	    try {
-	      const res = await fetch(ctx + '/api/nick/check', {
-	        method: 'POST',
-	        headers: {
-	          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-	          [csrfHeader]: csrfToken
-	        },
-	        body: new URLSearchParams({ nickname: value }).toString()
-	      });
-
-	      if (!res.ok) throw new Error(res.status);
-	      const r = await res.json();
-
-	      if (r && r.duplicate === true) {
-	        msg.textContent = '이미 존재하는 닉네임입니다.';
-	        msg.style.color = '#b00020';
-	      } else if (r && r.duplicate === false) {
-	        msg.textContent = '사용 가능한 닉네임입니다.';
-	        msg.style.color = '#188038';
-	      } else {
-	        msg.textContent = '응답 형식이 올바르지 않습니다.';
-	        msg.style.color = '#b00020';
-	      }
-	    } catch(e){
-	      msg.textContent = '중복 검사 실패 (' + e.message + ')';
-	      msg.style.color = '#b00020';
-	    }
-	  });
-	})();
-	
-	
 	//생년월일
 	(function(){
 	  const yyyy = document.getElementById('yyyy'), mm=document.getElementById('mm'), dd=document.getElementById('dd');

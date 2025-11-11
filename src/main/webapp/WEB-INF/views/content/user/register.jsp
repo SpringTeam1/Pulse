@@ -47,7 +47,22 @@ button,
 		</tr>
 		<tr>
 			<th>이메일</th>
-			<td><input type="text" name="accountId" value="test@gmail.com" required></td>
+			<td>
+				<input type="text" id="email" name="email" placeholder="이메일 주소 입력" value="${empty emailValue ? 'test@gmail.com' : emailValue}">
+			    <button id="btnSend" class="btn btn-sub">인증번호 발송</button>
+			    
+			    <!-- 인증번호 입력(별도 form 없음) -->
+			    <div id="verifyWrap" class="row" style="margin-top:8px; display:none;">
+			    	<input type="text" id="code" maxlength="6" placeholder="인증번호 6자리">
+			    	<button type="button" id="btnVerify" class="btn btn-sub">인증하기</button>
+			    </div>
+			
+			    <!-- 메시지 영역 -->
+			    <div id="emailMsg" class="msg"></div>
+			
+			    <!-- 검증 성공 여부를 메인 폼과 함께 제출 -->
+			    <input type="hidden" id="emailVerified" name="emailVerified" value="false">
+			</td>
 		</tr>
 		<tr>
 			<th>암호</th>
@@ -59,12 +74,7 @@ button,
 		</tr>
 		<tr>
 			<th>닉네임</th>
-			<td>
-				<input type="text" id="nickname" name="nickname" value="테스트" required>
-				<label>&nbsp;</label>
-					<button type="button" id="btnNick" class="btn btn-sub">중복 검사</button>
-				<span id="nickMsg" class="msg"></span>
-			</td>
+			<td><input type="text" id="nickname" name="nickname" value="테스트" required></td>
 		</tr>
 		<tr>
 			<th>전화번호</th>
@@ -86,6 +96,8 @@ button,
 			    	<label>일</label>
 			    	<select class="input" id="dd" name="dd"></select>
 			    </div>
+			    
+			    <input type="hidden" id="birthday" name="birthday" required>
 			</td>
 		</tr>
 		<tr>
@@ -144,10 +156,10 @@ button,
 		<tr>
 			<th>운동빈도</th>
 			<td>
-				<label class="chip"><input type="radio" name="freq" value="0" <c:if test="${freq == '0'}">checked</c:if>> 주 1회 미만</label>
-				<label class="chip"><input type="radio" name="freq" value="1-3" <c:if test="${empty freq or freq == '1-3'}">checked</c:if>> 주 1~3회</label>
-				<label class="chip"><input type="radio" name="freq" value="4-6" <c:if test="${freq == '4-5'}">checked</c:if>> 주 4~6회</label>
-				<label class="chip"><input type="radio" name="freq" value="7" <c:if test="${freq == '6+'}">checked</c:if>> 주 7회</label>
+				<label class="chip"><input type="radio" name="exerciseFrequency" value="0" <c:if test="${exerciseFrequency == '0'}">checked</c:if>> 주 1회 미만</label>
+				<label class="chip"><input type="radio" name="exerciseFrequency" value="1-3" <c:if test="${empty exerciseFrequency or exerciseFrequency == '1-3'}">checked</c:if>> 주 1~3회</label>
+				<label class="chip"><input type="radio" name="exerciseFrequency" value="4-6" <c:if test="${exerciseFrequency == '4-5'}">checked</c:if>> 주 4~6회</label>
+				<label class="chip"><input type="radio" name="exerciseFrequency" value="7" <c:if test="${exerciseFrequency == '6+'}">checked</c:if>> 주 7회</label>
 			</td>
 		</tr>
 	</table>

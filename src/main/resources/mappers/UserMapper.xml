@@ -15,15 +15,9 @@
 	<insert id="addDetail" parameterType="com.test.pulse.model.user.AccountInfoDTO">
 	
 		INSERT INTO tblAccountInfoDetail(accountInfoDetailSeq, accountId, name, phoneNum, birthday, gender, regionCity, regionCounty, regionDistrict, exerciseFrequency, joinDate)
-			VALUES (seqAccountInfoDetail.nextVal, #{accountId}, #{name}, #{phoneNum}, #{birthday}, #{gender}, #{regionCity}, #{regionCounty}, #{regionDistrict}, #{exerciseFrequency}, DEFAULT)
+			VALUES (seqAccountInfoDetail.nextVal, #{accountId}, #{name}, #{phoneNum}, TO_DATE(#{birthday,jdbcType=VARCHAR}, 'YYYY-MM-DD'), #{gender}, #{regionCity}, #{regionCounty}, #{regionDistrict}, #{exerciseFrequency, jdbcType=VARCHAR}, DEFAULT)
 	
 	</insert>
-	
-	<select id="countByNickname" parameterType="string" resultType="int">
-	
-  		SELECT COUNT(*) FROM tblAccountInfo WHERE nickname = #{nickname}
-  		
-	</select>
 	
 	
 </mapper>

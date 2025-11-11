@@ -2,15 +2,15 @@ package com.test.pulse.controller.user;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.test.pulse.mapper.UserMapper;
@@ -23,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 	
 	private final UserMapper mapper;
+	private final BCryptPasswordEncoder encoder;
 	
 	@GetMapping("/registerselect")
 	public String registerselect() {
@@ -36,12 +37,23 @@ public class UserController {
 		return "user.register";
 	}
 	
+	@Transactional
 	@PostMapping("/registerok")
 	public String registerok(AccountInfoDTO adto, @RequestParam(value = "profilePhoto", required = false) MultipartFile profilePhoto,
             HttpServletRequest req) {
 		
-		//dto.setPassword(encoder.encode(dto.getMemberpw()));
+		adto.setPassword(encoder.encode(adto.getPassword()));
+		
+		if ((adto.getBirthday()==null || adto.getBirthday().isBlank())
+		        && req.getParameter("yyyy")!=null) {
+		        String y = req.getParameter("yyyy");
+		        String m = String.format("%02d", Integer.parseInt(req.getParameter("mm")));
+		        String d = String.format("%02d", Integer.parseInt(req.getParameter("dd")));
+		        adto.setBirthday(y + "-" + m + "-" + d);
+		}
+		
 		mapper.add(adto);
+		mapper.addDetail(adto);
 		
 		String saveDirPath = req.getServletContext().getRealPath("/asset/pic");
         File saveDir = new File(saveDirPath);
@@ -71,13 +83,6 @@ public class UserController {
         }
 		
 		return "user.registerok";
-	}
-	
-	@PostMapping(value="/api/nick/check", produces="application/json;charset=UTF-8")
-	@ResponseBody
-	public Map<String,Object> checkNick(@RequestParam String nickname){
-	    boolean dup = UserMapper.countByNickname(nickname) > 0;
-	    return Map.of("duplicate", dup);
 	}
 
 	
