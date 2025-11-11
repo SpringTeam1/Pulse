@@ -22,6 +22,10 @@
 	<logger name="org.springframework">
     	<level value="info" />
 	</logger>
+	<logger name="org.springframework.web.client">
+	    <level value="debug" />
+	    <appender-ref ref="console"/>
+	</logger>
 
 	<!-- log4jdbc -->
 	<logger name="log4jdbc.sqlonly" additivity="false">
