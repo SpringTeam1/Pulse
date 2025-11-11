@@ -7,5 +7,7 @@ import com.test.pulse.model.boardsuggestion.BoardSuggestionDTO;
 public interface BoardSuggestionMapper {
 
 	List<BoardSuggestionDTO> suggestionList();
+	
+	BoardSuggestionDTO get(String boardContentSeq);
 
 }

@@ -36,7 +36,10 @@ public class BoardSuggestionTest {
 		assertNotNull(mapper);
 		assertEquals(2, slist.size());
 		
-		
 	}
+	
+	
+	
+	
 	
 }
