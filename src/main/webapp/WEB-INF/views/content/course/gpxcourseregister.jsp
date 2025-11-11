@@ -11,14 +11,14 @@
 
 	<form id="gpxRegisterForm" enctype="multipart/form-data"
 		data-api-url="<c:url value='/api/course/gpx' />"
-		data-redirect-url="<c:url value='/' />" class="space-y-6">
+		data-redirect-url="<c:url value='/course/main' />" class="space-y-6">
 
 		<div>
 		    <label for="courseName"
 		        class="block text-sm font-medium text-gray-700">코스 이름</label> 
 		    <input
 		        type="text" id="courseName" name="courseName"
-		        maxlength="30"
+		        maxlength="30" required
 				placeholder="코스 이름을 입력해주세요"
 		        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm 
 		               sm:text-sm p-2

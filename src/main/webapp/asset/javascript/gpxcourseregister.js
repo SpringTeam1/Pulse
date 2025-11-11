@@ -30,7 +30,7 @@ $(function() {
                 success: function(savedCourse) {
                     alert('코스 등록이 요청되었습니다. 관리자 승인 후 반영됩니다.');
                     // (수정) 전역 변수 대신 data-*에서 읽어온 변수 사용
-                    location.href = "/pulse/course/register"; 
+                    location.href = redirectUrl; 
                 },
                 error: function(xhr, status, error) {
                     console.error('Error:', error);
