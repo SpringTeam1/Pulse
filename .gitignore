@@ -53,6 +53,7 @@ desktop.ini
 
 /src/main/resources/config/db.properties
 /src/main/resources/config/email.properties
+/src/main/resources/config/*.properties
 .factorypath
 node_modules
 package-lock.json
