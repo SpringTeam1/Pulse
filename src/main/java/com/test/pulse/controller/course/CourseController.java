@@ -1,5 +1,9 @@
 package com.test.pulse.controller.course;
 
-public class CourseController {
+import org.springframework.stereotype.Controller;
 
+@Controller
+public class CourseController {
+	
+	
 }
