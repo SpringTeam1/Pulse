@@ -1,4 +1,9 @@
 /* src/main/webapp/asset/css/input.css */
+
+/* 1. (추가) Forms 플러그인 임포트 - 잘 안돼서 tailwindconfig에 작성 */
+/* @import "@tailwindcss/forms"; */
+
+/* 2. (기존) Tailwindcss 코어 임포트 */
 @import "tailwindcss";
 /* tailwind.config.js에 있던 theme.extend 설정을
   여기로 그대로 옮겨옵니다.
