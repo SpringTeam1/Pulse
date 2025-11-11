@@ -7,7 +7,15 @@
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:property-placeholder location="classpath:config/db.properties"/>
+	<!-- .properties 파일 로딩을 위한 bean -->
+	<bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+	    <property name="locations">
+	        <list>
+	            <value>classpath:config/*.properties</value>
+	        </list>
+	    </property>
+	    <property name="fileEncoding" value="UTF-8" />
+	</bean>
 
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<property name="driverClassName" value="${db.driverClassName}"/>
@@ -35,4 +43,9 @@
 	<bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
 	
 	<mybatis-spring:scan base-package="com.test.pulse.mapper"/>
+	
+	<!-- service 패키지 scan 설정 -->
+	<context:component-scan base-package="com.test.pulse.service" />
+	<!-- restTemplate bean(카카오맵 api 관련) -->
+	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate" />
 </beans>
