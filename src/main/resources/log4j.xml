@@ -14,27 +14,36 @@
 	<logger name="com.test.pulse">
 		<level value="info" />
 	</logger>
-	
-	<!-- 3rdparty Loggers -->
-	<logger name="org.springframework.core">
-		<level value="info" />
+	<logger name="com.test.pulse.mapper">
+		<level value="debug" />
 	</logger>
 	
-	<logger name="org.springframework.beans">
-		<level value="info" />
-	</logger>
-	
-	<logger name="org.springframework.context">
-		<level value="info" />
+	<!-- 3rdparty Loggers (4개로 나눠져있던거 1개로 통합)-->
+	<logger name="org.springframework">
+    	<level value="info" />
 	</logger>
 
-	<logger name="org.springframework.web">
-		<level value="info" />
+	<!-- log4jdbc -->
+	<logger name="log4jdbc.sqlonly" additivity="false">
+		<level value="debug" />
+		<appender-ref ref="console"/>
+	</logger>
+	<logger name="log4jdbc.sqltiming" additivity="false">
+		<level value="debug" />
+		<appender-ref ref="console"/>
+	</logger>
+	<logger name="log4jdbc.audit" additivity="false">
+		<level value="debug" />
+		<appender-ref ref="console"/>
+	</logger>
+	<logger name="log4jdbc.resultset" additivity="false">
+		<level value="debug" />
+		<appender-ref ref="console"/>
 	</logger>
 
-	<!-- Root Logger -->
+	<!-- Root Logger(경고 레벨 warn->info로 수정) -->
 	<root>
-		<priority value="warn" />
+		<priority value="info" />
 		<appender-ref ref="console" />
 	</root>
 	
