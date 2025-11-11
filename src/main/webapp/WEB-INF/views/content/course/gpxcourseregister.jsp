@@ -22,9 +22,9 @@
 				placeholder="코스 이름을 입력해주세요"
 		        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm 
 		               sm:text-sm p-2
-		               focus:border-gray-500
-		               focus:ring-gray-500
-		               focus:ring-1
+		               focus:border-blue-500
+		               focus:ring-blue-500
+		               focus:ring-2
 		               focus:outline-none">
 		</div>
 
@@ -35,7 +35,7 @@
 				maxlength="650"
 				placeholder="코스 설명을 입력해주세요"
 				class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2
-				focus:border-gray-500 focus:ring-gray-500 focus:ring-1 focus:outline-none sm:text-sm"></textarea>
+				focus:border-blue-500 focus:ring-blue-500 focus:ring-2 focus:outline-none sm:text-sm"></textarea>
 		</div>
 
 		<div>
