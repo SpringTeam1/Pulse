@@ -25,16 +25,6 @@
 		base-package="com.test.pulse" />
 
 	<!-- Tiles 설정 -->
-<<<<<<< HEAD
-	<beans:bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver"> 
-		<beans:property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" 
-		/> <beans:property name="order" value="1" /> </beans:bean> <beans:bean id="tilesConfigurer" 
-		class="org.springframework.web.servlet.view.tiles3.TilesConfigurer"> <beans:property 
-		name="definitions"> <beans:list> <beans:value>/WEB-INF/tiles.xml</beans:value> 
-		</beans:list> </beans:property> </beans:bean>
-		
-	<beans:bean id="multipartResolver"  class="org.springframework.web.multipart.support.StandardServletMultipartResolver"></beans:bean>
-=======
 	<beans:bean id="tilesViewResolver"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<beans:property name="viewClass"
@@ -49,11 +39,13 @@
 			</beans:list>
 		</beans:property>
 	</beans:bean>
+	
+	<!-- 
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="maxUploadSize" value="10485760" />
 	</beans:bean>
->>>>>>> 4f1993893de1253f5c7501ecac268dcad3e61eb4
+	 -->
 
 </beans:beans>
 

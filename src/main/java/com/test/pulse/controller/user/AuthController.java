@@ -19,16 +19,16 @@ public class AuthController {
 		return "user.customlogin";
 	}
 	
-	@PostMapping("/customloginok")
-	public String customloginok() {
-		
-		return "user.customloginok";
-	}
-	
 	@GetMapping("/customlogout")
 	public String customlogout() {
 		
 		return "user.customlogout";
+	}
+	
+	@GetMapping("/index")
+	public String index() {
+		
+		return "index";
 	}
 	
 }

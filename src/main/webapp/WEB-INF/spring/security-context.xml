@@ -23,7 +23,6 @@
 		<!-- 허가 -->
 		<security:intercept-url pattern="/index" access="permitAll" />
 		<security:intercept-url pattern="/customlogin*" access="permitAll" />
-		<security:intercept-url pattern="/customloginok" access="permitAll" />
 		<security:intercept-url pattern="/member"
 					access="hasRole('ROLE_MEMBER')" />
 		<security:intercept-url pattern="/admin"

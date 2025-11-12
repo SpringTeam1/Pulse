@@ -19,7 +19,7 @@
 	
 	</insert>
 	
-	<select id="get" parameterType="com.test.pulse.model.user.AccountInfoDTO">
+	<select id="get" parameterType="com.test.pulse.model.user.AccountInfoDTO" resultType="com.test.pulse.model.user.AccountInfoDTO">
 	
 		select 
 			accountId,
