@@ -8,7 +8,7 @@
 	<typeAliases>
 		<typeAlias type="com.test.pulse.model.course.GPXCourseDTO" alias="gdto"/>
 		<typeAlias type="com.test.pulse.model.course.ManualCourseDTO" alias="mdto"/>
-		
+		<typeAlias type="com.test.pulse.model.course.CourseCardDTO" alias="carddto"/>
 	</typeAliases>
 	
 </configuration>

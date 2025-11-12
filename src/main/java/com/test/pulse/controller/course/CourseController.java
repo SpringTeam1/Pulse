@@ -1,11 +1,14 @@
 package com.test.pulse.controller.course;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.test.pulse.model.course.CourseCardDTO;
 import com.test.pulse.model.course.GPXCourseDTO;
 import com.test.pulse.service.course.CourseService;
 
@@ -60,5 +63,11 @@ public class CourseController {
 		return "script.course.coursedetail";
 	}
 	
+	@GetMapping("/list") 
+	public String courseList(Model model){
+		List<CourseCardDTO> courseList = courseService.getAllCourses();
+		model.addAttribute("courseList", courseList);
+		return "course.courselist";
+	}
 	
 }

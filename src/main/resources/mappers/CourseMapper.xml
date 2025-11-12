@@ -32,4 +32,18 @@
 		select * from tblCourse where courseSeq = #{courseSeq}
 	</select>
 	
+	<select id="getAllCourses" resultType="carddto">
+		select
+		    courseSeq, courseName, round(courseLength, 2) as courseLength, startAddress, endAddress, accountId, 0 as favoriteCount
+		from tblCourse
+		order by courseSeq desc
+	</select>
+	<!-- 나중에 이 쿼리로 교체...where절 포함시켜야 함
+		select
+		    courseSeq, courseName, round(courseLength, 2) as courseLength, startAddress, endAddress, accountId, 0 as favoriteCount
+		from tblCourse
+		where courseApproval='승인'
+		order by courseSeq desc
+	 -->
+	
 </mapper>

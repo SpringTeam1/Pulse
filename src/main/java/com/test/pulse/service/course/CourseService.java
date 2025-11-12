@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.pulse.mapper.CourseMapper;
 import com.test.pulse.model.course.CoordinateDTO;
+import com.test.pulse.model.course.CourseCardDTO;
 import com.test.pulse.model.course.GPXCourseDTO;
 import com.test.pulse.service.api.OpenStreetMapAPIService;
 import com.test.pulse.service.course.util.CourseCalc;
@@ -140,6 +141,15 @@ public class CourseService {
 		GPXCourseDTO course = courseMapper.getCourseDetail(courseSeq);
 		
 		return course;
+	}
+	
+	/**
+	 * 코스 목록 보기
+	 * @return
+	 */
+	public List<CourseCardDTO> getAllCourses() {
+		
+		return courseMapper.getAllCourses();
 	}
 
 }

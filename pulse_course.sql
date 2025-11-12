@@ -74,3 +74,8 @@ commit;
 
 select * from tblCourse order by courseSeq desc;
 select * from tblCourse where courseSeq=12;
+select
+    courseSeq, courseName, round(courseLength, 2) as courseLength, startAddress, endAddress, accountId, 0 as favoriteCount
+from tblCourse
+-- where courseApproval='승인'
+order by courseSeq desc;

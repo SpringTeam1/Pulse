@@ -1,5 +1,8 @@
 package com.test.pulse.mapper;
 
+import java.util.List;
+
+import com.test.pulse.model.course.CourseCardDTO;
 import com.test.pulse.model.course.GPXCourseDTO;
 
 public interface CourseMapper {
@@ -7,5 +10,7 @@ public interface CourseMapper {
 	void insertCourse(GPXCourseDTO course);
 
 	GPXCourseDTO getCourseDetail(int courseSeq);
+
+	List<CourseCardDTO> getAllCourses();
 	
 }
