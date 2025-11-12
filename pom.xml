@@ -291,6 +291,20 @@
 		    <version>2.6</version>
 		</dependency>
 
+		<!-- gpx parser(코스 기능에서 사용) -->
+		<!-- https://mvnrepository.com/artifact/me.himanshusoni.gpxparser/gpx-parser -->
+		<dependency>
+		    <groupId>me.himanshusoni.gpxparser</groupId>
+		    <artifactId>gpx-parser</artifactId>
+		    <version>1.13</version>
+		</dependency>
+
+		<!--  json 의존성 25/11/11 추가(홍건)  -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20231013</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
