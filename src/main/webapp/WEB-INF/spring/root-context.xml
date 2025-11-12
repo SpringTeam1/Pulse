@@ -7,15 +7,12 @@
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
-<<<<<<< HEAD
-	<!-- .properties 파일 로딩을 위한 bean -->
-=======
 	<!-- 선민: 기존에 있던것 주석처리 하고 아래 bean으로 대체
 	<context:property-placeholder location="classpath:config/db.properties"/> 
 	-->
 	
 	<!-- 선민: .properties 파일 로딩을 위한 bean -->
->>>>>>> 22ed4ee4687ba0e0b7ce2b8253db84127c527d35
+
 	<bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
 	    <property name="locations">
 	        <list>
