@@ -9,6 +9,6 @@ public class AdminController {
 	@GetMapping("/admin")
 	public String header() {
 		
-		return "script.admin.admin";
+		return "admin.admin";
 	}
 }

@@ -12,6 +12,11 @@
 			value="/WEB-INF/views/inc/header.jsp" />
 	</definition>
 	
+	<!-- index -->
+	<definition name="index" extends="baseLayout">
+    	<put-attribute name="content" value="/WEB-INF/views/index.jsp" />
+	</definition>
+	
 	<!-- javascript가 있는 경우 이 템플릿 사용 -->
 	<definition name="script.*.*" extends="baseLayout">
         <put-attribute name="content" value="/WEB-INF/views/content/{1}/{2}.jsp" />
