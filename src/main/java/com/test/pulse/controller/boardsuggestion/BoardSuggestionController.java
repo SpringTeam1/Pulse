@@ -29,10 +29,7 @@ public class BoardSuggestionController {
 	
 	@GetMapping("/boardsuggestion/list")
 	public String list(Model model) {
-		
-		List<BoardSuggestionDTO> slist = mapper.suggestionList();
-		model.addAttribute("list", slist);
-		
+		 // REST에서는 별도 데이터 전달 불필요
 		return "boardsuggestion.list";
 	}
 	
