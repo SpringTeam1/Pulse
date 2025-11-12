@@ -13,13 +13,14 @@
 	<h2>회원가입</h2>
 	
 	<!-- 일반 회원가입 -->
-	<form method="POST" action="/pulse/register.do">
+	<form method="GET" action="/pulse/register">
 	<input type="hidden" name="registerType" value="기본">
 	<table class="vertical">
 		<tr>
 			<th>일반 회원가입</th>
-			<td><div class="title">Pulse</div></td>
-			<td><input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"></td>
+			<td>
+        		<button type="submit" class="title" style="all:unset;cursor:pointer;">Pulse</button>
+      		</td>
 		</tr>
 	</table>
 	</form>

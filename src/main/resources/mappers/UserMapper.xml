@@ -15,9 +15,26 @@
 	<insert id="addDetail" parameterType="com.test.pulse.model.user.AccountInfoDTO">
 	
 		INSERT INTO tblAccountInfoDetail(accountInfoDetailSeq, accountId, name, phoneNum, birthday, gender, regionCity, regionCounty, regionDistrict, exerciseFrequency, joinDate)
-			VALUES (seqAccountInfoDetail.nextVal, #{accountId}, #{name}, #{phoneNum}, #{birthday}, #{gender}, #{regionCity}, #{regionCounty}, #{regionDistrict}, #{exerciseFrequency}, DEFAULT)
+			VALUES (seqAccountInfoDetail.nextVal, #{accountId}, #{name}, #{phoneNum}, TO_DATE(#{birthday,jdbcType=VARCHAR}, 'YYYY-MM-DD'), #{gender}, #{regionCity}, #{regionCounty}, #{regionDistrict}, #{exerciseFrequency, jdbcType=VARCHAR}, DEFAULT)
 	
 	</insert>
+	
+	<select id="get" parameterType="com.test.pulse.model.user.AccountInfoDTO" resultType="com.test.pulse.model.user.AccountInfoDTO">
+	
+		select 
+			accountId,
+			password,
+			profilePhoto,
+			nickname,
+			AccountRole,
+			AccountLevel,
+			registerType,
+			accountCategory
+		from tblAccountInfo
+			where accountId = #{accountId}
+	
+	</select>
+	
 	
 </mapper>
 
