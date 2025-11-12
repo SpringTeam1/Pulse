@@ -14,8 +14,19 @@
 		data-redirect-url="<c:url value='/course/main' />" class="space-y-6">
 
 		<div>
+			<label for="gpxFile" class="block text-sm font-medium text-gray-700">GPX 파일<span class="text-red-500"> *</span></label>
+			<input type="file" id="gpxFile" name="gpxFile" accept=".gpx" required
+				class="mt-1 block w-full text-sm text-gray-500
+                          file:mr-4 file:py-2 file:px-4 
+                          file:rounded-md file:border-0
+                          file:bg-indigo-50 file:text-indigo-700
+                          hover:file:bg-indigo-100">
+			<p id="gpxFile-error" class="hidden mt-1 text-sm text-red-500"></p>
+		</div>
+
+		<div>
 		    <label for="courseName"
-		        class="block text-sm font-medium text-gray-700">코스 이름</label> 
+		        class="block text-sm font-medium text-gray-700">코스 이름<span class="text-red-500"> *</span></label> 
 		    <input
 		        type="text" id="courseName" name="courseName"
 		        maxlength="30" required
@@ -26,6 +37,7 @@
 		               focus:ring-blue-500
 		               focus:ring-2
 		               focus:outline-none">
+			<p id="courseName-error" class="hidden mt-1 text-sm text-red-500"></p>
 		</div>
 
 		<div>
@@ -38,18 +50,8 @@
 				focus:border-blue-500 focus:ring-blue-500 focus:ring-2 focus:outline-none sm:text-sm"></textarea>
 		</div>
 
-		<div>
-			<label for="gpxFile" class="block text-sm font-medium text-gray-700">GPX
-				파일</label>
-				<input type="file" id="gpxFile" name="gpxFile" accept=".gpx"
-				required
-				class="mt-1 block w-full text-sm text-gray-500
-                          file:mr-4 file:py-2 file:px-4 
-                          file:rounded-md file:border-0
-                          file:bg-indigo-50 file:text-indigo-700
-                          hover:file:bg-indigo-100">
-		</div>
-
+		
+		<!-- 임시 하드코딩, 세션에서 받아오는 방식으로 수정 필요 -->
 		<input type="hidden" id="accountId" name="accountId" value="hong">
 
 		<div class="text-right">

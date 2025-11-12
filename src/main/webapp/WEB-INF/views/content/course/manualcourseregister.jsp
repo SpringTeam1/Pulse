@@ -10,25 +10,28 @@
 
     <form id="manualForm"
         data-manual-api-url="<c:url value='/api/course/manual' />" 
-        data-redirect-url="<c:url value='/' />"
+        data-redirect-url="<c:url value='/course/main' />"
         data-max-points="7"
         class="space-y-6">
 
         <div>
             <label class="block text-sm font-medium text-gray-700">코스 지도 (클릭하여 지점 추가)</label>
             <div id="map" class="mt-1 w-full h-96 rounded-md border border-gray-300"></div>
+
+            <div id="map-error" class="hidden mt-1 text-sm text-red-500"></div>
+
             <div id="realtime-address-display" class="mt-2 p-3 bg-gray-50 border border-gray-100 rounded-md text-sm text-gray-700">
             	지도에서 위치를 클릭하세요.
             </div> 
         </div>
 
         <div>
-            <label for="manualCourseName" class="block text-sm font-medium text-gray-700">코스 이름</label>
+            <label for="manualCourseName" class="block text-sm font-medium text-gray-700">코스 이름<span class="text-red-500"> *</span></label>
             <input type="text" id="manualCourseName" name="courseName"
                    maxlength="30" required placeholder="코스 이름을 입력해주세요"
-                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm px-3 py-2
-                          focus:outline-none focus:ring-2 focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
-        </div>
+                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm px-3 py-2 focus:outline-none focus:ring-2 focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+            <p id="manualCourseName-error" class="hidden mt-1 text-sm text-red-500"></p>
+        </div>  
 
         <div>
             <label for="manualDescription" class="block text-sm font-medium text-gray-700">코스 설명</label>
@@ -39,7 +42,8 @@
                              focus:outline-none focus:ring-2 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"></textarea>
         </div>
         
-        <input type="hidden" id="manualAccountId" name="accountId" value="test-user">
+        <!-- 임시 하드코딩, 세션에서 받아오는 방식으로 수정 필요 -->
+        <input type="hidden" id="manualAccountId" name="accountId" value="hong">
         
         <div class="text-right"> 
             <button type="button" id="manualSubmitBtn"

@@ -12,6 +12,8 @@ kakao.maps.load(function() {
         level: 7
     });
 
+    const geocoder = new kakao.maps.services.Geocoder();
+
     let manualCoords = []; // 서버로 보낼 좌표 배열 {lat, lon}
     let markers = [];      // 지도에 표시할 마커 배열
     let polyline = null;   // 지도에 그릴 선
@@ -31,6 +33,16 @@ kakao.maps.load(function() {
         }
 
         const latlng = mouseEvent.latLng;
+
+        geocoder.coord2Address(latlng.getLng(), latlng.getLat(), function(result, status) {
+            let address = "해당 마커의 주소를 찾을 수 없습니다.";
+            if (status === kakao.maps.services.Status.OK) {
+                address = result[0].road_address ? result[0].road_address.address_name : result[0].address.address_name;
+            }
+
+            // 1. JSP의 div에 주소 표시
+            $('#realtime-address-display').text(address);
+        });
         
         // 1. 좌표 배열에 추가 (서버 DTO와 일치하는 형태)
         manualCoords.push({
@@ -45,12 +57,27 @@ kakao.maps.load(function() {
 
         // 3. 경로 선 그리기
         drawPolyline();
+        console.log(manualCoords);
     });
 
     // [2] 수동 등록 AJAX 전송
     manualSubmitBtn.on('click', function() {
+
+        $('#manualCourseName-error').addClass('hidden').text('');
+        $('#manualCourseName').removeClass('border-red-500');
+        $('#map-error').addClass('hidden').text(''); // (지도 오류메세지 초기화)
+
+        const courseName = $('#manualCourseName').val();
+
+        if (!courseName) {
+            // alert('코스 이름을 입력해주세요.'); // (삭제)
+            $('#manualCourseName-error').text('코스 이름을 입력해주세요.').removeClass('hidden');
+            $('#manualCourseName').addClass('border-red-500');
+            return;
+        }
+
         if (manualCoords.length < 2) {
-            alert('경로 등록을 위해 최소 두 지점 이상을 클릭해주세요.');
+            $('#map-error').text('경로 등록을 위해 최소 두 지점 이상을 클릭해주세요.').removeClass('hidden');
             return;
         }
         

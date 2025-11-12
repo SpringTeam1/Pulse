@@ -23,7 +23,7 @@ ALTER TABLE tblCourse ADD CONSTRAINT "FK_tblAccountInfo_TO_tblCourse_1"
 
 ALTER TABLE tblCourse ADD CONSTRAINT "CHK_course_trackData" CHECK (trackData IS JSON);
 
-select * from tblCourse;
+select * from tblCourse order by courseSeq desc;
 
 -- 더미데이터
 insert into tblCourse

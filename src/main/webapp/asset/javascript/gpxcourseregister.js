@@ -13,10 +13,21 @@ $(function() {
         submitBtn.on('click', function() {
 
             const formData = new FormData(registerForm[0]); // 폼 객체[0] = DOM 요소
+            const courseName = $('#courseName').val();
+
+            $('#courseName-error').addClass('hidden').text('');
+            $('#courseName').removeClass('border-red-500');
+            $('#gpxFile-error').addClass('hidden').text('');
+            
+            if (!courseName) {
+                $('#courseName-error').text('코스 이름을 입력해주세요.').removeClass('hidden');
+                $('#courseName').addClass('border-red-500');
+                return; 
+            }
 
             if (!$('#gpxFile').val()) {
-                 alert('GPX 파일을 첨부해주세요.');
-                 return;
+                $('#gpxFile-error').text('GPX 파일을 첨부해주세요.').removeClass('hidden');
+                return;
             }
 
             $.ajax({
