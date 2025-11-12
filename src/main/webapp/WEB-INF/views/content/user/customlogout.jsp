@@ -12,7 +12,7 @@
 	
 	<h2>로그아웃</h2>
 	
-	<form method="GET" action="/customlogout">
+	<form method="POST" action="/customlogout">
 	<div>
 		<button class="out">로그아웃</button>
 	</div>

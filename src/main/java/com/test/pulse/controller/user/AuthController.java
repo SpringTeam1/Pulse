@@ -19,7 +19,7 @@ public class AuthController {
 		return "user.customlogin";
 	}
 	
-	@GetMapping("/customlogout")
+	@PostMapping("/customlogout")
 	public String customlogout() {
 		
 		return "user.customlogout";
