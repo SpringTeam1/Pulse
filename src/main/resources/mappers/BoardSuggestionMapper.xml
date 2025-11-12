@@ -10,17 +10,21 @@
 		<result column="name" property="name"/>
 	</resultMap>
 	
-	<resultMap type="sdto" id="boardsuggestionMap">
+	<resultMap type="sdto" id="boardSuggestionMap">
 		<id column="boardContentSeq" property="boardContentSeq"/>
 		<result column="title" property="title" />
 		<result column="regdate" property="regdate" />
-		<result column="readcount" property="readcount"/>
+		<result column="content" property="content" />
+		<result column="attach" property="attach" />
+		<result column="readCount" property="readCount"/>
+		<result column="favoriteCount" property="favoriteCount"/>
+		<result column="boardContentTypeSeq" property="boardContentTypeSeq"/>
 		<result column="bid" property="accountId"/>
-		<association property="adto" resultMap="accountInfoMap"></association>
+		<association property="adto" resultMap="accountInfoMap" />
 	</resultMap>
 	
-	<select id="suggestionList" resultMap="boardsuggestionMap">
-	
+	<!-- list 게시글 조회 -->
+	<select id="suggestionList" resultMap="boardSuggestionMap">
 		select
 			b.boardContentSeq,
 			b.title,
@@ -34,7 +38,46 @@
 			inner join tblAccountInfoDetail d
 				on a.accountId = d.accountId
 					order by b.boardContentSeq desc
-	
 	</select>
+	
+	
+	<!-- view 게시글 상세보기 -->
+	<select id="getSuggestion" parameterType="String" resultMap="boardSuggestionMap">
+		select
+			b.*,
+			b.content,
+			a.accountId as aid,
+			b.accountId as bid 
+		from tblBoardSuggestion b
+			inner join tblAccountInfo a
+				on b.accountId = a.accountId
+					where boardContentSeq = #{boardContentSeq}
+					
+	</select>
+	
+	
+	<!-- add 게시글 등록 -->
+	<insert id="addSuggestion" parameterType="sdto">
+	
+		insert into tblBoardSuggestion (boardContentSeq, accountId, title, content, attach, regdate, readCount, favoriteCount, boardContentTypeSeq)
+			values (boardContentSeq.nextVal, #{accountId}, #{title}, #{content}, #{attach}, default, default, default, #{boardContentTypeSeq})
+	</insert>
+	
+	
+	<!-- edit 게시글 수정 -->
+	<update id="editSuggestion" parameterType="sdto">
+		update tblBoardSuggestion set
+			title = #{title},
+			content = #{content}
+				where boardContentSeq = #{boardContentSeq}		
+	</update>
+	
+	
+	<!-- del 게시글 삭제 -->
+	<delete id="delSuggestion" parameterType="String">
+		delete from tblBoardSuggestion
+			where boardContentSeq = #{boardContentSeq}		
+	</delete>
+	
 	
 </mapper>

@@ -2,6 +2,13 @@ package com.test.pulse.model.boardsuggestion;
 
 import com.test.pulse.model.user.AccountInfoDTO;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
 public class BoardSuggestionDTO {
 
 	private String boardContentSeq;
@@ -12,7 +19,7 @@ public class BoardSuggestionDTO {
 	private String regdate;
 	private int readCount;
 	private int favoriteCount;
-	private int boardContentTypeSeq;
+	private String boardContentTypeSeq;
 	
 	private AccountInfoDTO adto;
 	
