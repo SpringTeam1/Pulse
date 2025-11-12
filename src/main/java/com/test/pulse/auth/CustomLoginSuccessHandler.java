@@ -1,6 +1,8 @@
 package com.test.pulse.auth;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,14 +25,28 @@ public class CustomLoginSuccessHandler  implements AuthenticationSuccessHandler 
 		
 		System.out.println("CustomLoginSuccessHandler 호출");
 		
+		List<String> roleNames = new ArrayList<String>();
+		
+		authentication.getAuthorities().forEach(authority -> {
+			roleNames.add(authority.getAuthority());
+		});
+		
 		//3. 로그인 전 요청했던 URL 이동하기
 		SavedRequest savedRequest = requestCache.getRequest(request, response);
 		
 		if (savedRequest != null) {
 			//로그인 전 URL 존재
 			response.sendRedirect(savedRequest.getRedirectUrl());
+			return;
+		} else if (roleNames.contains("ROLE_ADMIN")) {
+			response.sendRedirect(request.getContextPath() + "/admin");
+			return;
+		} else if (roleNames.contains("ROLE_MEMBER")) {
+			response.sendRedirect(request.getContextPath() + "/index");
+			return;
 		} else {
-			response.sendRedirect(request.getContextPath() + "/index"); //***
+			response.sendRedirect(request.getContextPath() + "/accesserror");
+			return;
 		}
 		
 	}

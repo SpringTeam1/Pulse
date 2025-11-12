@@ -1,7 +1,8 @@
 package com.test.pulse.model.user;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Collectors;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,12 +26,21 @@ public class CustomUser extends User {
 		
 		//List<AuthDTO> > (매핑) > List<SimpleGrantedAuthority>
 		
-		super(dto.getAccountId(), dto.getPassword()
-				, java.util.List.of(new SimpleGrantedAuthority(dto.getAccountRole())));
-		
+		super(dto.getAccountId(), dto.getPassword(), getAuthorities(dto.getAccountRole()));
 		this.adto = dto;
 		
-	}	
+	}
+	
+	private static Collection<? extends GrantedAuthority> getAuthorities(String role) {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        if ("관리자".equals(role)) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            authorities.add(new SimpleGrantedAuthority("ROLE_MEMBER"));
+        } else if ("일반".equals(role)) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_MEMBER"));
+        }
+        return authorities;
+    }
 
 }
 
