@@ -9,7 +9,7 @@
 
 	<context:property-placeholder location="classpath:config/db.properties"/>
 
-	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+	<!-- <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<property name="driverClassName" value="${db.driverClassName}"/>
 		<property name="jdbcUrl" value="${db.jdbcUrl}"/>
 		<property name="username" value="${db.username}"/>
@@ -20,6 +20,13 @@
 				<prop key="oracle.net.tns_admin">C:/dev/Wallet_jspteam1</prop>
 			</props>
 		</property>
+	</bean> -->
+	
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:xe"></property>
+		<property name="username" value="spring"></property>
+		<property name="password" value="java1234"></property>
 	</bean>
 
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
