@@ -31,6 +31,10 @@
 	
 	<sec:authorize access="isAuthenticated()">
 	    <p><sec:authentication property="principal.adto.nickname" />님 어서오세요</p>
+	    <form method="GET" action="<c:url value='/mypage' />">
+		    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+		    <button type="submit" class="button-link">마이페이지</button>
+		</form>
 		<form method="POST" action="<c:url value='/customlogout' />" style="display:inline;">
 		    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		    <button type="submit" class="button-link">로그아웃</button>
