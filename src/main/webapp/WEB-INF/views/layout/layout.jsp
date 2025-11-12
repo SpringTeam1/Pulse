@@ -21,7 +21,7 @@
   </main>
 
   <!-- ✅ 공통 스크립트 (예: 공용 기능 js) -->
-  <script src="<c:url value='/asset/js/common.js' />"></script>
+  <script src="<c:url value='/asset/javascript/common.js' />"></script>
 
   <!-- ✅ 페이지별 추가 스크립트 -->
   <tiles:insertAttribute name="script" ignore="true" />
