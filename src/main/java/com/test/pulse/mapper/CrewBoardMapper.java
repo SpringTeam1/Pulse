@@ -30,4 +30,6 @@ public interface CrewBoardMapper {
 
     List<BoardDTO> getBoardPhotosByCrewSeq(@Param("crewSeq") String crewSeq);
 
+    int getFavoriteCount (@Param("boardContentSeq") String boardContentSeq);
+
 }

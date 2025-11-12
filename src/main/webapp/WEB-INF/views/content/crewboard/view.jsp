@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <section class="max-w-4xl mx-auto mt-12 bg-white rounded-2xl shadow p-10 space-y-8">
@@ -13,7 +13,7 @@
             <div class="flex items-center gap-4">
                 <span>${board.regdate}</span>
                 <span>👁️ ${board.readCount}</span>
-                <span>❤️ ${board.favoriteCount}</span>
+                <span id="like-count">❤️ ${board.favoriteCount}</span>
             </div>
         </div>
     </div>
@@ -31,7 +31,7 @@
                 <div class="mt-8">
                     <img src="${pageContext.request.contextPath}/crewboardFile/${board.attach}"
                          alt="첨부 이미지"
-                         class="w-full max-h-[500px] object-contain rounded-xl border border-gray-200 shadow-sm" />
+                         class="w-full max-h-[500px] object-contain rounded-xl border border-gray-200 shadow-sm"/>
                 </div>
             </c:when>
 
@@ -53,10 +53,11 @@
 
     <!-- Buttons -->
     <div class="flex justify-end gap-3 pt-4">
-        <button type="button"
-                class="px-5 py-2.5 rounded-full bg-red-100 hover:bg-red-400 text-red-700 font-medium transition">
-            <img src="${pageContext.request.contextPath}/crewboardFile/heart.png" alt="하트">
-        </button>
+        <img id="like-img"
+             src="${pageContext.request.contextPath}/crewboardFile/heart.png"
+             alt="좋아요"
+             class="w-8 h-8 cursor-pointer transition hover:scale-110"
+             data-board="${board.boardContentSeq}" />
         <button type="button"
                 onclick="location.href='${pageContext.request.contextPath}/crewboard/list?crewSeq=${board.crewSeq}'"
                 class="px-5 py-2.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium transition">
@@ -76,4 +77,32 @@
     document.addEventListener("DOMContentLoaded", () => {
         console.log("📄 crewboard.view.jsp loaded:", "${board.title}");
     });
+
+    document.getElementById("like-img").addEventListener("click", async (e) => {
+        const img = e.currentTarget;
+        const boardContentSeq = img.dataset.board;
+
+        if (img.dataset.liked === "true") return;
+
+        try {
+            const res = await fetch(`${pageContext.request.contextPath}/api/v1/crew/board/\${boardContentSeq}/like`, {
+                method: "POST",
+            });
+            const data = await res.json();
+            if (data.success) {
+                img.style.filter = "invert(30%) sepia(100%) saturate(6000%) hue-rotate(-10deg) brightness(1.1)";
+                // ↑ 대략 빨간색 톤으로 하트 채색
+                img.dataset.liked = "true";
+
+                console.log("📡 서버 응답:", data);
+                const countEl = document.getElementById("like-count");
+                countEl.textContent = `❤️ \${data.favoriteCount}`;
+            }
+        } catch (err) {
+            console.error(err);
+            alert("서버 오류가 발생했습니다.");
+        }
+    });
+
+
 </script>

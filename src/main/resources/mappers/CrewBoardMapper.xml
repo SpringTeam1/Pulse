@@ -100,6 +100,12 @@
         WHERE boardContentSeq = #{boardContentSeq}
     </update>
 
+    <select id="getFavoriteCount" resultType="int">
+        SELECT favoriteCount FROM tblCrewBoardGeneral
+        WHERE boardContentSeq = #{boardContentSeq}
+    </select>
+
+
     <!-- 총 게시글 수 -->
     <select id="getTotalCount" resultType="int">
         SELECT count(*) FROM tblCrewBoardGeneral WHERE crewSeq = #{crewSeq}

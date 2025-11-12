@@ -76,5 +76,14 @@ public class CrewBoardRestController {
 
     }
 
+    @PostMapping("/{boardContentSeq}/like")
+    public ResponseEntity<?> likebtn(
+            @PathVariable("boardContentSeq") String boardContentSeq
+    ){
+        int newCount = crewBoardService.updateLike(boardContentSeq);
+        return  ResponseEntity.ok(Map.of("success", true,"favoriteCount", newCount));
+    }
+
+
 
 }

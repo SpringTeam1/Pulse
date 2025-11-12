@@ -40,8 +40,9 @@ public class CrewBoardService {
         return mapper.remove(boardContentSeq);
     }
 
-    public void updateLike(String boardContentSeq) {
+    public int updateLike(String boardContentSeq) {
         mapper.updateLike(boardContentSeq);
+        return mapper.getFavoriteCount(boardContentSeq);
     }
 
     public int getTotalCount(String crewSeq) {
