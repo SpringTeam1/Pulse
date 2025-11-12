@@ -12,7 +12,6 @@
 	-->
 	
 	<!-- 선민: .properties 파일 로딩을 위한 bean -->
-
 	<bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
 	    <property name="locations">
 	        <list>
