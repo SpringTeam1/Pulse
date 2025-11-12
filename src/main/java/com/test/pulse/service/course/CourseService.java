@@ -155,13 +155,15 @@ public class CourseService {
 	/**
 	 * 코스 목록 보기(페이징 처리 포함)
 	 * @param page
+	 * @param keyword 
 	 * @return
 	 */
 	@Transactional(readOnly = true)
-	public Map<String, Object> getCourseListPage(int page) {
-		
+	public Map<String, Object> getCourseListPage(int page, String keyword) {
+		Map<String, Object> params = new HashMap<>();
+	    params.put("keyword", keyword);
 		//1. 전체 코스 개수 조회
-		int totalCount = courseMapper.getTotalCourseCount();
+		int totalCount = courseMapper.getTotalCourseCount(params);
 		
 		//2. 페이징 계산
 		PageDTO pagedto = new PageDTO(totalCount, page);
@@ -170,10 +172,9 @@ public class CourseService {
 		int startRow = ((page-1)* pagedto.getPageSize()) + 1;
 		int endRow = startRow + pagedto.getPageSize() - 1;
 		
-		//4. mapper에 파라미터 전달 및 쿼리작업 위임
-		Map<String, Object> params = new HashMap<>();
 		params.put("startRow", startRow);
 		params.put("endRow", endRow);
+
 		List<CourseCardDTO> courselist = courseMapper.getAllCourses(params);
 		
 		Map<String, Object> data = new HashMap<>();

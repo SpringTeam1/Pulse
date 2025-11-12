@@ -7,10 +7,29 @@
     <h2 class="text-3xl font-bold text-gray-900 border-b border-gray-200 pb-4">전체 코스 목록</h2>
 
     <form id="searchBox" action="<c:url value='/course/list' />" method="GET" class="flex space-x-2">
-        <input type="text" id="searchKeyword" name="keyword" placeholder="검색어 입력" value="${keyword}"
-               class="flex-grow rounded-md border-gray-300 shadow-sm px-3 py-2 sm:text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
-        <button type="submit" id="searchButton"
-                class="inline-flex items-center justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+        <div class="relative flex-grow">
+            
+            <input type="text" id="searchKeyword" name="keyword" placeholder="코스명, 출발·도착지로 검색하세요." 
+                   value="${keyword}"
+                   class="w-full rounded-md border-gray-300 shadow-sm px-3 py-2 sm:text-sm 
+                          focus:ring-2 focus:ring-blue-500 focus:outline-none 
+                          pr-10"> <c:if test="${not empty keyword}">
+                <a href="<c:url value='/course/list' />" 
+                   id="searchClearBtn"
+                   class="absolute inset-y-0 right-0 flex items-center pr-3 
+                          text-gray-400 hover:text-red-600">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </a>
+            </c:if>
+
+        </div> <button type="submit" id="searchButton"
+                class="inline-flex items-center justify-center py-2 px-4 
+                       border border-transparent shadow-sm 
+                       text-sm font-medium rounded-md text-white 
+                       bg-indigo-600 hover:bg-indigo-700">
             검색
         </button>
     </form>
@@ -74,18 +93,18 @@
     
     <div class="pagination flex justify-center space-x-2 mt-8 text-sm">
         <c:if test="${pageDTO.startPage > 1}">
-            <a href="<c:url value='/course/list?page=${pageDTO.startPage - 1}' />" class="py-2 px-3 border rounded-md hover:bg-gray-100">&laquo;</a>
+            <a href="<c:url value='/course/list?page=${pageDTO.startPage - 1}&keyword=${keyword}' />" class="py-2 px-3 border rounded-md hover:bg-gray-100">&laquo;</a>
         </c:if>
 
         <c:forEach var="p" begin="${pageDTO.startPage}" end="${pageDTO.endPage}">
-            <a href="<c:url value='/course/list?page=${p}' />" 
+            <a href="<c:url value='/course/list?page=${p}&keyword=${keyword}' />" 
                class="py-2 px-3 border rounded-md hover:bg-gray-100 ${pageDTO.currentPage == p ? 'bg-indigo-600 text-white' : ''}">
                 ${p}
             </a>
         </c:forEach>
 
         <c:if test="${pageDTO.endPage < pageDTO.totalPage}">
-            <a href="<c:url value='/course/list?page=${pageDTO.endPage + 1}' />" class="py-2 px-3 border rounded-md hover:bg-gray-100">&raquo;</a>
+            <a href="<c:url value='/course/list?page=${pageDTO.endPage + 1}&keyword=${keyword}' />" class="py-2 px-3 border rounded-md hover:bg-gray-100">&raquo;</a>
         </c:if>
     </div>
 </div>

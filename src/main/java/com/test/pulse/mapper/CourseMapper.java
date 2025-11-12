@@ -14,6 +14,6 @@ public interface CourseMapper {
 
 	List<CourseCardDTO> getAllCourses(Map<String, Object> params);
 
-	int getTotalCourseCount();
+	int getTotalCourseCount(Map<String, Object> params);
 	
 }

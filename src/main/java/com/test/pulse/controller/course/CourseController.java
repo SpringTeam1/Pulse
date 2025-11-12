@@ -66,17 +66,22 @@ public class CourseController {
 	}
 	
 	/**
-	 * 코스 전체 목록 보기
+	 * 코스 전체 목록 보기, 메인페이지 겸용
 	 * @param model
 	 * @return
 	 */
 	@GetMapping("/list") 
-	public String courseList(@RequestParam(defaultValue = "1") int page, Model model){
-		Map<String, Object> data = courseService.getCourseListPage(page);
+	public String courseList(
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam(required = false, defaultValue = "") String keyword,
+			Model model){
+		Map<String, Object> data = courseService.getCourseListPage(page, keyword);
 		
 		//List<CourseCardDTO> courseList = courseService.getAllCourses();
 		model.addAttribute("courseList", data.get("courseList"));
 		model.addAttribute("pageDTO", data.get("pageDTO"));
+		model.addAttribute("keyword", keyword);
+		
 		return "course.courselist";
 	}
 	
