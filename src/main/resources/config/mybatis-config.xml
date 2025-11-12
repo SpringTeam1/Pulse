@@ -6,7 +6,10 @@
 <configuration>
 	
 	<typeAliases>
-		
+		<!-- 선민(course 기능 관련) -->
+		<typeAlias type="com.test.pulse.model.course.GPXCourseDTO" alias="gdto"/>
+		<typeAlias type="com.test.pulse.model.course.ManualCourseDTO" alias="mdto"/>
+		<typeAlias type="com.test.pulse.model.course.CourseCardDTO" alias="carddto"/>
 		
 	</typeAliases>
 	
