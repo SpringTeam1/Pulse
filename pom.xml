@@ -289,6 +289,12 @@
 		    <version>1.13</version>
 		</dependency>
 			
+		<!--  json 의존성 25/11/11 추가(홍건)  -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20231013</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
