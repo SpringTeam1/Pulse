@@ -7,7 +7,15 @@
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
+<<<<<<< HEAD
 	<!-- .properties 파일 로딩을 위한 bean -->
+=======
+	<!-- 선민: 기존에 있던것 주석처리 하고 아래 bean으로 대체
+	<context:property-placeholder location="classpath:config/db.properties"/> 
+	-->
+	
+	<!-- 선민: .properties 파일 로딩을 위한 bean -->
+>>>>>>> 22ed4ee4687ba0e0b7ce2b8253db84127c527d35
 	<bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
 	    <property name="locations">
 	        <list>
@@ -40,12 +48,12 @@
 		<property name="configLocation" value="classpath:config/mybatis-config.xml"/>
 	</bean>
 	
-	<bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
-	
 	<mybatis-spring:scan base-package="com.test.pulse.mapper"/>
-	
-	<!-- service 패키지 scan 설정 -->
+
+	<!-- 선민: jackson databind bean 추가 -->
+	<bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
+	<!-- 선민: service 패키지 scan 설정 -->
 	<context:component-scan base-package="com.test.pulse.service" />
-	<!-- restTemplate bean(카카오맵 api 관련) -->
+	<!-- 선민: restTemplate bean(카카오맵 api 관련) -->
 	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate" />
 </beans>
