@@ -14,7 +14,7 @@
     <div class="bg-white p-6 shadow-lg rounded-lg space-y-4">
         <h1 class="text-2xl font-bold text-gray-900 pb-4">${course.courseName}</h1>
         
-        <div class="space-y-6 text-sm text-gray-700 flex flex-col">
+        <div class="space-y-4 text-sm text-gray-700 flex flex-col">
             
             <div>
                 <div class="font-semibold">총 거리</div>
