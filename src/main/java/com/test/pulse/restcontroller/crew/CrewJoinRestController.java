@@ -4,7 +4,6 @@ import com.test.pulse.model.crew.CrewJoinRequestDTO;
 import com.test.pulse.service.crew.CrewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;

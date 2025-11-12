@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -38,7 +39,7 @@ public class CrewBoardController {
         model.addAttribute("crewName", crewName);
         model.addAttribute("accountId", accountId);
 
-        return "crewboard.list";
+        return "script.crewboard.list";
     }
 
     @GetMapping("/add")
@@ -56,7 +57,7 @@ public class CrewBoardController {
         model.addAttribute("crewSeq", crewSeq);
         model.addAttribute("nickname", nickname);
 
-        return "crewboard.add";
+        return "script.crewboard.add";
     }
 
     @GetMapping("/view")
@@ -80,7 +81,32 @@ public class CrewBoardController {
         model.addAttribute("board", dto);
         model.addAttribute("fileExt", fileExt); // ✅ JSP에서 바로 사용 가능
 
-        return "crewboard.view";
+        return "script.crewboard.view";
+    }
+
+    @GetMapping("/edit")
+    public String edit( @RequestParam("boardContentSeq") String boardContentSeq, HttpSession session, Model model) {
+
+        String accountId = (String) session.getAttribute("accountId");
+
+        BoardDTO bdto = crewBoardService.get(boardContentSeq);
+
+        if( bdto == null ) {
+
+            model.addAttribute("msg", "존재하지 않는 게시글입니다.");
+            model.addAttribute("url", "/crewboard/list");
+            return "alert";
+
+        }
+
+        if (!bdto.getAccountId().equals(accountId)) {
+            model.addAttribute("msg", "본인 글만 수정할 수 있습니다.");
+            model.addAttribute("url", "/crewboard/view/" + boardContentSeq);
+            return "alert";
+        }
+
+        model.addAttribute("bdto", bdto);
+        return "script.crewboard.edit"; // Tiles 경로
     }
 
 }

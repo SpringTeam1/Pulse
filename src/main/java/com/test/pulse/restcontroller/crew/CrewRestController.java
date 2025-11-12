@@ -43,6 +43,8 @@ public class CrewRestController {
                         .body(Map.of("success", false, "message", "이미 크루에 가입되어 있습니다. 기존 크루 탈퇴 후 재시도 해주세요."));
             }
 
+            crew.setAccountId(accountId);
+
             // ✅ 1. 파일 업로드
             if (crewAttach != null && !crewAttach.isEmpty()) {
                 String uploadDir = req.getServletContext().getRealPath("/crewmainFile");

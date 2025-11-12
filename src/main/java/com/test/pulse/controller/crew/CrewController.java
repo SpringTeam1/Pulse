@@ -34,14 +34,14 @@ public class CrewController {
         model.addAttribute("isInCrew", isInCrew);
         model.addAttribute("nearbyCrewList", crewService.getNearbyCrews(lat, lng));
         model.addAttribute("popularCrewList", crewService.getPopularCrews());
-        return "crew.main";
+        return "script.crew.main";
     }
 
 
     @GetMapping("/crewregister")
     public String showCrewRegisterPage(){
 
-        return "crew.register";
+        return "script.crew.register";
     }
 
     //리퀘스트 진입 시점에서 로그인체크 및 크루 가입여부 확인
@@ -66,14 +66,14 @@ public class CrewController {
 
         model.addAttribute("crewSeq", crewSeq);
         model.addAttribute("accountId", accountId);
-        return "crew.request";
+        return "script.crew.request";
     }
 
 
     @GetMapping("/test-login")
     public String testLogin(HttpServletRequest req) {
         // ✅ DB에 실제 존재하는 accountId로 세션에 저장
-        req.getSession().setAttribute("accountId", "hong"); // 예: hong, user1 등
+        req.getSession().setAttribute("accountId", "wjswoaks123"); // 예: hong, user1 등
         req.getSession().setAttribute("nickname", "테스트유저");
         return "redirect:/crewmain"; // 로그인 후 가고 싶은 페이지로 리다이렉트
     }
@@ -93,7 +93,7 @@ public class CrewController {
         }
 
         model.addAttribute("isUserInCrew", isUserInCrew);
-        return "crew.view";
+        return "script.crew.view";
     }
 
 

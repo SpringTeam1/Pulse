@@ -6,13 +6,27 @@
 <mapper namespace="com.test.pulse.mapper.CrewMapper">
 
     <insert id="add" parameterType="CrewDTO">
+
+        <!-- ✅ 시퀀스값을 미리 생성해서 CrewDTO의 crewSeq 필드에 주입 -->
+        <selectKey keyProperty="crewSeq" resultType="String" order="BEFORE">
+            SELECT seqCrew.NEXTVAL FROM dual
+        </selectKey>
+
+        <!-- ✅ 실제 INSERT 구문 -->
         INSERT INTO tblCrew (
-        crewSeq, crewName, description, memberCount,
-        regionCity, regionCounty, regionDistrict,
-        latitude, longitude, crewAttach, accountId
-        )
-        VALUES (
-        seqCrew.NEXTVAL,
+        crewSeq,
+        crewName,
+        description,
+        memberCount,
+        regionCity,
+        regionCounty,
+        regionDistrict,
+        latitude,
+        longitude,
+        crewAttach,
+        accountId
+        ) VALUES (
+        #{crewSeq},          -- 방금 selectKey로 받아온 값
         #{crewName},
         #{description},
         0,
@@ -22,8 +36,9 @@
         #{latitude},
         #{longitude},
         #{crewAttach},
-        'hong'
+        #{accountId}
         )
+
     </insert>
 
 
@@ -120,6 +135,16 @@
         ORDER BY cj.CREWJOINSEQ DESC
     </select>
 
+    <insert id="addCrewLeader" parameterType="map">
+        INSERT INTO tblCrewMember (crewMemberSeq, crewSeq, accountId, crewGrade)
+        VALUES (seqCrewMember.nextval, #{crewSeq}, #{accountId}, '리더')
+    </insert>
+
+    <insert id="addCrewMember" parameterType="map">
+        INSERT INTO tblCrewMember (crewMemberSeq, crewSeq, accountId, crewGrade)
+        VALUES (seqCrewMember.nextval, #{crewSeq}, #{accountId}, '멤버')
+    </insert>
+
     <update id="approveJoinRequest">
         UPDATE tblCrewJoin
         SET REQUESTSTATE = '승인'
@@ -137,6 +162,20 @@
         SET REQUESTSTATE = '거절'
         WHERE CREWJOINSEQ = #{crewJoinSeq}
     </update>
+
+    <select id="getAccountIdByCrewJoinSeq" resultType="String">
+
+        SELECT accountID from tblCrewJoin
+        where CREWJOINSEQ = #{crewJoinSeq}
+
+    </select>
+
+    <select id="getCrewSeqByCrewJoinSeq" resultType="String">
+
+        SELECT CrewSeq from tblCrewJoin
+        where CREWJOINSEQ = #{crewJoinSeq}
+
+    </select>
 
     <select id="getAccountIdsNickname" parameterType="String" resultType="String">
 

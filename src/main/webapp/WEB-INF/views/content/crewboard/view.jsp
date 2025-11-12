@@ -52,57 +52,33 @@
     </c:if>
 
     <!-- Buttons -->
-    <div class="flex justify-end gap-3 pt-4">
+    <div class="flex justify-between items-center pt-4">
+
         <img id="like-img"
              src="${pageContext.request.contextPath}/crewboardFile/heart.png"
              alt="좋아요"
-             class="w-8 h-8 cursor-pointer transition hover:scale-110"
+             class="w-5 h-5 cursor-pointer transition hover:scale-110"
              data-board="${board.boardContentSeq}" />
-        <button type="button"
-                onclick="location.href='${pageContext.request.contextPath}/crewboard/list?crewSeq=${board.crewSeq}'"
-                class="px-5 py-2.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium transition">
-            목록으로
-        </button>
 
-        <button type="button"
-                onclick="location.href='${pageContext.request.contextPath}/crewboard/edit?boardContentSeq=${board.boardContentSeq}'"
-                class="px-5 py-2.5 rounded-lg bg-brand text-white font-medium hover:bg-brand-dark shadow-md hover:shadow-lg transition">
-            수정하기
-        </button>
+        <div class="flex gap-2">
+            <button type="button"
+                    onclick="location.href='${pageContext.request.contextPath}/crewboard/list?crewSeq=${board.crewSeq}'"
+                    class="px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium transition">
+                목록
+            </button>
+
+            <button type="button"
+                    onclick="location.href='${pageContext.request.contextPath}/crewboard/edit?boardContentSeq=${board.boardContentSeq}'"
+                    class="px-3 py-1.5 rounded-lg bg-brand text-white text-sm font-medium hover:bg-brand-dark shadow-sm hover:shadow-md transition">
+                수정
+            </button>
+
+            <button type="button" id="btn-del" data-seq="${board.boardContentSeq}"
+                    class="px-3 py-1.5 rounded-lg bg-red-500 text-white text-sm font-medium hover:bg-red-600 shadow-sm hover:shadow-md transition">
+                삭제
+            </button>
+        </div>
     </div>
 
 </section>
 
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        console.log("📄 crewboard.view.jsp loaded:", "${board.title}");
-    });
-
-    document.getElementById("like-img").addEventListener("click", async (e) => {
-        const img = e.currentTarget;
-        const boardContentSeq = img.dataset.board;
-
-        if (img.dataset.liked === "true") return;
-
-        try {
-            const res = await fetch(`${pageContext.request.contextPath}/api/v1/crew/board/\${boardContentSeq}/like`, {
-                method: "POST",
-            });
-            const data = await res.json();
-            if (data.success) {
-                img.style.filter = "invert(30%) sepia(100%) saturate(6000%) hue-rotate(-10deg) brightness(1.1)";
-                // ↑ 대략 빨간색 톤으로 하트 채색
-                img.dataset.liked = "true";
-
-                console.log("📡 서버 응답:", data);
-                const countEl = document.getElementById("like-count");
-                countEl.textContent = `❤️ \${data.favoriteCount}`;
-            }
-        } catch (err) {
-            console.error(err);
-            alert("서버 오류가 발생했습니다.");
-        }
-    });
-
-
-</script>

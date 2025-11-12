@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -15,8 +17,19 @@ public class CrewService {
 
     private final CrewMapper mapper;
 
+    @Transactional
     public int addCrew(CrewDTO dto) {
-        return mapper.add(dto);
+        int result = mapper.add(dto);
+        if (result == 0) throw new RuntimeException("크루 생성 실패");
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("crewSeq", dto.getCrewSeq());
+        map.put("accountId", dto.getAccountId());
+        mapper.addCrewLeader(map);
+
+        mapper.upCountCrewMember(dto.getCrewSeq());
+
+        return 1;
     }
 
     public CrewDTO getCrew(String crewSeq) {
@@ -47,7 +60,7 @@ public class CrewService {
         return mapper.addCrewJoinRequest(crewSeq, accountId);
     }
 
-    public boolean isAlreadyRequested(String  crewSeq, String accountId) { return  mapper.isAlreadyRequested(crewSeq, accountId); }
+    public boolean isAlreadyRequested(String crewSeq, String accountId) { return  mapper.isAlreadyRequested(crewSeq, accountId); }
 
     public boolean isCrewLeader(String accountId, String crewSeq) {
         return mapper.isCrewLeader(accountId, crewSeq) == 1;
@@ -57,7 +70,24 @@ public class CrewService {
         return mapper.getJoinRequestsByCrewSeq(crewSeq);
     }
 
-    public int approveJoin(String crewJoinSeq) { return mapper.approveJoinRequest(crewJoinSeq);}
+    @Transactional
+    public int approveJoin(String crewJoinSeq) {
+
+        int result = mapper.approveJoinRequest(crewJoinSeq);
+        if (result == 0) throw new RuntimeException("가입 신청 실패");
+
+        String accountId = mapper.getAccountIdByCrewJoinSeq(crewJoinSeq);
+        String crewSeq = mapper.getCrewSeqByCrewJoinSeq(crewJoinSeq);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("crewSeq", crewSeq);
+        map.put("accountId", accountId);
+        mapper.addCrewLeader(map);
+
+        mapper.upCountCrewMember(crewSeq);
+
+        return 1;
+    }
 
     public int upCountCrewMember(String crewSeq) { return mapper.upCountCrewMember(crewSeq);}
 

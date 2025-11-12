@@ -1,6 +1,8 @@
 package com.test.pulse.mapper;
 
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import com.test.pulse.model.crew.CrewDTO;
@@ -41,4 +43,13 @@ public interface CrewMapper {
     String getCrewName(@Param("crewSeq") String crewSeq);
 
     String getAccountIdsNickname(@Param("accountId")  String accountId);
+
+    void addCrewLeader(Map<String, Object> map);
+
+    void addCrewMember(Map<String, Object> map);
+
+    String getAccountIdByCrewJoinSeq(@Param("crewJoinSeq") String crewJoinSeq);
+
+
+    String getCrewSeqByCrewJoinSeq(@Param("CrewJoinSeq") String crewJoinSeq);
 }

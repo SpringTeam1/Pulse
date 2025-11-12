@@ -21,15 +21,15 @@
             <c:choose>
                 <c:when test="${isUserInCrew}">
                     <%-- 이미 가입된 유저: 비활성 버튼 --%>
-                    <button class="px-6 py-3 bg-gray-300 text-gray-600 rounded-lg cursor-not-allowed font-semibold"
+                    <button class="px-5 py-3 bg-gray-300 text-gray-600 rounded-lg cursor-not-allowed font-semibold"
                             title="이미 가입된 크루입니다" disabled>
-                        🏃‍♂️ 이미 크루에 속해있어요
+                        🏃 가입완료
                     </button>
                 </c:when>
 
                 <c:otherwise>
                     <button
-                            class="px-6 py-3 bg-brand text-white rounded-lg hover:bg-brand-dark transition font-semibold"
+                            class="px-5 py-3 bg-brand text-white rounded-lg hover:bg-brand-dark transition font-semibold"
                             onclick="joinCrew('${dto.crewSeq}')">
                         🏃‍♂️ 가입신청
                     </button>
@@ -86,29 +86,3 @@
         background-color: #155FA0;
     }
 </style>
-
-<script>
-    async function joinCrew(crewSeq) {
-        if (!confirm("이 크루에 가입 신청하시겠습니까?")) return;
-
-        try {
-            const res = await fetch(`/pulse/api/v1/crewjoin/`+ crewSeq, {
-                method: "POST",
-            });
-
-            const data = await res.json();
-
-            // 응답 확인
-            alert(data.message);
-
-            if (data.success) {
-                // 성공 시 즉시 새로고침 or 가입상태 갱신
-                location.reload();
-            }
-
-        } catch (err) {
-            console.error("❌ 가입 신청 중 오류:", err);
-            alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
-        }
-    }
-</script>

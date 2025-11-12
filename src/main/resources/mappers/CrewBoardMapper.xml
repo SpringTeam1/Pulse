@@ -76,7 +76,7 @@
         UPDATE tblCrewBoardGeneral
         SET title = #{title},
         content = #{content},
-        attach = #{attach}
+        attach = #{attach, jdbcType=VARCHAR}
         WHERE boardContentSeq = #{boardContentSeq}
     </update>
 
