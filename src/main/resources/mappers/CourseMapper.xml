@@ -27,9 +27,9 @@
 		    default
 		)
 	</insert>
-	
-	<!-- <insert id="insertManualCourse" parameterType="mdto"></insert> -->
-	
-	
+
+	<select id="getCourseDetail" parameterType="int" resultType="gdto">
+		select * from tblCourse where courseSeq = #{courseSeq}
+	</select>
 	
 </mapper>

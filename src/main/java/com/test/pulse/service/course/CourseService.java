@@ -129,4 +129,17 @@ public class CourseService {
 		return coords;
 	}
 
+	/**
+	 * 코스 상세보기
+	 * @param courseSeq 상세보기할 코스의 PK
+	 * @return
+	 */
+	@Transactional(readOnly = true) // (읽기 전용)
+	public GPXCourseDTO getCourseDetail(int courseSeq) {
+		
+		GPXCourseDTO course = courseMapper.getCourseDetail(courseSeq);
+		
+		return course;
+	}
+
 }
