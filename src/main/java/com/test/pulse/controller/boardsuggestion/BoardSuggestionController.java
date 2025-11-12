@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.test.pulse.mapper.BoardSuggestionMapper;
 import com.test.pulse.model.boardsuggestion.BoardSuggestionDTO;
 import com.test.pulse.model.user.AccountInfoDTO;
+import com.test.pulse.model.user.CustomUser;
 
 import lombok.RequiredArgsConstructor;
 
@@ -50,11 +52,12 @@ public class BoardSuggestionController {
 	}
 	
 	@PostMapping("boardsuggestion/addok")
-	public String addok(Model model, BoardSuggestionDTO sdto) {
+	public String addok(Model model, BoardSuggestionDTO sdto, Authentication auth) {
 		
-//		CustomUser cuser = (CustomUser)auth.getPrincipal();
-//		AccountInfoDTO adto = member.getDto(); 
-		sdto.setAccountId(((BoardSuggestionDTO) mapper).getAccountId());
+		CustomUser cuser = (CustomUser)auth.getPrincipal();
+		AccountInfoDTO adto = cuser.getAdto();
+		
+		sdto.setAccountId(adto.getAccountId());
 
 		mapper.addSuggestion(sdto);
 		
