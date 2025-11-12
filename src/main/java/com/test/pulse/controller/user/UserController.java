@@ -43,7 +43,7 @@ public class UserController {
 		 
 		req.setAttribute("registerType", registerType);
 		
-		return "user.register";
+		return "script.user.register";
 	}
 	
 	@Transactional
