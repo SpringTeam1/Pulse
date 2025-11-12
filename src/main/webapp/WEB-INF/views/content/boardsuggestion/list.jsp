@@ -14,6 +14,17 @@
 	<!-- 제목 -->
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h1 class="text-4xl font-bold text-brand">📋 건의 게시판</h1>
+
+        <!-- 검색 / 정렬 영역 -->
+        <div class="flex items-center gap-2">
+            <input id="searchInput" type="text" placeholder="검색어 입력"
+                   class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand focus:outline-none" />
+            <select id="sortSelect" class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand focus:outline-none">
+                <option value="regdate">최신순</option>
+                <option value="title">제목순</option>
+                <option value="readCount">조회순</option>
+            </select>
+        </div>
     </div>
 
 	<!-- 설명 -->
@@ -45,7 +56,7 @@
 
     <!-- ✅ 글쓰기 버튼 -->
     <div class="flex justify-end">
-        <a href="${pageContext.request.contextPath}/crewboard/add"
+        <a href="${pageContext.request.contextPath}/boardsuggestion/add"
            class="px-4 py-2 bg-brand text-white font-semibold rounded-lg hover:bg-brand-dark transition">
             ✏️ 글쓰기
         </a>
