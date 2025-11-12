@@ -2,6 +2,7 @@ package com.test.pulse.controller.user;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class AuthController {
@@ -15,34 +16,19 @@ public class AuthController {
 	@GetMapping("/customlogin")
 	public String customlogin() {
 		
-		return "user.auth/customlogin";
+		return "user.customlogin";
+	}
+	
+	@PostMapping("/customloginok")
+	public String customloginok() {
+		
+		return "user.customloginok";
 	}
 	
 	@GetMapping("/customlogout")
 	public String customlogout() {
 		
-		return "user.auth/customlogout";
+		return "user.customlogout";
 	}
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

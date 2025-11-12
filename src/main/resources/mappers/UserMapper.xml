@@ -19,6 +19,22 @@
 	
 	</insert>
 	
+	<select id="get" parameterType="com.test.pulse.model.user.AccountInfoDTO">
+	
+		select 
+			accountId,
+			password,
+			profilePhoto,
+			nickname,
+			AccountRole,
+			AccountLevel,
+			registerType,
+			accountCategory
+		from tblAccountInfo
+			where accountId = #{accountId}
+	
+	</select>
+	
 	
 </mapper>
 

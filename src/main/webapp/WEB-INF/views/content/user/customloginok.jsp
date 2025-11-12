@@ -12,7 +12,7 @@
 	
 	<h2>로그인</h2>
 	
-	<form method="POST" action="${pageContext.request.contextPath}/customlogin">
+	<form method="GET" action="/customlogin">
 	<table class="vertical content">
 		<tr>
 			<th>아이디</th>
@@ -24,7 +24,7 @@
 		</tr>
 	</table>
 	<div>
-		<button type="submit" class="in">로그인</button>
+		<button class="in">로그인</button>
 	</div>
 	
 	<!-- 

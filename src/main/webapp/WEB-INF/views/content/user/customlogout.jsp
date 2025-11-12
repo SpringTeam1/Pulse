@@ -12,7 +12,7 @@
 	
 	<h2>로그아웃</h2>
 	
-	<form method="POST" action="/pulse/customlogout.do">
+	<form method="GET" action="/customlogout">
 	<div>
 		<button class="out">로그아웃</button>
 	</div>

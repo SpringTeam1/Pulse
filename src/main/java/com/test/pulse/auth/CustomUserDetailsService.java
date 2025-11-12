@@ -16,11 +16,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 	
 	//로그인 발생 시 같이 호출
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String accountId) throws UsernameNotFoundException {
 		
-		AccountInfoDTO dto = mapper.get(username);
+		AccountInfoDTO dto = mapper.get(accountId);
 		
-		return dto != null ? new CustomUser(dto) : null;
+		if (dto == null) {
+		    throw new UsernameNotFoundException("User not found: " + accountId);
+		}
+		return new CustomUser(dto);
 	}
 
 }
