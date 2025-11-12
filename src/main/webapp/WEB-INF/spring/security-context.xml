@@ -26,7 +26,7 @@
 		<security:intercept-url pattern="/member"
 					access="hasRole('ROLE_MEMBER')" />
 		<security:intercept-url pattern="/admin"
-					access="hasRole('ROLE_ADMIN')" />
+					access="permitAll" />
 		
 		<!-- 8.1 403 처리 -->
 		<security:access-denied-handler ref="customAccessDeniedHandler" />
