@@ -33,10 +33,10 @@
        class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">목록</a>
        
     <a href="${pageContext.request.contextPath}/boardsuggestion/edit?boardContentSeq=${dto.boardContentSeq}"
-       class="px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand-dark transition">✏️ 수정</a>
+       class="px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand-dark transition">수정</a>
 
     <a href="${pageContext.request.contextPath}/boardsuggestion/del?boardContentSeq=${dto.boardContentSeq}"
-       class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-700 transition">🗑 삭제</a>
+       class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-700 transition">삭제</a>
   </div>
 
 </section>
