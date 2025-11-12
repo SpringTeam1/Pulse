@@ -12,7 +12,7 @@ import lombok.ToString;
 public class PageDTO {
     private int currentPage; // 현재 페이지
     private int totalCount; // 총 게시물 수
-    private int pageSize = 9; // 한 페이지에 보여줄 카드 개수 (예: 9개)
+    private int pageSize = 12; // 한 페이지에 보여줄 카드 개수 (예: 9개)
     private int totalPage; // 총 페이지 수
     private int startPage; // 페이지 블럭의 시작 번호
     private int endPage; // 페이지 블럭의 끝 번호

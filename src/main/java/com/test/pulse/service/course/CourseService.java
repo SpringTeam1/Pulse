@@ -2,7 +2,9 @@ package com.test.pulse.service.course;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +15,7 @@ import com.test.pulse.mapper.CourseMapper;
 import com.test.pulse.model.course.CoordinateDTO;
 import com.test.pulse.model.course.CourseCardDTO;
 import com.test.pulse.model.course.GPXCourseDTO;
+import com.test.pulse.model.course.PageDTO;
 import com.test.pulse.service.api.OpenStreetMapAPIService;
 import com.test.pulse.service.course.util.CourseCalc;
 
@@ -143,13 +146,41 @@ public class CourseService {
 		return course;
 	}
 	
+
+//	public List<CourseCardDTO> getAllCourses() {
+//		
+//		return courseMapper.getAllCourses();
+//	}
+
 	/**
-	 * 코스 목록 보기
+	 * 코스 목록 보기(페이징 처리 포함)
+	 * @param page
 	 * @return
 	 */
-	public List<CourseCardDTO> getAllCourses() {
+	@Transactional(readOnly = true)
+	public Map<String, Object> getCourseListPage(int page) {
 		
-		return courseMapper.getAllCourses();
+		//1. 전체 코스 개수 조회
+		int totalCount = courseMapper.getTotalCourseCount();
+		
+		//2. 페이징 계산
+		PageDTO pagedto = new PageDTO(totalCount, page);
+		
+		//3. 
+		int startRow = ((page-1)* pagedto.getPageSize()) + 1;
+		int endRow = startRow + pagedto.getPageSize() - 1;
+		
+		//4. mapper에 파라미터 전달 및 쿼리작업 위임
+		Map<String, Object> params = new HashMap<>();
+		params.put("startRow", startRow);
+		params.put("endRow", endRow);
+		List<CourseCardDTO> courselist = courseMapper.getAllCourses(params);
+		
+		Map<String, Object> data = new HashMap<>();
+		data.put("courseList", courselist);
+		data.put("pageDTO", pagedto);
+		
+		return data;
 	}
 
 }

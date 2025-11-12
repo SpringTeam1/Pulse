@@ -32,18 +32,25 @@
 		select * from tblCourse where courseSeq = #{courseSeq}
 	</select>
 	
-	<select id="getAllCourses" resultType="carddto">
-		select
-		    courseSeq, courseName, round(courseLength, 2) as courseLength, startAddress, endAddress, accountId, 0 as favoriteCount
-		from tblCourse
-		order by courseSeq desc
+	<!-- 코스 목록 조회 -->
+	<select id="getTotalCourseCount" resultType="int">
+	    SELECT COUNT(*) FROM tblCourse WHERE courseApproval = '승인'
 	</select>
-	<!-- 나중에 이 쿼리로 교체...where절 포함시켜야 함
-		select
-		    courseSeq, courseName, round(courseLength, 2) as courseLength, startAddress, endAddress, accountId, 0 as favoriteCount
-		from tblCourse
-		where courseApproval='승인'
-		order by courseSeq desc
-	 -->
+	
+	<select id="getAllCourses" parameterType="map" resultType="carddto">
+		SELECT * FROM (
+			select a.*, ROWNUM as rnum FROM (
+				select 
+					courseSeq, courseName,
+					round(courseLength, 2) as courseLength,
+					startAddress, endAddress, accountId,
+					0 as favoriteCount
+				FROM tblCourse
+	            WHERE courseApproval = '승인'
+	            ORDER BY courseSeq DESC
+			) a
+		) where rnum between #{startRow} and #{endRow}
+		
+	</select>
 	
 </mapper>

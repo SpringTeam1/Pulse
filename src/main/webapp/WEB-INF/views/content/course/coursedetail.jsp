@@ -44,9 +44,21 @@
         
     </div>
 
+	
     <div id="track-data-container" 
          data-track-json='<c:out value="${course.trackData}" escapeXml="false" />'
          class="hidden">
     </div>
+    
+</div>
+<div class="max-w-4xl mx-auto mt-8 flex justify-end">
+    
+    <a href="<c:url value='/course/list' />"
+       class="inline-flex items-center justify-center py-2 px-4 
+              border border-transparent shadow-sm 
+              text-sm font-medium rounded-md text-white 
+              bg-indigo-600 hover:bg-indigo-700">
+        목록으로
+    </a>
     
 </div>

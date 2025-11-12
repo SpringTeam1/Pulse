@@ -1,12 +1,14 @@
 package com.test.pulse.controller.course;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.test.pulse.model.course.CourseCardDTO;
 import com.test.pulse.model.course.GPXCourseDTO;
@@ -63,10 +65,18 @@ public class CourseController {
 		return "script.course.coursedetail";
 	}
 	
+	/**
+	 * 코스 전체 목록 보기
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/list") 
-	public String courseList(Model model){
-		List<CourseCardDTO> courseList = courseService.getAllCourses();
-		model.addAttribute("courseList", courseList);
+	public String courseList(@RequestParam(defaultValue = "1") int page, Model model){
+		Map<String, Object> data = courseService.getCourseListPage(page);
+		
+		//List<CourseCardDTO> courseList = courseService.getAllCourses();
+		model.addAttribute("courseList", data.get("courseList"));
+		model.addAttribute("pageDTO", data.get("pageDTO"));
 		return "course.courselist";
 	}
 	

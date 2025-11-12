@@ -4,11 +4,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <div class="max-w-7xl mx-auto p-6 space-y-8">
-    <h2 class="text-3xl font-bold text-gray-900 border-b pb-4">전체 코스 목록</h2>
+    <h2 class="text-3xl font-bold text-gray-900 border-b border-gray-200 pb-4">전체 코스 목록</h2>
 
     <form id="searchBox" action="<c:url value='/course/list' />" method="GET" class="flex space-x-2">
         <input type="text" id="searchKeyword" name="keyword" placeholder="검색어 입력" value="${keyword}"
-               class="flex-grow rounded-md border-gray-300 shadow-sm px-3 py-2 sm:text-sm focus:ring-2 focus:ring-blue-500">
+               class="flex-grow rounded-md border-gray-300 shadow-sm px-3 py-2 sm:text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
         <button type="submit" id="searchButton"
                 class="inline-flex items-center justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
             검색
@@ -25,28 +25,35 @@
                    
                     <div class="p-5 space-y-3">
                         
-                        <h3 class="text-xl font-bold text-gray-900 hover:text-indigo-600 truncate pb-2 border-b">
+                        <h3 class="text-xl font-bold text-gray-900 hover:text-indigo-600 truncate pb-2 border-b border-gray-200">
                             ${course.courseName}
                         </h3>
 
-                        <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-sm text-gray-700">
-                            
+                        <div class="space-y-2 text-sm text-gray-700">
+                            <div>
                             <span class="font-medium">총 거리:</span>
-                            <span class="text-right text-gray-900">
+                            <span class="text-left text-gray-900">
                                 ${course.courseLength} km
                             </span>
+                            </div>
                             
+                            <div>
                             <span class="font-medium">등록자:</span>
-                            <span class="text-right">${course.accountId}</span>
+                            <span class="text-left">${course.accountId}</span>
+                            </div>
                             
+                            <div>
                             <span class="font-medium">출발지:</span>
-                            <span class="text-right truncate">${course.startAddress}</span>
-
+                            <span class="text-left truncate">${course.startAddress}</span>
+							</div>
+							
+							<div>
                             <span class="font-medium">도착지:</span>
-                            <span class="text-right truncate">${course.endAddress}</span>
+                            <span class="text-left truncate">${course.endAddress}</span>
+                            </div>
                         </div>
 
-                        <div class="flex items-center text-sm text-gray-500 pt-3 border-t mt-3">
+                        <div class="flex items-center text-sm text-gray-500 pt-3 border-t border-gray-200 mt-3">
                             <svg xmlns="http://www.w3.org/2000/svg" 
                                  class="h-5 w-5 mr-1 fill-[#1da1f2]" fill="#1da1f2" viewBox="0 0 20 20">
                                 <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
