@@ -33,7 +33,7 @@ public class CourseController {
 	public String courseMain(Model model, HttpSession session) {
 		// TODO [테스트용 하드코딩] 로그인한 척 세션에 아이디 심기
         // (실제 로그인 기능 구현 전까지만 사용하고 나중에 삭제하세요)
-        String accountId = "hong"; // DB에 실제 존재하는 아이디여야 주소를 가져옵니다.
+        String accountId = "test4@naver.com"; // DB에 실제 존재하는 아이디여야 주소를 가져옵니다.
         session.setAttribute("accountId", accountId);
 		
 		// 1. 세션에서 아이디 가져오기 (없으면 null)

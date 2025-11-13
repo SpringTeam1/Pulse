@@ -8,10 +8,11 @@
         <p class="text-gray-600 text-lg">지역명, 코스 이름으로 러닝 코스를 찾아보세요.</p>
 
         <form action="<c:url value='/course/list' />" method="GET" class="max-w-2xl mx-auto flex space-x-2">
-            <div class="relative flex items-center w-full">
+            <div class="relative flex items-center w-full gap-2.5">
                 <input type="text" name="keyword" placeholder="코스명, 출발·도착지로 검색하세요." 
                     class="flex-grow w-full rounded-md border-gray-300 shadow-sm px-4 py-3 text-base 
-                            focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none">
+                            focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none
+                            bg-white">
                 
                 <button type="submit" 
                         class="inline-flex items-center justify-center px-6 py-3 border border-transparent 
@@ -49,12 +50,12 @@
                             </div>
                             <div>
                                 <div class="font-medium">출발지:
-                                <span class="text-gray-900 truncate">${course.startAddress}</span>
+                                	<span class="text-gray-900 truncate">${course.startAddress}</span>
                                 </div>
                             </div>
                             <div>
                                 <div class="font-medium">도착지:
-                                <span class="text-gray-900 truncate">${course.endAddress}</span>
+                                	<span class="text-gray-900 truncate">${course.endAddress}</span>
                                 </div>
                             </div>
                         </div>
@@ -87,17 +88,24 @@
                             <h3 class="text-xl font-bold text-gray-900 hover:text-indigo-600 truncate pb-2 border-b border-gray-200">
                                 ${course.courseName}
                             </h3>
+                            
                             <div class="space-y-2 text-sm text-gray-700">
                                 <div>
                                     <div class="font-medium">총 거리:&nbsp;
-	                                    <span class="text-gray-900 ml-2">
+	                                    <span class="text-gray-900">
 	                                        <fmt:formatNumber value="${course.courseLength}" pattern="#.##" /> km
 	                                    </span>
                                     </div>
                                 </div>
                                 <div>
-                                    <div class="font-medium">출발지:</div>
-                                    <div class="text-gray-900 ml-2 truncate">${course.startAddress}</div>
+                                    <div class="font-medium">출발지:
+                                    	<span class="text-gray-900 truncate">${course.startAddress}</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="font-medium">도착지:
+                                    	<span class="text-gray-900 truncate">${course.endAddress}</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="flex items-center text-sm pt-3 border-t border-gray-200 mt-3">
