@@ -26,9 +26,21 @@
 
     <!-- 🔵 글쓰기 -->
     <insert id="add" parameterType="bndto">
-        INSERT INTO tblBoardNotice (boardSeq, writer, title, content)
-        VALUES (seqBoardNotice.nextVal, #{writer}, #{title}, #{content})
-    </insert>
+	    INSERT INTO tblBoardNotice (
+	        boardSeq, writer, title, content, attach
+	    )
+	    VALUES (
+	        seqBoardNotice.nextVal,
+	        #{writer}, #{title}, #{content}, #{attach}
+	    )
+	</insert>
+    
+    <!-- 조회수 증가 -->
+	<update id="increaseReadCount" parameterType="int">
+	    UPDATE tblBoardNotice
+	    SET readCount = readCount + 1
+	    WHERE boardSeq = #{seq}
+	</update>
 
     <!-- 🔵 수정 -->
     <update id="edit" parameterType="bndto">
@@ -42,5 +54,27 @@
     <delete id="del" parameterType="int">
         DELETE FROM tblBoardNotice WHERE boardSeq = #{seq}
     </delete>
+    
+    <!-- 페이징 목록 -->
+    <select id="listPaging" resultType="bndto">
+    <![CDATA[
+    	select *
+    	from (
+    		select a.*, rownum rnum
+    		from (
+    			select boardSeq, writer, title, content, regdate, readCount
+    			from tblBoardNotice
+    			order by boardSeq desc
+    		) a
+    		where rownum <= #{offset} + #{pageSize}
+    	)
+    	where rnum > #{offset}
+    ]]>
+    </select>
+    
+    <!-- 전체 게시물 수 -->
+    <select id="totalCount" resultType="int">
+    	select count(*) from tblboardnotice
+    </select>
 
 </mapper>

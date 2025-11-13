@@ -16,7 +16,10 @@
         - action: BoardNoticeController.addok()로 전송
         - method="post" : POST 방식으로 데이터 전송
     -->
-    <form action="${pageContext.request.contextPath}/boardnotice/addok.do" method="post" class="space-y-5">
+    <form action="${pageContext.request.contextPath}/boardnotice/addok.do" 
+      	method="post" 
+      	enctype="multipart/form-data"
+      	class="space-y-5">
 
         <!-- 작성자 -->
         <div>
@@ -41,6 +44,13 @@
                       class="w-full mt-1 p-2 border rounded-lg focus:outline-brand"
                       required></textarea>
         </div>
+        
+        <!-- 파일 첨부 -->
+        <div>
+		    <label class="text-sm text-gray-600">첨부파일</label>
+		    <input type="file" name="attach"
+		           class="w-full mt-1 p-2 border rounded-lg focus:outline-brand">
+		</div>
 
         <!-- 버튼 -->
         <div class="flex justify-end gap-3">

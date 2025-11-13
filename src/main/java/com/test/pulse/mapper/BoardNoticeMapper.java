@@ -2,6 +2,8 @@ package com.test.pulse.mapper;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
 import com.test.pulse.model.boardnotice.BoardNoticeDTO;
 
 @Mapper   // 🔥 MyBatis가 이 인터페이스를 Mapper로 인식하게 해주는 어노테이션
@@ -37,4 +39,14 @@ public interface BoardNoticeMapper {
      * mapper.xml의 <delete id="del"> 와 매칭됨
      */
     void del(int seq);
+    
+    //조회수 증가
+    int increaseReadCount(int seq);
+    
+    //페이징 목록 가져오기
+	List<BoardNoticeDTO> listPaging(@Param("offset") int offset,@Param("pageSize") int pageSize);
+	
+	//총 게시물 수
+	int totalCount();
+    
 }

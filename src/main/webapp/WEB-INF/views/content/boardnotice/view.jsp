@@ -18,7 +18,15 @@
         <p>작성일: ${dto.regdate}</p>
         <p>조회수: ${dto.readCount}</p>
     </div>
-
+	
+	<!-- 첨부파일 다운로드 -->
+	<c:if test="${not empty dto.attach}">
+	    <a href="/pulse/boardnoticefiles/${dto.attach}"
+	       class="text-blue-500 underline">
+	       📎 첨부파일 다운로드
+	    </a>
+	</c:if>
+	
     <hr class="my-4">
 
     <!-- 내용 -->
