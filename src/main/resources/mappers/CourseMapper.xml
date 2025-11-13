@@ -100,9 +100,11 @@
             WHERE courseApproval = '승인'
               AND (
                   startAddress LIKE '%' || #{county} || '%' 
-                  OR startAddress LIKE '%' || #{district} || '%'
+	              OR startAddress LIKE '%' || #{district} || '%'
+	              OR endAddress LIKE '%' || #{county} || '%'
+	              OR endAddress LIKE '%' || #{district} || '%'
               )
-            ORDER BY favoriteCount DESC
+            ORDER BY favoriteCount DESC, courseSeq DESC
         ) WHERE ROWNUM &lt;= #{count}
     </select>
 	
