@@ -5,7 +5,7 @@
 
     <div class="border-b border-gray-200 pb-4 mb-6">
         <h2 class="text-2xl font-semibold text-gray-900">🗺️ 직접 코스 등록하기</h2>
-        <p class="mt-2 text-sm text-gray-600" id="guide-message">지도에서 원하는 위치를 클릭하여 경로(최대 7개)를 등록하세요.</p>
+        <p class="mt-2 text-sm text-gray-600" id="guide-message">지도에서 원하는 위치를 클릭하여 경로를 등록하세요.</p>
     </div>
 
     <form id="manualForm"

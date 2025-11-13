@@ -184,4 +184,30 @@ public class CourseService {
 		return data;
 	}
 
+//	@Transactional(readOnly = true)
+//	public Map<String, Object> getCourseMainPage(String accountId) {
+//		Map<String, Object> result = new HashMap<String, Object>();
+//		
+//		
+//		
+//		return null;
+//	}
+
+	/**
+	 * 인기 코스 조회
+	 * @param count 조회할 개수
+	 * @return
+	 */
+	@Transactional(readOnly = true)
+	public List<CourseCardDTO> getPopularCourses(int count) {	
+		return courseMapper.getPopularCourses(count);
+	}
+
+	
+	public List<CourseCardDTO> getRecommendedCourses(String accountId, int count) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 }

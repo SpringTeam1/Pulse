@@ -45,7 +45,7 @@
 		</if>
 	</sql>
 	
-	<select id="getTotalCourseCount" resultType="int" parameterType="map">
+	<select id="getTotalCourseCount" parameterType="map" resultType="int" >
 	    SELECT COUNT(*) FROM tblCourse WHERE courseApproval = '승인'
 	    <include refid="searchCondition" />
 	</select>
@@ -66,5 +66,44 @@
 		) where rnum between #{startRow} and #{endRow}
 		
 	</select>
+	
+	<!-- 인기 코스 조회 -->
+	<select id="getPopularCourses" parameterType="int" resultType="carddto">
+        SELECT * FROM (
+            SELECT 
+                courseSeq, courseName, ROUND(courseLength, 2) as courseLength, 
+                startAddress, endAddress, accountId,
+                (SELECT COUNT(*) FROM tblScrapCourse WHERE courseSeq = tblCourse.courseSeq) as favoriteCount
+            FROM tblCourse
+            WHERE courseApproval = '승인'
+            ORDER BY favoriteCount DESC, courseSeq DESC
+        ) WHERE ROWNUM &lt;= #{count}
+	</select>
+	
+	<!-- 추천 코스 조회 -->
+	<select id="getUserLocation" parameterType="string" resultType="map">
+        SELECT 
+            regionCity as "city", 
+            regionCounty as "county", 
+            regionDistrict as "district" 
+        FROM tblAccountInfoDetail 
+        WHERE accountId = #{accountId}
+    </select>
+
+    <select id="getRecommendedCourses" parameterType="map" resultType="carddto">
+        SELECT * FROM (
+            SELECT 
+                courseSeq, courseName, ROUND(courseLength, 2) as courseLength, 
+                startAddress, endAddress, accountId,
+                (SELECT COUNT(*) FROM tblScrapCourse WHERE courseSeq = tblCourse.courseSeq) as favoriteCount
+            FROM tblCourse
+            WHERE courseApproval = '승인'
+              AND (
+                  startAddress LIKE '%' || #{county} || '%' 
+                  OR startAddress LIKE '%' || #{district} || '%'
+              )
+            ORDER BY favoriteCount DESC
+        ) WHERE ROWNUM &lt;= #{count}
+    </select>
 	
 </mapper>
