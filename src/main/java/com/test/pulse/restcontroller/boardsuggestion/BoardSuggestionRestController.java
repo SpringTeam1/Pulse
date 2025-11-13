@@ -27,23 +27,23 @@ public class BoardSuggestionRestController {
         @RequestParam(defaultValue = "regdate") String sort,
         @RequestParam(defaultValue = "desc") String order
     ) {
-        int start = (page - 1) * size + 1;
-        int end = start + size - 1;
+		int start = (page - 1) * size + 1;
+	    int end = start + size - 1;
 
-        Map<String, Object> param = new HashMap<>();
-        param.put("start", start);
-        param.put("end", end);
-        param.put("keyword", keyword);
-        param.put("sort", sort);
-        param.put("order", order);
+	    Map<String, Object> param = new HashMap<>();
+	    param.put("start", start);
+	    param.put("end", end);
+	    param.put("keyword", keyword);
+	    param.put("sort", sort);
+	    param.put("order", order);
 
-        List<BoardSuggestionDTO> list = mapper.searchAndSort(param);
-        int totalCount = mapper.getTotalCount(keyword);
+	    List<BoardSuggestionDTO> list = mapper.searchAndSort(param);
+	    int totalCount = mapper.getTotalCount(keyword);
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("list", list);
-        result.put("totalCount", totalCount);
-        result.put("totalPages", (int)Math.ceil(totalCount / (double)size));
+	    Map<String, Object> result = new HashMap<>();
+	    result.put("list", list);
+	    result.put("totalCount", totalCount);
+	    result.put("totalPages", (int)Math.ceil(totalCount / (double)size));
 
         return result;
     }

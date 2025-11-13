@@ -30,7 +30,7 @@ public class BoardSuggestionController {
 	@GetMapping("/boardsuggestion/list")
 	public String list(Model model) {
 		 // REST에서는 별도 데이터 전달 불필요
-		return "boardsuggestion.list";
+		return "script.boardsuggestion.list";
 	}
 	
 	@GetMapping("/boardsuggestion/view")

@@ -7,11 +7,12 @@
 	
 	<resultMap type="adto" id="accountInfoMap">
 		<id column="aid" property="accountId"/>
-		<result column="name" property="name"/>
+		<result column="nickname" property="nickname"/>
 	</resultMap>
 	
 	<resultMap type="sdto" id="boardSuggestionMap">
 		<id column="boardContentSeq" property="boardContentSeq"/>
+		
 		<result column="title" property="title" />
 		<result column="regdate" property="regdate" />
 		<result column="content" property="content" />
@@ -25,74 +26,100 @@
 	
 	<!-- list 게시글 조회 -->
 	<select id="suggestionList" resultMap="boardSuggestionMap">
-		select
-			b.boardContentSeq,
-			b.title,
-			b.regdate,
-			d.name,
-			a.accountId as aid,
-			b.accountId as bid
-		from tblBoardSuggestion b
-			inner join tblAccountInfo a
-				on b.accountId = a.accountId
-			inner join tblAccountInfoDetail d
-				on a.accountId = d.accountId
-					order by b.boardContentSeq desc
-	</select>
+    SELECT
+        b.boardContentSeq,
+        b.title,
+        b.content,
+        b.attach,
+        b.regdate,
+        b.readCount,
+        b.favoriteCount,
+        b.boardContentTypeSeq,
+        
+        b.accountId AS bid,      <!-- 게시글 작성자 FK -->
+        a.accountId AS aid,      <!-- 작성자 정보용 -->
+        a.nickname AS nickname   <!-- 작성자 닉네임 -->
+
+    FROM tblBoardSuggestion b
+        INNER JOIN tblAccountInfo a
+            ON b.accountId = a.accountId
+        LEFT JOIN tblAccountInfoDetail d   <!-- 상세 정보는 있어도 되고 없어도 됨 -->
+            ON a.accountId = d.accountId
+
+    ORDER BY b.boardContentSeq DESC
+</select>
 	
-	<!-- REST용 게시글 검색 + 정렬 + 페이지네이션 -->
-	<select id="searchAndSort" parameterType="map" resultMap="boardSuggestionMap">
-	    SELECT *
-	    FROM (
-	        SELECT ROWNUM AS rnum, A.*
-	        FROM (
-	            SELECT 
-	                b.boardContentSeq,
-	                b.title,
-	                b.regdate,
-	                d.name,
-	                a.accountId AS aid,
-	                b.accountId AS bid,
-	                b.readCount
-	            FROM tblBoardSuggestion b
-	                INNER JOIN tblAccountInfo a
-	                    ON b.accountId = a.accountId
-	                INNER JOIN tblAccountInfoDetail d
-	                    ON a.accountId = d.accountId
-	            <where>
-	                <if test="keyword != null and keyword != ''">
-	                    AND (b.title LIKE '%' || #{keyword} || '%'
-	                     OR d.name LIKE '%' || #{keyword} || '%')
-	                </if>
-	            </where>
-	            ORDER BY
-	                <choose>
-	                    <when test="sort == 'title'"> b.title </when>
-	                    <when test="sort == 'readCount'"> b.readCount </when>
-	                    <otherwise> b.regdate </otherwise>
-	                </choose>
-	                <choose>
-	                    <when test="order == 'asc'"> ASC </when>
-	                    <otherwise> DESC </otherwise>
-	                </choose>
-	        ) A
-	    )
-	    WHERE rnum BETWEEN #{start} AND #{end}
-	</select>
-	
-	<!-- 전체 게시물 수 (검색 조건 포함) -->
-	<select id="getTotalCount" parameterType="string" resultType="int">
-	    SELECT COUNT(*)
-	    FROM tblBoardSuggestion b
-	        INNER JOIN tblAccountInfo a ON b.accountId = a.accountId
-	        INNER JOIN tblAccountInfoDetail d ON a.accountId = d.accountId
-	    <where>
-	        <if test="keyword != null and keyword != ''">
-	            AND (b.title LIKE '%' || #{keyword} || '%'
-	             OR d.name LIKE '%' || #{keyword} || '%')
-	        </if>
-	    </where>
-	</select>
+	 <!-- 
+         ⭐ REST API: 검색 + 정렬 + 페이지네이션
+         GET /boardsuggestion/api/list?page=&size=&keyword=&sort=&order=
+     -->
+    <select id="searchAndSort" parameterType="map" resultMap="boardSuggestionMap">
+        SELECT *
+        FROM (
+            SELECT ROWNUM AS rnum, A.*
+            FROM (
+                SELECT
+                    b.boardContentSeq,
+                    b.title,
+                    b.content,
+                    b.attach,
+                    b.regdate,
+                    b.readCount,
+                    b.favoriteCount,
+                    b.boardContentTypeSeq,
+
+                    b.accountId AS bid,
+                    a.accountId AS aid,
+                    a.nickname AS nickname
+
+                FROM tblBoardSuggestion b
+                    INNER JOIN tblAccountInfo a
+                        ON b.accountId = a.accountId
+
+                <!-- 검색 조건 -->
+                <where>
+                    <if test="keyword != null and keyword != ''">
+                        AND (
+                            b.title LIKE '%' || #{keyword} || '%' OR
+                            a.nickname LIKE '%' || #{keyword} || '%'
+                        )
+                    </if>
+                </where>
+
+                <!-- 정렬 -->
+                ORDER BY
+                    <choose>
+                        <when test="sort == 'title'"> b.title </when>
+                        <when test="sort == 'readCount'"> b.readCount </when>
+                        <otherwise> b.regdate </otherwise>
+                    </choose>
+                    <choose>
+                        <when test="order == 'asc'"> ASC </when>
+                        <otherwise> DESC </otherwise>
+                    </choose>
+
+            ) A
+        )
+        WHERE rnum BETWEEN #{start} AND #{end}
+    </select>
+
+
+    <!-- ⭐ 총 게시물 수 (검색 포함) -->
+    <select id="getTotalCount" parameterType="string" resultType="int">
+        SELECT COUNT(*)
+        FROM tblBoardSuggestion b
+            INNER JOIN tblAccountInfo a
+                ON b.accountId = a.accountId
+
+        <where>
+            <if test="keyword != null and keyword != ''">
+                AND (
+                    b.title LIKE '%' || #{keyword} || '%' OR
+                    a.nickname LIKE '%' || #{keyword} || '%'
+                )
+            </if>
+        </where>
+    </select>
 	
 	
 	<!-- view 게시글 상세보기 -->
