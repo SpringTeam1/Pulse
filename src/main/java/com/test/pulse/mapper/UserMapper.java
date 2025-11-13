@@ -14,4 +14,8 @@ public interface UserMapper {
 
 	AccountInfoDTO get(String username);
 	
+	void update(AccountInfoDTO adto);
+	
+	void updateDetail(AccountInfoDTO adto);
+	
 }
