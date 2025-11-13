@@ -59,17 +59,19 @@
       <h2 class="text-2xl font-bold text-brand mb-4">🔥 러닝 활동</h2>
 
       <h3 class="text-lg font-semibold text-gray-700 mb-2">오늘의 인기 코스 TOP3</h3>
-      <ul class="space-y-2 text-gray-600 underline">
+      <ul class="space-y-2 text-gray-600">
       
         <c:forEach items="${top3Courses}" var="dto">
           <li class="flex justify-between items-center border-b py-1">
-            <a href="/alldayrun/course/courseMain.do?courseSeq=${dto.courseSeq}"
+            <a href="/pulse/course/detail/${dto.courseSeq}"
                class="text-brand font-medium hover:text-brand-dark transition">
               ${dto.courseName}
             </a>
-            <span class="text-xs text-gray-400">참여 ${dto.participants}명</span>
+            <%-- <span class="text-xs text-gray-400">참여 ${dto.participants}명</span> --%>
           </li>
         </c:forEach>
+        
+        
       </ul>
 
       <div class="mt-6">
