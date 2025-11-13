@@ -3,15 +3,16 @@
 
 <!-- 
     📌 edit.jsp
-    - 기존 값 불러와서 수정
-    - form → RestController(/api/boardnotice/edit) 호출
+    - 기존 게시글 내용을 수정
+    - form → Controller(/boardnotice/editok.do) 전송
 -->
 
 <section class="max-w-4xl mx-auto mt-10 bg-white rounded-xl shadow p-8 space-y-6">
 
     <h1 class="text-3xl font-bold text-gray-800">✏️ 공지 수정</h1>
 
-    <form action="/pulse/api/boardnotice/edit" method="post" class="space-y-5">
+    <!-- 수정된 form -->
+    <form action="${pageContext.request.contextPath}/boardnotice/editok.do" method="post" class="space-y-5">
 
         <!-- PK -->
         <input type="hidden" name="boardSeq" value="${dto.boardSeq}">
@@ -41,8 +42,8 @@
 
         <!-- 버튼 -->
         <div class="flex justify-end gap-3">
-            <button onclick="location.href='/pulse/boardnotice/view.do?seq=${dto.boardSeq}'"
-                    type="button"
+            <button type="button"
+                    onclick="location.href='${pageContext.request.contextPath}/boardnotice/view.do?seq=${dto.boardSeq}'"
                     class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition">
                 취소
             </button>

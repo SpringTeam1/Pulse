@@ -10,7 +10,7 @@
 <mapper namespace="com.test.pulse.mapper.BoardNoticeMapper">
 
     <!-- 🔵 목록 조회 -->
-    <select id="list" resultType="com.test.pulse.model.boardnotice.BoardNoticeDTO">
+    <select id="list" resultType="bndto">
         SELECT boardSeq, writer, title, content, regdate, readCount
         FROM tblBoardNotice
         ORDER BY boardSeq DESC
@@ -18,20 +18,20 @@
 
     <!-- 🔵 상세보기 -->
     <select id="view" parameterType="int"
-            resultType="com.test.pulse.model.boardnotice.BoardNoticeDTO">
+            resultType="bndto">
         SELECT boardSeq, writer, title, content, regdate, readCount
         FROM tblBoardNotice
         WHERE boardSeq = #{seq}
     </select>
 
     <!-- 🔵 글쓰기 -->
-    <insert id="add" parameterType="com.test.pulse.model.boardnotice.BoardNoticeDTO">
+    <insert id="add" parameterType="bndto">
         INSERT INTO tblBoardNotice (boardSeq, writer, title, content)
         VALUES (seqBoardNotice.nextVal, #{writer}, #{title}, #{content})
     </insert>
 
     <!-- 🔵 수정 -->
-    <update id="edit" parameterType="com.test.pulse.model.boardnotice.BoardNoticeDTO">
+    <update id="edit" parameterType="bndto">
         UPDATE tblBoardNotice
         SET title = #{title},
             content = #{content}
