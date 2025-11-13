@@ -20,7 +20,8 @@
     <tiles:insertAttribute name="content" />
   </main>
 
-  <!-- ✅ 공통 스크립트 (예: 공용 기능 js) -->
+  <!-- ✅ 공통 스크립트 -->
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
   <script src="<c:url value='/asset/javascript/common.js' />"></script>
 
   <!-- ✅ 페이지별 추가 스크립트 -->
