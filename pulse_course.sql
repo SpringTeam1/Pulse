@@ -79,5 +79,46 @@ order by courseSeq desc;
 
 update tblCourse set courseApproval ='승인' where courseSeq>9;
 update tblCourse set courseName = '종로 추천 코스' where courseSeq=22;
+update tblCourse set courseApproval ='승인' where courseSeq=23;
 
+commit;
+
+
+
+-- 즐겨찾기 테이블(tblScrapCourse)
+create sequence seqScrapCourse;
+CREATE TABLE tblScrapCourse (
+	scrapCourseSeq	NUMBER		NOT NULL,
+	courseSeq	    NUMBER		NOT NULL,
+	accountId	    VARCHAR2(100)		NOT NULL
+);
+
+ALTER TABLE tblScrapCourse ADD CONSTRAINT "PK_TBLSCRAPCOURSE" PRIMARY KEY (scrapCourseSeq);
+
+ALTER TABLE tblScrapCourse ADD CONSTRAINT "FK_tblCourse_TO_tblScrapCourse_1" FOREIGN KEY (courseSeq)
+REFERENCES tblCourse (courseSeq);
+
+ALTER TABLE tblScrapCourse ADD CONSTRAINT "FK_tblAccountInfo_TO_tblScrapCourse_1" FOREIGN KEY (accountId)
+REFERENCES tblAccountInfo (accountId);
+
+insert into tblScrapCourse(scrapCourseSeq, courseSeq, accountId) VALUES (seqScrapCourse.nextval, 23, 'wjswoaks123');
+insert into tblScrapCourse(scrapCourseSeq, courseSeq, accountId) VALUES (seqScrapCourse.nextval, 22, 'wjswoaks123');
+insert into tblScrapCourse(scrapCourseSeq, courseSeq, accountId) VALUES (seqScrapCourse.nextval, 20, 'wjswoaks123');
+insert into tblScrapCourse(scrapCourseSeq, courseSeq, accountId) VALUES (seqScrapCourse.nextval, 19, 'wjswoaks123');
+insert into tblScrapCourse(scrapCourseSeq, courseSeq, accountId) VALUES (seqScrapCourse.nextval, 18, 'wjswoaks123');
+insert into tblScrapCourse(scrapCourseSeq, courseSeq, accountId) VALUES (seqScrapCourse.nextval, 17, 'wjswoaks123');
+
+insert into tblScrapCourse(scrapCourseSeq, courseSeq, accountId) VALUES (seqScrapCourse.nextval, 23, 'test2@naver.com');
+insert into tblScrapCourse(scrapCourseSeq, courseSeq, accountId) VALUES (seqScrapCourse.nextval, 22, 'test2@naver.com');
+insert into tblScrapCourse(scrapCourseSeq, courseSeq, accountId) VALUES (seqScrapCourse.nextval, 18, 'test2@naver.com');
+insert into tblScrapCourse(scrapCourseSeq, courseSeq, accountId) VALUES (seqScrapCourse.nextval, 17, 'test2@naver.com');
+
+insert into tblScrapCourse(scrapCourseSeq, courseSeq, accountId) VALUES (seqScrapCourse.nextval, 23, 'test@gmail.com');
+insert into tblScrapCourse(scrapCourseSeq, courseSeq, accountId) VALUES (seqScrapCourse.nextval, 22, 'test@gmail.com');
+insert into tblScrapCourse(scrapCourseSeq, courseSeq, accountId) VALUES (seqScrapCourse.nextval, 20, 'test@gmail.com');
+insert into tblScrapCourse(scrapCourseSeq, courseSeq, accountId) VALUES (seqScrapCourse.nextval, 19, 'test@gmail.com');
+insert into tblScrapCourse(scrapCourseSeq, courseSeq, accountId) VALUES (seqScrapCourse.nextval, 18, 'test@gmail.com');
+insert into tblScrapCourse(scrapCourseSeq, courseSeq, accountId) VALUES (seqScrapCourse.nextval, 17, 'test@gmail.com');
+
+select courseSeq, count(*) as scrapCount from tblScrapCourse group by courseSeq order by courseSeq asc;
 commit;

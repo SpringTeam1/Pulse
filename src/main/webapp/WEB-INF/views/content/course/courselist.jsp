@@ -93,18 +93,18 @@
     
     <div class="pagination flex justify-center space-x-2 mt-8 text-sm">
         <c:if test="${pageDTO.startPage > 1}">
-            <a href="<c:url value='/course/list?page=${pageDTO.startPage - 1}&keyword=${keyword}' />" class="py-2 px-3 border rounded-md hover:bg-gray-100">&laquo;</a>
+            <a href="<c:url value='/course/list?page=${pageDTO.startPage - 1}&keyword=${keyword}' />" class="py-2 px-3 border border-gray-200 rounded-md hover:bg-gray-100">&laquo;</a>
         </c:if>
 
         <c:forEach var="p" begin="${pageDTO.startPage}" end="${pageDTO.endPage}">
             <a href="<c:url value='/course/list?page=${p}&keyword=${keyword}' />" 
-               class="py-2 px-3 border rounded-md hover:bg-gray-100 ${pageDTO.currentPage == p ? 'bg-indigo-600 text-white' : ''}">
+               class="py-2 px-3 border border-gray-300 rounded-md hover:bg-gray-100 ${pageDTO.currentPage == p ? 'bg-indigo-600 text-white' : ''}">
                 ${p}
             </a>
         </c:forEach>
 
         <c:if test="${pageDTO.endPage < pageDTO.totalPage}">
-            <a href="<c:url value='/course/list?page=${pageDTO.endPage + 1}&keyword=${keyword}' />" class="py-2 px-3 border rounded-md hover:bg-gray-100">&raquo;</a>
+            <a href="<c:url value='/course/list?page=${pageDTO.endPage + 1}&keyword=${keyword}' />" class="py-2 px-3 border border-gray-200 rounded-md hover:bg-gray-100">&raquo;</a>
         </c:if>
     </div>
 </div>

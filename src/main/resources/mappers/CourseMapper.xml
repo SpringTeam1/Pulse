@@ -57,7 +57,7 @@
 					courseSeq, courseName,
 					round(courseLength, 2) as courseLength,
 					startAddress, endAddress, accountId,
-					0 as favoriteCount
+					(SELECT COUNT(*) FROM tblScrapCourse WHERE courseSeq = tblCourse.courseSeq) as favoriteCount
 				FROM tblCourse
 	            WHERE courseApproval = '승인'
 	            <include refid="searchCondition" />
