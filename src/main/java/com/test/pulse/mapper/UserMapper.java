@@ -1,7 +1,6 @@
 package com.test.pulse.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 
 import com.test.pulse.model.user.AccountInfoDTO;
 
@@ -14,8 +13,14 @@ public interface UserMapper {
 
 	AccountInfoDTO get(String username);
 	
+	AccountInfoDTO getDetail(String username);
+	
 	void update(AccountInfoDTO adto);
 	
 	void updateDetail(AccountInfoDTO adto);
+	
+	void deleteaccount(AccountInfoDTO adto);
+	
+	void deleteaccountDetail(AccountInfoDTO adto);
 	
 }
