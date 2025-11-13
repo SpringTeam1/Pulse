@@ -65,5 +65,5 @@ src/main/webapp/asset/css/output.css
 .idea
 .apt_generated
 .apt_generated_tests
-bin
+.bin
 pulse.iml
