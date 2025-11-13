@@ -27,14 +27,14 @@ button,
 	
 	<h2>회원 정보 입력</h2>
 	
-	<form method="POST" action="/pulse/registerok.do">
+	<form method="POST" action="/pulse/registerok.do" enctype="multipart/form-data">
 	<table class="vertical">
 		<tr>
 			<th>프로필 사진</th>
 			<td>
 				<!-- 미리보기 영역 -->
 			    <div class="photo-box">
-			      <img id="preview" src="${pageContext.request.contextPath}/asset/pic/pic.png" alt="프로필 미리보기">
+			      <img id="preview" src="${pageContext.request.contextPath}/asset/pic/${empty adto.profilePhoto ? 'pic.png' : adto.profilePhoto}" alt="프로필 미리보기">
 			      <label class="overlay" for="photo" title="이미지 선택"></label>
 			    </div>
 			
@@ -159,7 +159,7 @@ button,
 				<label class="chip"><input type="radio" name="exerciseFrequency" value="0" <c:if test="${exerciseFrequency == '0'}">checked</c:if>> 주 1회 미만</label>
 				<label class="chip"><input type="radio" name="exerciseFrequency" value="1-3" <c:if test="${empty exerciseFrequency or exerciseFrequency == '1-3'}">checked</c:if>> 주 1~3회</label>
 				<label class="chip"><input type="radio" name="exerciseFrequency" value="4-6" <c:if test="${exerciseFrequency == '4-5'}">checked</c:if>> 주 4~6회</label>
-				<label class="chip"><input type="radio" name="exerciseFrequency" value="7" <c:if test="${exerciseFrequency == '6+'}">checked</c:if>> 주 7회</label>
+				<label class="chip"><input type="radio" name="exerciseFrequency" value="7" <c:if test="${exerciseFrequency == '7'}">checked</c:if>> 주 7회</label>
 			</td>
 		</tr>
 	</table>

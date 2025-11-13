@@ -14,8 +14,14 @@ public interface UserMapper {
 
 	AccountInfoDTO get(String username);
 	
+	AccountInfoDTO getDetail(String username);
+	
 	void update(AccountInfoDTO adto);
 	
 	void updateDetail(AccountInfoDTO adto);
+	
+	void deleteaccount(AccountInfoDTO adto);
+	
+	void deleteaccountDetail(AccountInfoDTO adto);
 	
 }

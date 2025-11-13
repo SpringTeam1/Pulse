@@ -65,37 +65,37 @@ public class UserController {
 		}
 		
 		
-		String saveDirPath = req.getServletContext().getRealPath("/asset/pic");
-        File saveDir = new File(saveDirPath);
-        if (!saveDir.exists()) saveDir.mkdirs();
+	    String saveDirPath = req.getServletContext().getRealPath("/asset/pic");
+	    File saveDir = new File(saveDirPath);
+	    if (!saveDir.exists()) saveDir.mkdirs();
 
-        File targetFile = new File(saveDir, "pic.png"); // 최종 저장 파일
+	    String filename = "pic.png"; // 기본 파일
 
-        // 2) 파일 업로드가 있는 경우만 처리
-        if (profilePhoto != null && !profilePhoto.isEmpty()) {
-            String ct = profilePhoto.getContentType(); // MIME 타입 검사
+	    if (profilePhoto != null && !profilePhoto.isEmpty()) {
+	        String ct = profilePhoto.getContentType();
 
-            // PNG/JPG 외 거절
-            boolean png = "image/png".equalsIgnoreCase(ct);
-            boolean jpg = "image/jpeg".equalsIgnoreCase(ct) || "image/jpg".equalsIgnoreCase(ct);
+	        boolean png = "image/png".equalsIgnoreCase(ct);
+	        boolean jpg = "image/jpeg".equalsIgnoreCase(ct) || "image/jpg".equalsIgnoreCase(ct);
 
-            if (png || jpg) {
-                try {
-					profilePhoto.transferTo(targetFile);
-				} catch (IllegalStateException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} // 그냥 그대로 저장
-            }
-        }
+	        if (png || jpg) {
+	            // 실제 파일명 생성
+	            filename = System.currentTimeMillis() + "_" + profilePhoto.getOriginalFilename();
+
+	            File targetFile = new File(saveDir, filename);
+
+	            try {
+	                profilePhoto.transferTo(targetFile);
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+
+	    // DTO에 파일명 저장
+	    adto.setProfilePhoto(filename);
 			
-			
-			mapper.add(adto);
-			mapper.addDetail(adto);
-			
+		mapper.add(adto);
+		mapper.addDetail(adto);
 		
 		return "user.registerok";
 		

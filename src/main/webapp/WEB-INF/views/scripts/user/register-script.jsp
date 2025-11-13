@@ -159,6 +159,10 @@
 	    }
 	    yyyy.addEventListener('change', fillDays);
 	    mm.addEventListener('change', fillDays);
+	    
+	    if (yyyy.value && mm.value) {
+	        fillDays();
+	    }
 
 	    // 초기값
 	    yyyy.value = '2000';

@@ -23,6 +23,20 @@ public class CustomUserDetailsService implements UserDetailsService {
 		if (dto == null) {
 		    throw new UsernameNotFoundException("User not found: " + accountId);
 		}
+		
+		AccountInfoDTO detail = mapper.getDetail(accountId);
+
+	    if (detail != null) {
+	        dto.setName(detail.getName());
+	        dto.setPhoneNum(detail.getPhoneNum());
+	        dto.setBirthday(detail.getBirthday());
+	        dto.setGender(detail.getGender());
+	        dto.setRegionCity(detail.getRegionCity());
+	        dto.setRegionCounty(detail.getRegionCounty());
+	        dto.setRegionDistrict(detail.getRegionDistrict());
+	        dto.setExerciseFrequency(detail.getExerciseFrequency());
+	    }
+		
 		return new CustomUser(dto);
 	}
 
