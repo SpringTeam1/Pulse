@@ -7,7 +7,7 @@
   <div class="border-b pb-4">
     <h1 class="text-3xl font-bold text-black">${dto.title}</h1>
     <div class="flex justify-between items-center text-gray-500 text-sm mt-2">
-      <p>${dto.accountId}</p>
+      <p>${dto.adto.nickname}</p>
       <p>${dto.regdate}</p>
     </div>
   </div>
@@ -29,7 +29,8 @@
 
   <!-- 하단 버튼 -->
   <div class="flex justify-end gap-2 border-t pt-6">
-  <a href="${pageContext.request.contextPath}/boardsuggestion/list"
+  
+	<a href="${pageContext.request.contextPath}/boardsuggestion/list"
        class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">목록</a>
        
     <a href="${pageContext.request.contextPath}/boardsuggestion/edit?boardContentSeq=${dto.boardContentSeq}"

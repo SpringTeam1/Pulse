@@ -39,13 +39,13 @@ public class BoardSuggestionController {
 		BoardSuggestionDTO sdto = mapper.getSuggestion(boardContentSeq);
 		model.addAttribute("dto", sdto);
 		
-		return "boardsuggestion.view";
+		return "script.boardsuggestion.view";
 	}
 	
 	@GetMapping("/boardsuggestion/add")
 	public String add(Model model) {
 		
-		return "boardsuggestion.add";
+		return "script.boardsuggestion.add";
 	}
 	
 	@PostMapping("boardsuggestion/addok")
@@ -67,7 +67,7 @@ public class BoardSuggestionController {
 		BoardSuggestionDTO sdto = mapper.getSuggestion(boardContentSeq);
 		model.addAttribute("dto", sdto);
 		
-		return "boardsuggestion.edit";
+		return "script.boardsuggestion.edit";
 	}
 	
 	
