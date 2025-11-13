@@ -82,7 +82,7 @@ public class CrewService {
         Map<String, Object> map = new HashMap<>();
         map.put("crewSeq", crewSeq);
         map.put("accountId", accountId);
-        mapper.addCrewLeader(map);
+        mapper.addCrewMember(map);
 
         mapper.upCountCrewMember(crewSeq);
 
