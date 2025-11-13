@@ -9,14 +9,12 @@ import lombok.ToString;
 @ToString
 public class BoardNoticeDTO {
 	
-	private String boardContentSeq;
-	private String accountId;
-	private String title;
-	private String content;
-	private String attach;
-	private String regdate;
-	private String readCount;
-	private String favoriteCount;
-	private String boardContentTypeSeq;
+	private int boardSeq;
+    private String writer;
+    private String title;
+    private String content;
+    private String regdate;
+    private int readCount;
+    private String attach;
 
 }

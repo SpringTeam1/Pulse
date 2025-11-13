@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+    🔵 namespace = Mapper.java 인터페이스 이름과 매핑되는 이름
+    BoardNoticeMapper.java 내부의 메서드명과
+    아래 id들이 정확히 일치해야 작동함
+-->
+<mapper namespace="com.test.pulse.mapper.BoardNoticeMapper">
+
+    <!-- 🔵 목록 조회 -->
+    <select id="list" resultType="com.test.pulse.model.boardnotice.BoardNoticeDTO">
+        SELECT boardSeq, writer, title, content, regdate, readCount
+        FROM tblBoardNotice
+        ORDER BY boardSeq DESC
+    </select>
+
+    <!-- 🔵 상세보기 -->
+    <select id="view" parameterType="int"
+            resultType="com.test.pulse.model.boardnotice.BoardNoticeDTO">
+        SELECT boardSeq, writer, title, content, regdate, readCount
+        FROM tblBoardNotice
+        WHERE boardSeq = #{seq}
+    </select>
+
+    <!-- 🔵 글쓰기 -->
+    <insert id="add" parameterType="com.test.pulse.model.boardnotice.BoardNoticeDTO">
+        INSERT INTO tblBoardNotice (boardSeq, writer, title, content)
+        VALUES (seqBoardNotice.nextVal, #{writer}, #{title}, #{content})
+    </insert>
+
+    <!-- 🔵 수정 -->
+    <update id="edit" parameterType="com.test.pulse.model.boardnotice.BoardNoticeDTO">
+        UPDATE tblBoardNotice
+        SET title = #{title},
+            content = #{content}
+        WHERE boardSeq = #{boardSeq}
+    </update>
+
+    <!-- 🔵 삭제 -->
+    <delete id="del" parameterType="int">
+        DELETE FROM tblBoardNotice WHERE boardSeq = #{seq}
+    </delete>
+
+</mapper>
