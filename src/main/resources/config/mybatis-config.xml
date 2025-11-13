@@ -20,9 +20,8 @@
 		-->
 		
 		<!-- 홍건(공지게시판 관련) -->
-        <!-- 
         <typeAlias type="com.test.pulse.model.boardnotice.BoardNoticeDTO" alias="bndto" />
-        -->
+       
 
 		<!-- 재만(크루-모델 패키지 전체) -->
 		<!--
