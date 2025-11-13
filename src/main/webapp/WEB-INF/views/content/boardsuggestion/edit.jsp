@@ -4,7 +4,7 @@
 <section class="max-w-5xl mx-auto mt-10 bg-white rounded-xl shadow p-8 space-y-8">
   <h1 class="text-3xl font-bold text-black">✏️ 게시글 수정</h1>
 
-  <form method="POST" action="${pageContext.request.contextPath}/boardsuggestion/editok" enctype="multipart/form-data" class="space-y-6">
+  <form method="POST" action="${pageContext.request.contextPath}/boardsuggestion/editok" class="space-y-6">
 
     <input type="hidden" name="boardContentSeq" value="${dto.boardContentSeq}" />
 

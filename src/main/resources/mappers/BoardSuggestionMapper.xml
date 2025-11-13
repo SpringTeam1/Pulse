@@ -21,7 +21,9 @@
 		<result column="favoriteCount" property="favoriteCount"/>
 		<result column="boardContentTypeSeq" property="boardContentTypeSeq"/>
 		<result column="bid" property="accountId"/>
+		
 		<association property="adto" resultMap="accountInfoMap" />
+		
 	</resultMap>
 	
 	<!-- list 게시글 조회 -->
@@ -136,8 +138,7 @@
 	        b.boardContentTypeSeq,
 	        
 	        a.accountId AS aid,
-	        d.nickname,
-	        d.profilePhoto
+	        a.nickname
         
 	    FROM tblBoardSuggestion b
 	    INNER JOIN tblAccountInfo a
@@ -162,7 +163,7 @@
 		update tblBoardSuggestion set
 			title = #{title},
 			content = #{content}
-				where boardContentSeq = #{boardContentSeq}		
+				where boardContentSeq = #{boardContentSeq}
 	</update>
 	
 	

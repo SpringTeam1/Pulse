@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <td class="px-6 py-3 text-center">\${dto.boardContentSeq}</td>
 
             <td class="px-6 py-3 text-center">
-              <a href="${ctx}/boardsuggestion/view?boardContentSeq=${dto.boardContentSeq}"
+              <a href="${ctx}/boardsuggestion/view?boardContentSeq=\${dto.boardContentSeq}"
                  class="hover:text-brand-dark font-medium">
                 \${dto.title}
               </a>
