@@ -25,9 +25,9 @@
         -->
 
 		<!-- 재만(크루-모델 패키지 전체) -->
-		<!--
+
 		<package name="com.test.pulse.model.crew" />
-		-->
+
 	</typeAliases>
 	
 </configuration>

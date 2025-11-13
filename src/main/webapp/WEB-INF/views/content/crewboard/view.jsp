@@ -81,4 +81,23 @@
     </div>
 
 </section>
+<section class="max-w-4xl mx-auto mt-10 bg-white rounded-2xl shadow p-8 space-y-6">
 
+    <!-- 댓글 제목 -->
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">댓글</h2>
+
+    <div id="comment-list" class="space-y-5"></div>
+
+    <!-- 댓글 입력 -->
+    <div class="mt-6 space-y-3">
+        <textarea id="comment-content"
+                  class="w-full p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand text-sm resize-none"
+                  placeholder="댓글을 입력하세요..." rows="3"></textarea>
+
+        <button id="btn-comment"
+                class="px-5 py-2 bg-brand text-white rounded-xl text-sm font-semibold hover:bg-brand-dark shadow">
+            댓글 등록
+        </button>
+    </div>
+
+</section>

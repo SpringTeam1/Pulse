@@ -65,7 +65,6 @@
     async function approveJoin(seq, crewSeq) {
         if (!confirm("가입 요청을 승인하시겠습니까?")) return;
         await fetch(`/pulse/api/v1/crewjoin/approve/` + seq, { method: "POST" });
-        await fetch(`/pulse/api/v1/crewjoin/approve/memberup/` + crewSeq, { method: "PATCH" });
         loadRequests();
     }
 

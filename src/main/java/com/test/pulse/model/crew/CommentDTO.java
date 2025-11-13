@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class CommentDTO {
 
-    private int commentSeq ;
-    private int crewSeq;
-    private int boardContentSeq;
+    private String commentSeq ;
+    private String crewSeq;
+    private String boardContentSeq;
     private String accountId;
     private String content;
     private String regdate;

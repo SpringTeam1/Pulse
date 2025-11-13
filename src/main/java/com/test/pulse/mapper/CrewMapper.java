@@ -51,5 +51,5 @@ public interface CrewMapper {
     String getAccountIdByCrewJoinSeq(@Param("crewJoinSeq") String crewJoinSeq);
 
 
-    String getCrewSeqByCrewJoinSeq(@Param("CrewJoinSeq") String crewJoinSeq);
+    String getCrewSeqByCrewJoinSeq(@Param("crewJoinSeq") String crewJoinSeq);
 }

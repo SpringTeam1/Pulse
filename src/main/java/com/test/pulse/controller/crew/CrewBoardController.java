@@ -78,6 +78,7 @@ public class CrewBoardController {
                     .toLowerCase();
         }
 
+
         model.addAttribute("board", dto);
         model.addAttribute("fileExt", fileExt); // ✅ JSP에서 바로 사용 가능
 

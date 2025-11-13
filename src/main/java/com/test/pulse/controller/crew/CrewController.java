@@ -73,7 +73,7 @@ public class CrewController {
     @GetMapping("/test-login")
     public String testLogin(HttpServletRequest req) {
         // ✅ DB에 실제 존재하는 accountId로 세션에 저장
-        req.getSession().setAttribute("accountId", "wjswoaks123"); // 예: hong, user1 등
+        req.getSession().setAttribute("accountId", "test2@naver.com"); // 예: hong, user1 등
         req.getSession().setAttribute("nickname", "테스트유저");
         return "redirect:/crewmain"; // 로그인 후 가고 싶은 페이지로 리다이렉트
     }
@@ -92,8 +92,9 @@ public class CrewController {
             isUserInCrew = crewService.isUserInCrew(accountId);
         }
 
+        model.addAttribute("accountId", accountId);
         model.addAttribute("isUserInCrew", isUserInCrew);
-        return "script.crew.view";
+        return "crew.view";
     }
 
 
