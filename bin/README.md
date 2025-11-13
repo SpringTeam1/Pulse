@@ -1,2 +1,0 @@
-# Pulse
-### Spring Legacy Project
