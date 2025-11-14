@@ -11,9 +11,10 @@
 
         // 1) 총 게시글 수
         loadTotalPostCount(crewSeq);
+        // 2) 이번주 게시글 수
+        loadWeeklyTop2count(crewSeq);
 
-        // 2) 이번주 TOP2 게시글
-        loadWeeklyTop2(crewSeq);
+        loadTopViewPost(crewSeq);
 
     }
 
@@ -22,24 +23,41 @@
             const rs = await fetch(`/pulse/api/v1/crew/board/boardcount/\${crewSeq}`);
             const data = await rs.json();
 
-            document.getElementById("post-total");
-        }catch(e){
+            document.getElementById("post-total").innerText = data;
+        }catch(err){
             console.error("❌ 총 게시글 수 가져오기 실패:", err);
             document.getElementById("post-total").innerText = "-";
         }
 
     }
 
-    async function loadWeeklyTop2(crewSeq) {
+    async function loadWeeklyTop2count(crewSeq) {
         try{
             const rs = await fetch(`/pulse/api/v1/crew/board/boardtop2count/\${crewSeq}`);
             const data = await rs.json();
 
-            renderTop2(data);
+            document.getElementById("post-weekly").innerText = data;
 
-        }catch(e){
+        }catch(err){
             console.error("❌ TOP2 게시글 가져오기 실패:", err);
             document.getElementById("post-weekly").innerText = "-";
+        }
+    }
+
+
+    async function loadTopViewPost(crewSeq) {
+        try {
+            const res = await fetch(`/pulse/api/v1/crew/board/boardtop2/\${crewSeq}`);
+            const dto = await res.json();
+
+            if (!dto) return;
+
+            document.getElementById("post-topview-title").innerText = dto.title || "-";
+            document.getElementById("post-topview-writer").innerText = dto.nickname || "익명";
+            document.getElementById("post-topview-count").innerText = dto.readCount || 0;
+
+        } catch (err) {
+            console.error("❌ 조회수 Top 가져오기 실패:", err);
         }
     }
 

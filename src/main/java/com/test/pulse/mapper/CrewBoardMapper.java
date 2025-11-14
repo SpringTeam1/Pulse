@@ -33,9 +33,7 @@ public interface CrewBoardMapper {
 
     int getFavoriteCount (@Param("boardContentSeq") String boardContentSeq);
 
-    int getTotalPostCount (@Param("crewSeq") String crewSeq);
+    BoardDTO getTotalCount2Week(@Param("crewSeq") String crewSeq);
 
-    List<BoardDTO> getWeeklyTop2Posts(@Param("crewSeq") String crewSeq);
-
-    int getTotalCount2Week(String crewSeq);
+    int getTotalPostCountWeek(String crewSeq);
 }

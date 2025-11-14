@@ -59,11 +59,11 @@ public class CrewBoardRestController {
         return ResponseEntity.ok(totalCount);
     }
 
-    /** 이번주 게시글 조회수 top2  */
+    /** 이번주 게시글 조회수 top1  */
     @GetMapping("/boardtop2/{crewSeq}")
-    public ResponseEntity<List<BoardDTO>> getBoardTop2(@PathVariable String crewSeq) {
-        List<BoardDTO> list = crewBoardService.getWeeklyTop2Posts(crewSeq);
-        return ResponseEntity.ok(list);
+    public ResponseEntity<BoardDTO> getBoardTop2(@PathVariable String crewSeq) {
+        BoardDTO dto = crewBoardService.getWeeklyTop2Posts(crewSeq);
+        return ResponseEntity.ok(dto);
     }
 
     /** ✅ 게시글 등록 */

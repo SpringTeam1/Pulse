@@ -79,15 +79,11 @@ public class CrewBoardService {
         }
     }
 
-    public int getTotalPostCount(String crewSeq) {
-        return mapper.getTotalPostCount(crewSeq);
-    }
-
-    public List<BoardDTO> getWeeklyTop2Posts(String crewSeq) {
-        return mapper.getWeeklyTop2Posts(crewSeq);
+    public BoardDTO getWeeklyTop2Posts(String crewSeq) {
+        return mapper.getTotalCount2Week(crewSeq);
     }
 
     public int getTotalCount2Week(String crewSeq) {
-        return mapper.getTotalCount2Week(crewSeq);
+        return mapper.getTotalPostCountWeek(crewSeq);
     }
 }
