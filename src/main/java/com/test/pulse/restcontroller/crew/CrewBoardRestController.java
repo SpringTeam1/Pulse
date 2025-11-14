@@ -45,6 +45,27 @@ public class CrewBoardRestController {
         ));
     }
 
+    /** 게시글 총 갯수 */
+    @GetMapping("/boardcount/{crewSeq}")
+    public ResponseEntity<?> getBoardCount(@PathVariable String crewSeq) {
+        int totalCount = crewBoardService.getTotalCount(crewSeq);
+        return ResponseEntity.ok(totalCount);
+    }
+
+    /** 이번주 게시글 총 갯수*/
+    @GetMapping("/boardtop2count/{crewSeq}")
+    public ResponseEntity<?> getBoardTop2Count(@PathVariable String crewSeq) {
+        int totalCount = crewBoardService.getTotalCount2Week(crewSeq);
+        return ResponseEntity.ok(totalCount);
+    }
+
+    /** 이번주 게시글 조회수 top2  */
+    @GetMapping("/boardtop2/{crewSeq}")
+    public ResponseEntity<List<BoardDTO>> getBoardTop2(@PathVariable String crewSeq) {
+        List<BoardDTO> list = crewBoardService.getWeeklyTop2Posts(crewSeq);
+        return ResponseEntity.ok(list);
+    }
+
     /** ✅ 게시글 등록 */
     @PostMapping
     public ResponseEntity<?> add(

@@ -3,6 +3,7 @@ package com.test.pulse.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.test.pulse.model.crew.CrewMemberDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import com.test.pulse.model.crew.CrewDTO;
@@ -52,4 +53,6 @@ public interface CrewMapper {
 
 
     String getCrewSeqByCrewJoinSeq(@Param("crewJoinSeq") String crewJoinSeq);
+
+    List<CrewMemberDTO> memberList(@Param("crewSeq")String crewSeq);
 }

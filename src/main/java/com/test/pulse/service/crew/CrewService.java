@@ -3,6 +3,7 @@ package com.test.pulse.service.crew;
 import com.test.pulse.mapper.CrewMapper;
 import com.test.pulse.model.crew.CrewDTO;
 import com.test.pulse.model.crew.CrewJoinRequestDTO;
+import com.test.pulse.model.crew.CrewMemberDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -102,5 +103,9 @@ public class CrewService {
 
     public String getAccountIdsNickname(String accountId) {
         return mapper.getAccountIdsNickname(accountId);
+    }
+
+    public List<CrewMemberDTO> memberList(String crewSeq){
+        return mapper.memberList(crewSeq);
     }
 }

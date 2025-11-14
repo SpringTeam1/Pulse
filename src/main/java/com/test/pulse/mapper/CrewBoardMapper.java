@@ -4,6 +4,7 @@ package com.test.pulse.mapper;
 import com.test.pulse.model.crew.BoardDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,4 +33,9 @@ public interface CrewBoardMapper {
 
     int getFavoriteCount (@Param("boardContentSeq") String boardContentSeq);
 
+    int getTotalPostCount (@Param("crewSeq") String crewSeq);
+
+    List<BoardDTO> getWeeklyTop2Posts(@Param("crewSeq") String crewSeq);
+
+    int getTotalCount2Week(String crewSeq);
 }

@@ -1,6 +1,7 @@
 package com.test.pulse.restcontroller.crew;
 
 import com.test.pulse.model.crew.CrewDTO;
+import com.test.pulse.model.crew.CrewMemberDTO;
 import com.test.pulse.service.crew.CrewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -77,6 +78,14 @@ public class CrewRestController {
             err.put("message", "서버 오류: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(err);
         }
+    }
+
+    @GetMapping("/member/list/{crewSeq}")
+    public ResponseEntity<List<CrewMemberDTO>> getMemberList(
+            @PathVariable("crewSeq") String crewSeq
+    ) {
+        List<CrewMemberDTO> list = crewService.memberList(crewSeq);
+        return ResponseEntity.ok(list);
     }
 
 }

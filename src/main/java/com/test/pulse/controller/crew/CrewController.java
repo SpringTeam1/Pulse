@@ -1,5 +1,6 @@
 package com.test.pulse.controller.crew;
 
+import com.test.pulse.model.crew.CrewDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -94,8 +95,25 @@ public class CrewController {
 
         model.addAttribute("accountId", accountId);
         model.addAttribute("isUserInCrew", isUserInCrew);
-        return "crew.view";
+        return "script.crew.view";
     }
 
+    @GetMapping("/crewdashboard")
+    public String crewDashBoard(
+            HttpServletRequest req,
+            Model model
+    ) {
+
+        String accountId = (String) req.getSession().getAttribute("accountId");
+        String crewSeq =  crewService.getCrewSeq(accountId);
+        CrewDTO crewdto = crewService.getCrew(crewSeq);
+        Boolean isLeader = crewService.isCrewLeader(accountId, crewSeq);
+        String attach = crewdto.getCrewAttach();
+
+        model.addAttribute("crewSeq", crewSeq);
+        model.addAttribute("isLeader", isLeader);
+        model.addAttribute("attach", attach);
+        return "script.crew.dashboard";
+    }
 
 }

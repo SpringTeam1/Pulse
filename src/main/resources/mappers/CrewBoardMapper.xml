@@ -119,4 +119,28 @@
         ORDER BY REGDATE DESC
     </select>
 
+    <!-- 게시글 총 갯수 -->
+    <select id="getTotalPostCount" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM tblCrewBoardGeneral
+        WHERE crewSeq = #{crewSeq}
+    </select>
+
+    <!--  이번주 총 갯수   -->
+    <select id="getTotalPostCount" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM tblCrewBoardGeneral
+        WHERE crewSeq = #{crewSeq}
+    </select>
+
+    <!-- 일주일 내에 가장 조회수가 많은 수 2개  -->
+    <select id="getTotalCount2Week" parameterType="String" resultType="BoardDTO">
+        SELECT *
+        FROM tblCrewBoardGeneral
+        WHERE crewSeq = #{crewSeq}
+        AND regdate >= TRUNC(SYSDATE, 'IW')
+        ORDER BY readCount DESC
+        FETCH FIRST 2 ROWS ONLY
+    </select>
+
 </mapper>

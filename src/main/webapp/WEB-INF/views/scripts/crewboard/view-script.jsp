@@ -111,6 +111,7 @@
 
         async function loadCommentList() {
 
+
             commentBox.innerHTML = `
             <tr><td colspan="6" class="text-center text-gray-400 py-6">불러오는 중...</td></tr>
         `;
@@ -147,9 +148,19 @@
 
                 const row =  `
         <div class="flex gap-3 p-4 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow transition cursor-default">
-            <div class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 font-semibold text-gray-600">
-                \${nickname.charAt(0).toUpperCase()}
-            </div>
+
+            <c:choose>
+                <c:when test="\${profilePhoto ne null && profilePhoto ne 'pic.png'}">
+                    <img src="/pulse/asset/pic/\${profilePhoto}"
+                         class="w-10 h-10 rounded-full object-cover" />
+                </c:when>
+
+                <c:otherwise>
+                    <div class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 font-semibold text-gray-600">
+                        \${nickname.charAt(0).toUpperCase()}
+                    </div>
+                </c:otherwise>
+            </c:choose>
 
             <div class="flex-1">
                 <div class="flex items-center gap-2">

@@ -187,5 +187,21 @@
     </select>
 
 
+    <select id="memberList" parameterType="String" resultType="CrewMemberDTO">
+
+        SELECT
+        cm.crewMemberSeq,
+        cm.crewSeq,
+        cm.accountId,
+        cm.crewGrade,
+        ai.nickname
+        FROM TBLCREWMEMBER cm
+        INNER JOIN TBLACCOUNTINFO ai
+        ON cm.accountId = ai.accountId
+        WHERE cm.crewSeq = #{crewSeq}
+        ORDER BY cm.crewMemberSeq ASC
+
+    </select>
+
 
 </mapper>
