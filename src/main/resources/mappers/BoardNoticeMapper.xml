@@ -9,72 +9,116 @@
 -->
 <mapper namespace="com.test.pulse.mapper.BoardNoticeMapper">
 
-    <!-- 🔵 목록 조회 -->
+    <!-- 🔵 공지 목록 조회 (공지글만) -->
     <select id="list" resultType="bndto">
-        SELECT boardSeq, writer, title, content, regdate, readCount
-        FROM tblBoardNotice
+        SELECT 
+            bn.boardSeq,
+            bn.accountId,
+            ai.nickname,
+            bn.title,
+            bn.content,
+            TO_CHAR(bn.regdate, 'YYYY-MM-DD HH24:MI:SS') AS regdate,
+            bn.readCount,
+            bn.boardContentTypeSeq,
+            bn.attach
+        FROM tblBoardNotice bn
+		JOIN tblAccountInfo ai ON bn.accountId = ai.accountId
+        WHERE boardContentTypeSeq = 2   <!-- 🔹 공지글만 -->
         ORDER BY boardSeq DESC
     </select>
 
     <!-- 🔵 상세보기 -->
-    <select id="view" parameterType="int"
-            resultType="bndto">
-        SELECT boardSeq, writer, title, content, regdate, readCount
-        FROM tblBoardNotice
+    <select id="view" parameterType="int" resultType="bndto">
+        SELECT 
+            bn.boardSeq,
+            bn.accountId,
+            ai.nickname,
+            bn.title,
+            bn.content,
+            TO_CHAR(bn.regdate, 'YYYY-MM-DD HH24:MI:SS') AS regdate,
+            bn.readCount,
+            bn.boardContentTypeSeq,
+            bn.attach
+        FROM tblBoardNotice bn
+		JOIN tblAccountInfo ai ON bn.accountId = ai.accountId
         WHERE boardSeq = #{seq}
     </select>
 
     <!-- 🔵 글쓰기 -->
     <insert id="add" parameterType="bndto">
-	    INSERT INTO tblBoardNotice (
-	        boardSeq, writer, title, content, attach
-	    )
-	    VALUES (
-	        seqBoardNotice.nextVal,
-	        #{writer}, #{title}, #{content}, #{attach}
-	    )
-	</insert>
+        INSERT INTO tblBoardNotice (
+            boardSeq,
+            accountId,
+            title,
+            content,
+            boardContentTypeSeq,
+            attach
+        )
+        VALUES (
+            seqBoardNotice.nextVal,
+            #{accountId},
+            #{title},
+            #{content},
+            2,              <!-- 🔹 이 게시판은 무조건 공지글 → 2로 고정 -->
+            #{attach}
+        )
+    </insert>
     
-    <!-- 조회수 증가 -->
-	<update id="increaseReadCount" parameterType="int">
-	    UPDATE tblBoardNotice
-	    SET readCount = readCount + 1
-	    WHERE boardSeq = #{seq}
-	</update>
+    <!-- 🔵 조회수 증가 -->
+    <update id="increaseReadCount" parameterType="int">
+        UPDATE tblBoardNotice
+        SET readCount = readCount + 1
+        WHERE boardSeq = #{seq}
+    </update>
 
     <!-- 🔵 수정 -->
     <update id="edit" parameterType="bndto">
         UPDATE tblBoardNotice
-        SET title = #{title},
-            content = #{content}
+        SET 
+            title = #{title},
+            content = #{content},
+            attach = #{attach}
         WHERE boardSeq = #{boardSeq}
     </update>
 
     <!-- 🔵 삭제 -->
     <delete id="del" parameterType="int">
-        DELETE FROM tblBoardNotice WHERE boardSeq = #{seq}
+        DELETE FROM tblBoardNotice 
+        WHERE boardSeq = #{seq}
     </delete>
     
-    <!-- 페이징 목록 -->
+    <!-- 🔵 페이징 목록 (공지글만) -->
     <select id="listPaging" resultType="bndto">
     <![CDATA[
-    	select *
-    	from (
-    		select a.*, rownum rnum
-    		from (
-    			select boardSeq, writer, title, content, regdate, readCount
-    			from tblBoardNotice
-    			order by boardSeq desc
-    		) a
-    		where rownum <= #{offset} + #{pageSize}
-    	)
-    	where rnum > #{offset}
+        SELECT *
+        FROM (
+            SELECT a.*, ROWNUM rnum
+            FROM (
+                SELECT 
+                    bn.boardSeq,
+                    bn.accountId,
+                    ai.nickname,
+                    bn.title,
+                    bn.content,
+                    TO_CHAR(bn.regdate, 'YYYY-MM-DD HH24:MI:SS') AS regdate,
+                    bn.readCount,
+                    bn.boardContentTypeSeq,
+                    bn.attach
+                FROM tblBoardNotice bn
+				JOIN tblAccountInfo ai ON bn.accountId = ai.accountId
+                ORDER BY boardSeq DESC
+            ) a
+            WHERE ROWNUM <= #{offset} + #{pageSize}
+        )
+        WHERE rnum > #{offset}
     ]]>
     </select>
     
-    <!-- 전체 게시물 수 -->
+    <!-- 🔵 전체 게시물 수 (공지글만 카운트) -->
     <select id="totalCount" resultType="int">
-    	select count(*) from tblboardnotice
+        SELECT COUNT(*)
+        FROM tblBoardNotice
+        WHERE boardContentTypeSeq = 2
     </select>
 
 </mapper>

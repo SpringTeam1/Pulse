@@ -14,7 +14,7 @@
 
     <!-- 글 정보 -->
     <div class="flex justify-between text-gray-500 text-sm">
-        <p>작성자: ${dto.writer}</p>
+        <p>작성자: ${dto.nickname}</p>
         <p>작성일: ${dto.regdate}</p>
         <p>조회수: ${dto.readCount}</p>
     </div>
@@ -67,3 +67,9 @@
     </div>
 
 </section>
+
+<script>
+    console.log("현재 로그인 계정 ID: '${sessionScope.accountId}'");
+    console.log("현재 로그인 닉네임: '${sessionScope.nickname}'");
+    console.log("현재 로그인 역할(권한): '${sessionScope.role}'");
+</script>

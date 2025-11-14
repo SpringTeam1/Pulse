@@ -21,12 +21,15 @@
       	enctype="multipart/form-data"
       	class="space-y-5">
 
-        <!-- 작성자 -->
+        <!-- ⚠️ 실제 서버로 넘어가는 값: accountId -->
+        <input type="hidden" name="accountId" value="${accountId}">
+
+        <!-- 작성자(닉네임) 표시용: readonly -->
         <div>
             <label class="text-sm text-gray-600">작성자</label>
-            <input type="text" name="writer"
-                   class="w-full mt-1 p-2 border rounded-lg focus:outline-brand"
-                   required>
+            <input type="text" value="${nickname}"
+                   class="w-full mt-1 p-2 border rounded-lg bg-gray-100"
+                   readonly>
         </div>
 
         <!-- 제목 -->
@@ -69,4 +72,11 @@
         </div>
 
     </form>
+    
 </section>
+
+<script>
+    console.log("현재 로그인 계정 ID: '${sessionScope.accountId}'");
+    console.log("현재 로그인 닉네임: '${sessionScope.nickname}'");
+    console.log("현재 로그인 역할(권한): '${sessionScope.role}'");
+</script>

@@ -20,7 +20,7 @@
         <!-- 작성자(읽기전용) -->
         <div>
             <label class="text-sm text-gray-600">작성자</label>
-            <input type="text" name="writer" value="${dto.writer}" readonly
+            <input type="text" name="writer" value="${dto.accountId}" readonly
                    class="w-full mt-1 p-2 border rounded-lg bg-gray-100">
         </div>
 
@@ -56,3 +56,9 @@
 
     </form>
 </section>
+
+<script>
+    console.log("현재 로그인 계정 ID: '${sessionScope.accountId}'");
+    console.log("현재 로그인 닉네임: '${sessionScope.nickname}'");
+    console.log("현재 로그인 역할(권한): '${sessionScope.role}'");
+</script>

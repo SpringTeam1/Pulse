@@ -3,7 +3,13 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <section class="max-w-6xl mx-auto mt-10 bg-white rounded-xl shadow p-8 space-y-8">
-
+	
+	<c:if test="${not empty msg}">
+		<script>
+		    alert("${msg}");
+		</script>
+	</c:if>
+	
     <!-- 제목 -->
     <div class="flex flex-col sm:flex-row justify-between items-center">
         <h1 class="text-3xl font-bold text-brand">📢 공지사항게시판</h1>
@@ -36,24 +42,56 @@
                 </tr>
             </c:if>
 
-            <c:forEach items="${list}" var="bndto">
-                <tr class="hover:bg-gray-50 cursor-pointer"
-                    onclick="location.href='${pageContext.request.contextPath}/boardnotice/view.do?seq=${bndto.boardSeq}'">
-                    <td class="px-6 py-3 text-center">${num}</td>
-                    <td class="px-6 py-3">${bndto.title}</td>
-                    <td class="px-6 py-3 text-center">${bndto.writer}</td>
-                    <td class="px-6 py-3 text-center">${bndto.regdate}</td>
-                    <td class="px-6 py-3 text-center">${bndto.readCount}</td>
-                </tr>
-                
-                <!-- 다음 번호 -->
-                <c:set var="num" value="${num - 1}"></c:set>
-                
-            </c:forEach>
+            <c:forEach items="${list}" var="dto" varStatus="st">
+			    <tr class="hover:bg-gray-50 cursor-pointer"
+			        onclick="location.href='${pageContext.request.contextPath}/boardnotice/view.do?seq=${dto.boardSeq}'">
+			        
+			        <!-- 번호를 index 기반으로 출력 -->
+			        <td class="px-6 py-3 text-center">${st.index + 1}</td>
+			
+			        <td class="px-6 py-3">${dto.title}</td>
+			        <td class="px-6 py-3 text-center">${dto.nickname}</td>
+			        <td class="px-6 py-3 text-center">${dto.regdate}</td>
+			        <td class="px-6 py-3 text-center">${dto.readCount}</td>
+			    </tr>
+			</c:forEach>
 
             </tbody>
         </table>
     </div>
+    
+    <!-- ✅ 페이지네이션 -->
+<div class="flex justify-center items-center mt-10 space-x-2">
+
+    <!-- ◀ 이전 페이지 -->
+    <c:if test="${page > 1}">
+        <a href="?page=${page - 1}" 
+           class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 mr-2">
+            ◀
+        </a>
+    </c:if>
+
+    <!-- 🔢 페이지 번호 -->
+    <c:forEach begin="1" end="${totalPage}" var="i">
+        <a href="?page=${i}"
+           class="
+               px-3 py-1 rounded
+               <c:if test='${i == page}'> bg-brand text-white font-bold </c:if>
+               <c:if test='${i != page}'> bg-gray-200 hover:bg-gray-300 </c:if>
+           ">
+            ${i}
+        </a>
+    </c:forEach>
+
+    <!-- ▶ 다음 페이지 -->
+    <c:if test="${page < totalPage}">
+        <a href="?page=${page + 1}"
+           class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 ml-2">
+            ▶
+        </a>
+    </c:if>
+
+</div>
 
     <div class="flex justify-end">
         <a href="${pageContext.request.contextPath}/boardnotice/add.do"
@@ -63,3 +101,9 @@
     </div>
 
 </section>
+
+<script>
+    console.log("현재 로그인 계정 ID: '${sessionScope.accountId}'");
+    console.log("현재 로그인 닉네임: '${sessionScope.nickname}'");
+    console.log("현재 로그인 역할(권한): '${sessionScope.role}'");
+</script>
