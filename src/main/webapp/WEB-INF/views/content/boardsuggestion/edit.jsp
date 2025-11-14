@@ -12,7 +12,7 @@
     <!-- ✅ 수정 폼 -->
     <form id="editForm"
           method="POST"
-          action="${pageContext.request.contextPath}/api/v1/boardsuggestion/edit/{boardContentSeq}"
+          action="${pageContext.request.contextPath}/api/v1/boardsuggestion/edit/${dto.boardContentSeq}"
           enctype="multipart/form-data"
           class="space-y-8">
 
