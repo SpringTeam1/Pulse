@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>  
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,21 +30,27 @@ button,
 	<h2>회원 정보 수정</h2>
 	
 	<sec:authorize access="isAuthenticated()">
-    	<sec:authentication property="principal.adto" var="user"/>
+    	<c:set var="user" value="${adto}" />
+    		<c:set var="birthYear" value="${fn:substring(user.birthday, 0, 4)}" />
+			<c:set var="birthMonth" value="${fn:substring(user.birthday, 5, 7)}" />
+			<c:set var="birthDay" value="${fn:substring(user.birthday, 8, 10)}" />
+    	
 	
-		<form method="POST" action="/pulse/infoedit.do">
+		<form method="POST" action="/pulse/infoedit.do" enctype="multipart/form-data">
 		<table class="vertical">
 			<tr>
 				<th>프로필 사진</th>
 				<td>
 					<!-- 미리보기 영역 -->
 				    <div class="photo-box">
-				      <img id="preview" src="${pageContext.request.contextPath}/asset/pic/${user.profilePhoto}" alt="프로필 미리보기">
+				      <img id="preview" src="${pageContext.request.contextPath}/asset/pic/${user.profilePhoto}?v=${now}" alt="Profile Photo">
 				      <label class="overlay" for="photo" title="이미지 선택"></label>
 				    </div>
 				
 				    <!-- 실제 파일 선택 input -->
-				    <input type="file" id="photo" name="profilePhoto" accept="image/png,image/jpeg" style="display:none;">
+				    <input type="file" id="photo" name="photoFile" accept="image/png,image/jpeg" style="display:none;">
+				    
+				    <input type="hidden" id="photoName" name="profilePhoto" value="${user.profilePhoto}">
 				
 					<button type="button" class="btn btn-main" onclick="photo.click()">이미지 선택</button>
 				    <button type="button" class="btn btn-sub" onclick="resetPhoto()">이미지 삭제</button>
@@ -51,7 +58,7 @@ button,
 			</tr>
 			<tr>
 				<th>이름</th>
-				<td><input type="text" name="name" value="${user.name}" required></td>
+				<td><input type="text" id="name" name="name" value="${user.name}" required></td>
 			</tr>
 			<tr>
 				<th>닉네임</th>
@@ -59,7 +66,7 @@ button,
 			</tr>
 			<tr>
 				<th>전화번호</th>
-				<td><input type="text" name="phoneNum" value="${user.phoneNum}" required oninput="this.value = this.value.replace(/[^0-9]/g, '');"></td>
+				<td><input type="text" name="phoneNum" value="${user.phoneNum}" required></td>
 				<td><div class="hint">'-' 없이 숫자로만 입력해주세요.</div></td>
 			</tr>
 			<tr>
@@ -77,6 +84,10 @@ button,
 				    	<label>일</label>
 				    	<select class="input" id="dd" name="dd"></select>
 				    </div>
+				    
+				    <input type="hidden" id="hiddenYear" value="${birthYear}" />
+					<input type="hidden" id="hiddenMonth" value="${birthMonth}" />
+					<input type="hidden" id="hiddenDay" value="${birthDay}" />
 				    
 				    <input type="hidden" id="birthday" name="birthday" value="${user.birthday}" required>
 				</td>
@@ -139,7 +150,7 @@ button,
 				<td>
 					<label class="chip"><input type="radio" name="exerciseFrequency" value="0" <c:if test="${user.exerciseFrequency == '0'}">checked</c:if>> 주 1회 미만</label>
 					<label class="chip"><input type="radio" name="exerciseFrequency" value="1-3" <c:if test="${user.exerciseFrequency == '1-3'}">checked</c:if>> 주 1~3회</label>
-					<label class="chip"><input type="radio" name="exerciseFrequency" value="4-6" <c:if test="${user.exerciseFrequency == '4-5'}">checked</c:if>> 주 4~6회</label>
+					<label class="chip"><input type="radio" name="exerciseFrequency" value="4-6" <c:if test="${user.exerciseFrequency == '4-6'}">checked</c:if>> 주 4~6회</label>
 					<label class="chip"><input type="radio" name="exerciseFrequency" value="7" <c:if test="${user.exerciseFrequency == '7'}">checked</c:if>> 주 7회</label>
 				</td>
 			</tr>
@@ -160,17 +171,4 @@ button,
 	
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
 

@@ -14,13 +14,11 @@
 	<h2>마이페이지</h2>
 	
 	<sec:authorize access="isAuthenticated()">
-    	<sec:authentication property="principal.adto.profilePhoto" var="profilePhoto"/>
+    	<c:set var="profilePhoto" value="${adto.profilePhoto}" />
     	<sec:authentication property="principal.adto.nickname" var="nickname"/>
 
-	    <p>
-	        <img src="${pageContext.request.contextPath}/asset/pic/${profilePhoto}" alt="Profile Photo" style="width:50px; height:50px;">
-	        ${nickname}님
-	    </p>
+	    <p><img src="${pageContext.request.contextPath}/asset/pic/${profilePhoto}?v=${now}" alt="Profile Photo" style="width:50px; height:50px;">${adto.nickname}님</p>
+	    
 	    <hr>
 	
 	    <form method="GET" action="<c:url value='/infoedit' />">

@@ -48,7 +48,7 @@ button,
 		<tr>
 			<th>이메일</th>
 			<td>
-				<input type="text" id="accountId" name="accountId" placeholder="이메일 주소 입력" value="${empty emailValue ? 'zkfps411@naver.com' : emailValue}">
+				<input type="text" id="accountId" name="accountId" placeholder="이메일 주소 입력">
 			    <button type="button" id="btnSend" class="btn btn-sub">인증번호 발송</button>
 			    
 			    <!-- 인증번호 입력(별도 form 없음) -->
@@ -66,34 +66,31 @@ button,
 		</tr>
 		<tr>
 			<th>암호</th>
-			<td><input type="password" name="password" value="1111" required></td>
+			<td><input type="password" name="password" required></td>
 		</tr>
 		<tr>
 			<th>이름</th>
-			<td><input type="text" name="name" value="테스트" required></td>
+			<td><input type="text" id="name" name="name" required></td>
 		</tr>
 		<tr>
 			<th>닉네임</th>
-			<td><input type="text" id="nickname" name="nickname" value="테스트" required></td>
+			<td><input type="text" id="nickname" name="nickname" required></td>
 		</tr>
 		<tr>
 			<th>전화번호</th>
-			<td><input type="text" name="phoneNum" value="010-1111-1111" required oninput="this.value = this.value.replace(/[^0-9]/g, '');"></td>
+			<td><input type="text" name="phoneNum" placeholder="010-1234-5678" required></td>
 			<td><div class="hint">'-' 없이 숫자로만 입력해주세요.</div></td>
 		</tr>
 		<tr>
 			<th>생년월일</th>
 			<td>
 				<div class="col">
-					<label>연도</label>
 			    	<select class="input" id="yyyy" name="yyyy"></select>
 			    </div>
 			    <div class="col">
-			    	<label>월</label>
 			    	<select class="input" id="mm" name="mm"></select>
 			    </div>
 			    <div class="col">
-			    	<label>일</label>
 			    	<select class="input" id="dd" name="dd"></select>
 			    </div>
 			    
@@ -103,7 +100,7 @@ button,
 		<tr>
 			<th>성별</th>
 			<td>
-				<label class="chip"><input type="radio" name="gender" value="남자"<c:if test="${empty gender or gender == '남자'}">checked</c:if>>남자</label>
+				<label class="chip"><input type="radio" name="gender" value="남자"<c:if test="${gender == '남자'}">checked</c:if>>남자</label>
 				<label class="chip"><input type="radio" name="gender" value="여자"<c:if test="${gender == '여자'}">checked</c:if>>여자</label>
 			</td>
 		</tr>
@@ -111,8 +108,8 @@ button,
 			<th>광역시</th>
 			<td>
 				<select id="sido" name="regionCity">
-				 	<option value="">선택</option>
-				 	<option value="서울특별시" <c:if test="${empty regionCity or regionCity == '서울특별시'}">selected</c:if>>서울특별시</option>
+				 	<option value="" <c:if test="${empty regionCity}">selected</c:if>>선택</option>
+				 	<option value="서울특별시" <c:if test="${regionCity == '서울특별시'}">selected</c:if>>서울특별시</option>
 					<option value="부산광역시" <c:if test="${regionCity == '부산광역시'}">selected</c:if>>부산광역시</option>
 					<option value="대구광역시" <c:if test="${regionCity == '대구광역시'}">selected</c:if>>대구광역시</option>
 					<option value="인천광역시" <c:if test="${regionCity == '인천광역시'}">selected</c:if>>인천광역시</option>
@@ -138,7 +135,7 @@ button,
 		<tr>
 			<th>시군구</th>
 			<td>
-				<input type="text" id="sigungu" name="regionCounty" value="${empty regionCounty ? '강남구' : regionCounty}">
+				<input type="text" id="sigungu" name="regionCounty">
 					<c:if test="${not empty regionCountyMsg}">
 						<div class="msg err">${regionCountyMsg}</div>
 					</c:if>
@@ -147,7 +144,7 @@ button,
 		<tr>
 			<th>동읍면</th>
 			<td>
-				<input type="text" id="dong" name="regionDistrict" value="${empty regionDistrict ? '삼성동' : regionDistrict}">
+				<input type="text" id="dong" name="regionDistrict">
 					<c:if test="${not empty regionDistrictMsg}">
 						<div class="msg err">${regionDistrictMsg}</div>
 					</c:if>
@@ -157,7 +154,7 @@ button,
 			<th>운동빈도</th>
 			<td>
 				<label class="chip"><input type="radio" name="exerciseFrequency" value="0" <c:if test="${exerciseFrequency == '0'}">checked</c:if>> 주 1회 미만</label>
-				<label class="chip"><input type="radio" name="exerciseFrequency" value="1-3" <c:if test="${empty exerciseFrequency or exerciseFrequency == '1-3'}">checked</c:if>> 주 1~3회</label>
+				<label class="chip"><input type="radio" name="exerciseFrequency" value="1-3" <c:if test="${exerciseFrequency == '1-3'}">checked</c:if>> 주 1~3회</label>
 				<label class="chip"><input type="radio" name="exerciseFrequency" value="4-6" <c:if test="${exerciseFrequency == '4-5'}">checked</c:if>> 주 4~6회</label>
 				<label class="chip"><input type="radio" name="exerciseFrequency" value="7" <c:if test="${exerciseFrequency == '7'}">checked</c:if>> 주 7회</label>
 			</td>

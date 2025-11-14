@@ -58,7 +58,6 @@
 	
 		UPDATE tblAccountInfo
 		SET
-			password = #{password},
 			profilePhoto = #{profilePhoto},
 			nickname = #{nickname}
 		WHERE accountId = #{accountId}

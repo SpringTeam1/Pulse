@@ -69,8 +69,17 @@
 	      btnSend.disabled = true;
 	      if (msgEl){ msgEl.classList.remove('ok','err'); msgEl.textContent = '전송 중...'; }
 	      try{
-	        const res = await postJson(ctx + '/user/sendmail.do', {email});
-	        if (res && res.result == 1){
+	    	  
+	    	  const res1 = await postJson(ctx + '/user/checkEmail', { email });
+	    	  if (res1.exists) {
+	    	      msgEl?.classList.remove('ok'); msgEl?.classList.add('err');
+	    	      if (msgEl) msgEl.textContent = '이미 가입된 이메일입니다.';
+	    	      btnSend.disabled = false;
+	    	      return;
+	    	  }
+	    	  
+	        const res2 = await postJson(ctx + '/user/sendmail.do', {email});
+	        if (res2 && res2.result == 1){
 	          msgEl?.classList.remove('err'); msgEl?.classList.add('ok');
 	          if (msgEl) msgEl.textContent = '인증번호를 발송했습니다. 메일함을 확인하세요.';
 	          wrap?.style && (wrap.style.display = '');
@@ -140,56 +149,56 @@
 
 	  // ===== 생년월일(yyyy, mm, dd) =====
 	  (function(){
-	    const yyyy = document.getElementById('yyyy');
-	    const mm   = document.getElementById('mm');
-	    const dd   = document.getElementById('dd');
-	    if (!yyyy || !mm || !dd) return;
+		  const yyyy = document.getElementById('yyyy');
+		  const mm   = document.getElementById('mm');
+		  const dd   = document.getElementById('dd');
+		  if (!yyyy || !mm || !dd) return;
 
-	    const yNow = new Date().getFullYear();
-	    for(let y=yNow; y>=1900; y--){ yyyy.add(new Option(y, y)); }
-	    for(let m=1;m<=12;m++){ mm.add(new Option(m, m)); }
+		  const yNow = new Date().getFullYear();
+		  for(let y = yNow; y >= 1900; y--) {
+		    yyyy.add(new Option(y, y));
+		  }
+		  for(let m = 1; m <= 12; m++) {
+		    mm.add(new Option(m, m));
+		  }
 
-	    function fillDays(){
-	      dd.length = 0;
-	      const y = parseInt(yyyy.value, 10);
-	      const m = parseInt(mm.value, 10);
-	      if(!y || !m) return;
-	      const last = new Date(y, m, 0).getDate();
-	      for(let d=1; d<=last; d++){ dd.add(new Option(d, d)); }
-	    }
-	    yyyy.addEventListener('change', fillDays);
-	    mm.addEventListener('change', fillDays);
-	    
-	    if (yyyy.value && mm.value) {
-	        fillDays();
-	    }
+		  function fillDays(selectedDay) {
+		    dd.length = 0;
+		    const y = parseInt(yyyy.value, 10);
+		    const m = parseInt(mm.value, 10);
+		    if (!y || !m) return;
+		    
+		    const last = new Date(y, m, 0).getDate();
+		    for(let d = 1; d <= last; d++) {
+		      dd.add(new Option(d, d));
+		    }
 
-	    // 초기값
-	    yyyy.value = '2000';
-	    mm.value   = '11';
-	    fillDays();
-	    dd.value   = '11';
-	  })();
+		    if (selectedDay && selectedDay <= last) {
+		      dd.value = selectedDay;
+		    } else {
+		      dd.value = last;
+		    }
+		  }
+
+		  yyyy.addEventListener('change', function() {
+		    const selectedDay = parseInt(dd.value, 10);
+		    fillDays(selectedDay);
+		  });
+
+		  mm.addEventListener('change', function() {
+		    const selectedDay = parseInt(dd.value, 10);
+		    fillDays(selectedDay);
+		  });
+
+		  const today = new Date();
+		  yyyy.value = today.getFullYear();
+		  mm.value = today.getMonth() + 1;
+		  fillDays(today.getDate());
+
+		})();
+
 
 	});
 	
 	</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	

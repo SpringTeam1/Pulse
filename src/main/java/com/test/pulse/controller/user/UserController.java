@@ -65,34 +65,41 @@ public class UserController {
 		}
 		
 		
-	    String saveDirPath = req.getServletContext().getRealPath("/asset/pic");
-	    File saveDir = new File(saveDirPath);
-	    if (!saveDir.exists()) saveDir.mkdirs();
+		//이미지 업로드
+		String saveDirPath = req.getServletContext().getRealPath("/asset/pic");
+		System.out.println("이미지 저장 경로: " + saveDirPath);
+		File saveDir = new File(saveDirPath);
+		if (!saveDir.exists()) saveDir.mkdirs();
 
-	    String filename = "pic.png"; // 기본 파일
+		String filename = "pic.png"; // 기본 이미지
 
-	    if (profilePhoto != null && !profilePhoto.isEmpty()) {
-	        String ct = profilePhoto.getContentType();
+		if (profilePhoto != null && !profilePhoto.isEmpty()) {
+		    String ct = profilePhoto.getContentType();
+		    boolean isImage = ct != null && (ct.equalsIgnoreCase("image/png")
+		                                  || ct.equalsIgnoreCase("image/jpeg")
+		                                  || ct.equalsIgnoreCase("image/jpg"));
 
-	        boolean png = "image/png".equalsIgnoreCase(ct);
-	        boolean jpg = "image/jpeg".equalsIgnoreCase(ct) || "image/jpg".equalsIgnoreCase(ct);
+		    if (isImage) {
+		    	
+		        // 원래 파일명을 제거하고, 확장자만 유지
+		    	String originalFilename = profilePhoto.getOriginalFilename();
+		    	String ext = originalFilename.substring(originalFilename.lastIndexOf("."));
+		        
+		        // 새 파일명 생성 (현재 시간 기반 + 확장자)
+		        filename = System.currentTimeMillis() + ext;
+		        File dest = new File(saveDir, filename);
 
-	        if (png || jpg) {
-	            // 실제 파일명 생성
-	            filename = System.currentTimeMillis() + "_" + profilePhoto.getOriginalFilename();
+		        try {
+		            profilePhoto.transferTo(dest);
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }
+		    }
+		}
 
-	            File targetFile = new File(saveDir, filename);
 
-	            try {
-	                profilePhoto.transferTo(targetFile);
-	            } catch (Exception e) {
-	                e.printStackTrace();
-	            }
-	        }
-	    }
-
-	    // DTO에 파일명 저장
-	    adto.setProfilePhoto(filename);
+		
+		adto.setProfilePhoto(filename);
 			
 		mapper.add(adto);
 		mapper.addDetail(adto);
