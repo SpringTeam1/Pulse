@@ -149,6 +149,20 @@
 					
 	</select>
 	
+	<!-- 좋아요 -->
+	<update id="updateLike">
+    	UPDATE tblBoardSuggestion
+	    SET favoriteCount = favoriteCount + 1
+	    WHERE boardContentSeq = #{boardContentSeq}
+	</update>
+	
+	<!-- 좋아요 수 -->
+	<select id="getFavoriteCount" resultType="int">
+	    SELECT favoriteCount 
+	    FROM tblBoardSuggestion
+	    WHERE boardContentSeq = #{boardContentSeq}
+	</select>
+	
 	
 	<!-- add 게시글 등록 -->
 	<insert id="addSuggestion" parameterType="sdto">
@@ -160,10 +174,12 @@
 	
 	<!-- edit 게시글 수정 -->
 	<update id="editSuggestion" parameterType="sdto">
-		update tblBoardSuggestion set
-			title = #{title},
-			content = #{content}
-				where boardContentSeq = #{boardContentSeq}
+		UPDATE tblBoardSuggestion
+    	SET
+	        title = #{title},
+	        content = #{content},
+	        attach = #{attach}
+	    WHERE boardContentSeq = #{boardContentSeq}
 	</update>
 	
 	

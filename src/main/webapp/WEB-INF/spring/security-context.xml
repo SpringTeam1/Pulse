@@ -22,6 +22,8 @@
 	
 		<!-- 허가 -->
 		<security:intercept-url pattern="/pulse/**" access="permitAll" />
+		<security:csrf disabled="true"/>
+		
 		<!-- 
 		<security:intercept-url pattern="/member"
 					access="hasRole('ROLE_MEMBER')" />

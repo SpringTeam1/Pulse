@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sort = sortSelect.value;
 
     const apiUrl =
-      ctx + "/boardsuggestion/api/list"
+      ctx + "/api/v1/boardsuggestion/list"
       + "?page=" + page
       + "&size=" + pageSize
       + "&keyword=" + encodeURIComponent(keyword)

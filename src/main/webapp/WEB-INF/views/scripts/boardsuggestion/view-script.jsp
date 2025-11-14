@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (likeImg) {
         likeImg.addEventListener("click", async () => {
             try {
-                const res = await fetch(`\${ctx}/boardsuggestion/api/like/\${seq}`, {
+                const res = await fetch(`\${ctx}/api/v1/boardsuggestion/like/\${seq}`, {
                     method: "POST"
                 });
 
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // “삭제하기” 버튼 → REST 요청
         modal.querySelector("#modal-confirm").addEventListener("click", async () => {
             try {
-                const res = await fetch(`\${ctx}/boardsuggestion/api/delete/\${seq}`, {
+                const res = await fetch(`\${ctx}/api/v1/boardsuggestion/delete/\${seq}`, {
                     method: "DELETE"
                 });
 

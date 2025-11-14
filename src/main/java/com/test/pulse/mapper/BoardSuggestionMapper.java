@@ -13,11 +13,17 @@ public interface BoardSuggestionMapper {
 	
 	void addSuggestion(BoardSuggestionDTO sdto);
 	
-	void editSuggestion(BoardSuggestionDTO sdto);
-
+	int editSuggestion(BoardSuggestionDTO sdto);
+	
 	void delSuggestion(String boardContentSeq);
 
 	List<BoardSuggestionDTO> searchAndSort(Map<String, Object> param);
 
 	int getTotalCount(String keyword);
+
+	void updateLike(String boardContentSeq);
+
+	int getFavoriteCount(String boardContentSeq);
+
+	
 }

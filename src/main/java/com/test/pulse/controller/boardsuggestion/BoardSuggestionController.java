@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,32 +24,57 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/boardsuggestion")
 public class BoardSuggestionController {
 	
 	private final BoardSuggestionMapper mapper;
 	
-	@GetMapping("/boardsuggestion/list")
-	public String list(Model model) {
+	/** 목록 화면 */
+	@GetMapping("/list")
+	public String list() {
 		 // REST에서는 별도 데이터 전달 불필요
 		return "script.boardsuggestion.list";
 	}
 	
-	@GetMapping("/boardsuggestion/view")
+	/** 상세 화면 (SSR 렌더링) */
+	@GetMapping("/view")
 	public String view(Model model, String boardContentSeq) {
 
 		BoardSuggestionDTO sdto = mapper.getSuggestion(boardContentSeq);
+		
+		// 파일 확장자 추출 (이미지 판별용)
+        String fileExt = null;
+        if (sdto.getAttach() != null) {
+            int idx = sdto.getAttach().lastIndexOf(".");
+            if (idx != -1) {
+                fileExt = sdto.getAttach().substring(idx + 1).toLowerCase();
+            }
+        }
+		
 		model.addAttribute("dto", sdto);
+		model.addAttribute("fileExt", fileExt);
 		
 		return "script.boardsuggestion.view";
 	}
 	
-	@GetMapping("/boardsuggestion/add")
+	
+	@GetMapping("/edit")
+	public String edit(Model model, String boardContentSeq) {
+		
+		BoardSuggestionDTO sdto = mapper.getSuggestion(boardContentSeq);
+		model.addAttribute("dto", sdto);
+		
+		return "script.boardsuggestion.edit";
+	}
+	
+	
+	@GetMapping("/add")
 	public String add(Model model) {
 		
 		return "script.boardsuggestion.add";
 	}
 	
-	@PostMapping("boardsuggestion/addok")
+	@PostMapping("/addok")
 	public String addok(Model model, BoardSuggestionDTO sdto, Authentication auth) {
 		
 		CustomUser cuser = (CustomUser)auth.getPrincipal();
@@ -60,68 +86,6 @@ public class BoardSuggestionController {
 		
 		return "redirect:/boardsuggestion/list";
 	}
-	
-	@GetMapping("/boardsuggestion/edit")
-	public String edit(Model model, String boardContentSeq) {
-		
-		BoardSuggestionDTO sdto = mapper.getSuggestion(boardContentSeq);
-		model.addAttribute("dto", sdto);
-		
-		return "script.boardsuggestion.edit";
-	}
-	
-	
-	
-	@PostMapping("/boardsuggestion/editok")
-	public String editok(
-			@ModelAttribute BoardSuggestionDTO sdto,
-	                     @RequestParam(value = "attach", required = false) MultipartFile attach,
-	                     HttpServletRequest req) {
-
-	    try {
-	        // 파일 업로드가 있을 경우
-	        if (attach != null && !attach.isEmpty()) {
-
-	            // webapp/boardsuggestion 경로 지정
-	            String path = req.getServletContext().getRealPath("/boardsuggestion");
-	            File dir = new File(path);
-	            if (!dir.exists()) dir.mkdirs();
-
-	            // 실제 업로드 파일명
-	            String filename = attach.getOriginalFilename();
-
-	            // 저장 경로
-	            File saveFile = new File(dir, filename);
-	            attach.transferTo(saveFile);
-
-	            // DTO에 파일명 저장
-	            sdto.setAttach(filename);
-	        }
-
-	        // DB 수정 처리
-	        mapper.editSuggestion(sdto);
-
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return "redirect:/boardsuggestion/edit?boardContentSeq=" + sdto.getBoardContentSeq() + "&error=upload";
-	    }
-
-	    // 정상 완료 시 상세보기로 리다이렉트
-	    return "redirect:/boardsuggestion/view?boardContentSeq=" + sdto.getBoardContentSeq();
-	}
-	
-	
-	
-	
-	@GetMapping("/boardsuggestion/del")
-	public String del(Model model, String boardContentSeq) {
-		
-		mapper.delSuggestion(boardContentSeq);
-		
-		return "redirect:/boardSuggestion/list";
-	}
-	
-	
 
 }
 
