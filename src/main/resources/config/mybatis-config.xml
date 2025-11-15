@@ -12,6 +12,7 @@
 		<typeAlias type="com.test.pulse.model.course.ManualCourseDTO" alias="mdto"/>
 		<typeAlias type="com.test.pulse.model.course.CourseCardDTO" alias="carddto"/>
 		<typeAlias type="com.test.pulse.model.workout.WorkoutDTO" alias="wdto"/>
+		<typeAlias type="com.test.pulse.model.workout.WorkoutLogDTO" alias="wldto"/>
 		
 		
 		<!-- 진혁(계정정보, 건의게시판 관련) -->
