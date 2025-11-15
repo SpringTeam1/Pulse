@@ -95,6 +95,9 @@ public class BoardNoticeController {
         model.addAttribute("list", list);
         model.addAttribute("page", page);
         model.addAttribute("totalPage", totalPage);
+        
+        //jsp에서도 pageSize사용가능 10 대신에 사용
+        //model.addAttribute("pageSize", pageSize);
 
         // 현재 로그인 상태 전달
         model.addAttribute("role", session.getAttribute("role"));
@@ -103,7 +106,7 @@ public class BoardNoticeController {
     }
 
     /* -------------------------------------------
-     * 🔥 (4) 상세 보기 + 조회수 증가
+     * 🔥 (4) 상세 보기 + 조회수 증가 view.do
      * ------------------------------------------- */
     @GetMapping("/view.do")
     public String view(Model model, int seq, HttpSession session) {
@@ -116,7 +119,7 @@ public class BoardNoticeController {
     }
 
     /* -------------------------------------------
-     * 🔥 (5) 글쓰기 화면 (관리자만 접근 허용)
+     * 🔥 (5) 글쓰기 화면 (관리자만 접근 허용) add.do
      * ------------------------------------------- */
     @GetMapping("/add.do")
     public String add(HttpSession session, Model model, RedirectAttributes rttr) {
@@ -172,12 +175,17 @@ public class BoardNoticeController {
 
                 dto.setAttach(filename);
                 
+                System.out.println("이미지 저장 경로: " + path);
+                System.out.println("저장된 파일명: " + filename);
+                
             } else {
             	
             	dto.setAttach("");
             	
             }
 
+            
+            
             mapper.add(dto);
             return "redirect:/boardnotice/list.do";
 
@@ -185,6 +193,8 @@ public class BoardNoticeController {
             e.printStackTrace();
             return "error";
         }
+        
+        
     }
 
     /* -------------------------------------------

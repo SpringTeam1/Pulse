@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- 
     📌 view.jsp (상세보기)
@@ -19,20 +20,23 @@
         <p>조회수: ${dto.readCount}</p>
     </div>
 	
-	<!-- 첨부파일 다운로드 -->
-	<c:if test="${not empty dto.attach}">
-	    <a href="/pulse/boardnoticefiles/${dto.attach}"
-	       class="text-blue-500 underline">
-	       📎 첨부파일 다운로드
-	    </a>
-	</c:if>
-	
     <hr class="my-4">
 
     <!-- 내용 -->
     <div class="text-gray-800 whitespace-pre-wrap leading-7">
         ${dto.content}
     </div>
+    
+    <hr class="my-4">
+    
+    <!-- 첨부한 이미지 -->
+    <c:if test="${not empty dto.attach}">
+    	<div class="mt-4">
+	        <img src="${pageContext.request.contextPath}/boardnoticefiles/${dto.attach}"
+	             alt="첨부 이미지"
+	             style="max-width: 600px; border-radius: 10px;">
+    	</div>
+    </c:if>
 
     <hr class="my-4">
 

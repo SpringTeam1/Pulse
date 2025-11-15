@@ -20,6 +20,7 @@
 		up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="/asset/**" location="/asset/" />
+	<resources mapping="/boardnoticefiles/**" location="/boardnoticefiles/" />
 
 	<context:component-scan
 		base-package="com.test.pulse" />

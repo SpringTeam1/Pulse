@@ -4,6 +4,7 @@
 
 <section class="max-w-6xl mx-auto mt-10 bg-white rounded-xl shadow p-8 space-y-8">
 	
+	<!-- 권한 메세지 -->
 	<c:if test="${not empty msg}">
 		<script>
 		    alert("${msg}");
@@ -17,7 +18,9 @@
 
     <p class="text-gray-600 text-sm">전체 공지사항을 확인할 수 있습니다.</p>
 	
-	<c:set var="num" value="${fn:length(list)}" />
+	<!-- varstatus로 대체 -->
+	<!-- <c:set var="num" value="${fn:length(list)}" /> -->
+	
     <!-- 리스트 테이블 -->
     <div class="block overflow-x-auto rounded-lg border border-gray-200">
         <table class="w-full text-left border-collapse">
@@ -33,7 +36,8 @@
 
             <!-- 🔵 여기서 JSTL로 데이터 출력 -->
             <tbody class="text-gray-700 text-sm divide-y divide-gray-100">
-
+			
+			<!-- 게시글 없음 출력 -->
             <c:if test="${empty list}">
                 <tr>
                     <td colspan="5" class="text-center text-gray-400 py-6">
@@ -41,20 +45,23 @@
                     </td>
                 </tr>
             </c:if>
-
-            <c:forEach items="${list}" var="dto" varStatus="st">
-			    <tr class="hover:bg-gray-50 cursor-pointer"
-			        onclick="location.href='${pageContext.request.contextPath}/boardnotice/view.do?seq=${dto.boardSeq}'">
-			        
-			        <!-- 번호를 index 기반으로 출력 -->
-			        <td class="px-6 py-3 text-center">${st.index + 1}</td>
 			
-			        <td class="px-6 py-3">${dto.title}</td>
-			        <td class="px-6 py-3 text-center">${dto.nickname}</td>
-			        <td class="px-6 py-3 text-center">${dto.regdate}</td>
-			        <td class="px-6 py-3 text-center">${dto.readCount}</td>
-			    </tr>
-			</c:forEach>
+			<!-- 게시글 목록 출력 -->
+            <c:forEach items="${list}" var="dto" varStatus="st">
+                    <tr class="hover:bg-gray-50 cursor-pointer"
+                        onclick="location.href='${pageContext.request.contextPath}/boardnotice/view.do?seq=${dto.boardSeq}'">
+
+                        <!-- 번호 계산: (page-1)*10 + index + 1 -->
+                        <td class="px-6 py-3 text-center">
+                            ${(page - 1) * 10 + st.index + 1}
+                        </td>
+
+                        <td class="px-6 py-3">${dto.title}</td>
+                        <td class="px-6 py-3 text-center">${dto.nickname}</td>
+                        <td class="px-6 py-3 text-center">${dto.regdate}</td>
+                        <td class="px-6 py-3 text-center">${dto.readCount}</td>
+                    </tr>
+                </c:forEach>
 
             </tbody>
         </table>
