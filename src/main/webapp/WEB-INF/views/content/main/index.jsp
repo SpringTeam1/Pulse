@@ -108,27 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
           document.getElementById("skyCondition").textContent = data.skyCondition ?? "-";
           document.getElementById("precipitationType").textContent = data.precipitationType ?? "-";
 
-          // 🌤️ 3일 예보 렌더링
-          const forecastContainer = document.getElementById("forecastContainer");
-          forecastContainer.innerHTML = "";
-          if (Array.isArray(data.forecastList)) {
-            data.forecastList.forEach((f) => {
-              const date = f.date ? f.date.substring(5).replace("-", "/") : "-";
-              // ✅ 속성명 대소문자 불일치 대응 + 소수점 제거
-              const min = (f.minTemp ?? f.mintemp ?? "-");
-              const max = (f.maxTemp ?? f.maxtemp ?? "-");
-
-              const card = document.createElement("div");
-              card.className =
-                "flex-shrink-0 bg-white border rounded-xl shadow p-6 text-center w-40 hover:shadow-md transition";
-              card.innerHTML = `
-                <h3 class="text-gray-500 mb-2 font-medium">${date}</h3>
-                <div class="text-7xl mb-3">${empty f.skyEmoji ? "☁️" : f.skyEmoji}</div>
-                <p class="text-lg text-gray-600 font-medium">${min}℃ ~ ${max}℃</p>
-              `;
-              forecastContainer.appendChild(card);
-            });
-          }
         })
         .catch((err) => {
           console.error("🚨 날씨 API 오류:", err);
