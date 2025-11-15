@@ -68,7 +68,8 @@ kakao.maps.load(function() {
         $('#map-error').addClass('hidden').text(''); // (지도 오류메세지 초기화)
 
         const courseName = $('#manualCourseName').val();
-
+		const csrfToken = $('input[name="_csrf"]').val();
+		
         if (!courseName) {
             // alert('코스 이름을 입력해주세요.'); // (삭제)
             $('#manualCourseName-error').text('코스 이름을 입력해주세요.').removeClass('hidden');
@@ -95,7 +96,11 @@ kakao.maps.load(function() {
             type: 'POST',
             data: JSON.stringify(requestData),
             contentType: 'application/json', // 👈 (중요) JSON 전송
-            dataType: 'json', 
+            dataType: 'json',
+            
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("X-CSRF-TOKEN", csrfToken);
+            },
 
             success: function(savedCourse) {
                 alert('수동 코스 등록 요청이 완료되었습니다. 관리자 승인 대기 중.');

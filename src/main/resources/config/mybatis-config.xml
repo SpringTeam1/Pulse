@@ -14,10 +14,10 @@
 		
 		
 		<!-- 진혁(계정정보, 건의게시판 관련) -->
-		<!-- 
+		
 		<typeAlias type="com.test.pulse.model.user.AccountInfoDTO" alias="adto" />
 		<typeAlias type="com.test.pulse.model.boardsuggestion.BoardSuggestionDTO" alias="sdto" />
-		-->
+		
 		
 		<!-- 홍건(공지게시판 관련) -->
         <!-- 

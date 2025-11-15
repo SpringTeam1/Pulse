@@ -52,7 +52,7 @@
 
 		
 		<!-- 임시 하드코딩, 세션에서 받아오는 방식으로 수정 필요 -->
-		<input type="hidden" id="accountId" name="accountId" value="hong">
+		<!-- <input type="hidden" id="accountId" name="accountId" value="hong"> -->
 
 		<div class="text-right">
 			<button type="button" id="gpxSubmitBtn"
@@ -63,5 +63,6 @@
                            focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
 				코스 등록 요청하기</button>
 		</div>
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	</form>
 </div>
