@@ -47,7 +47,7 @@ $(function() {
                 processData: false, 
                 contentType: false, 
 
-                success: function(savedCourse) {
+                success: function(savedLogs) {
                     alert(`운동 기록 ${savedLogs.length}개가 성공적으로 저장되었습니다.`);
                     // (수정) 전역 변수 대신 data-*에서 읽어온 변수 사용
                     location.href = redirectUrl; 
