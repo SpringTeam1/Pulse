@@ -7,6 +7,7 @@ import com.test.pulse.model.crew.CrewMemberDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.Map;
 public class CrewService {
 
     private final CrewMapper mapper;
+    private final RestTemplate restTemplate;
 
     @Transactional
     public int addCrew(CrewDTO dto) {
@@ -107,5 +109,14 @@ public class CrewService {
 
     public List<CrewMemberDTO> memberList(String crewSeq){
         return mapper.memberList(crewSeq);
+    }
+
+    public String getMarathon(){
+
+        String serviceKey ="b4daefc37c80997b0b0834b1b5f2e3d83e95045b55b659015a56bb2a13cadb97";
+        String url = "https://api.odcloud.kr/api/15138980/v1/uddi:eedc77c5-a56b-4e77-9c1d-9396fa9cc1d3?page=1&perPage=1&serviceKey="+serviceKey;
+
+        return restTemplate.getForObject(url, String.class);
+
     }
 }

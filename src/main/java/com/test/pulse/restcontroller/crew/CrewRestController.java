@@ -88,4 +88,9 @@ public class CrewRestController {
         return ResponseEntity.ok(list);
     }
 
+    @GetMapping(value = "/marathonapi", produces = "application/json; charset=UTF-8")
+    public String getMarathonApi() {
+        return crewService.getMarathon();
+    }
+
 }

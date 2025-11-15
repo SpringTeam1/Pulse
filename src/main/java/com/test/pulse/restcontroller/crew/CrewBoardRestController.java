@@ -24,7 +24,9 @@ public class CrewBoardRestController {
 
     private final CrewBoardService crewBoardService;
 
-    /** ✅ 게시글 목록 조회 */
+    /**
+     * ✅ 게시글 목록 조회
+     */
     @GetMapping("/{crewSeq}")
     public ResponseEntity<?> list(@PathVariable String crewSeq,
                                   @RequestParam(defaultValue = "1") int page) {
@@ -45,28 +47,36 @@ public class CrewBoardRestController {
         ));
     }
 
-    /** 게시글 총 갯수 */
+    /**
+     * 게시글 총 갯수
+     */
     @GetMapping("/boardcount/{crewSeq}")
     public ResponseEntity<?> getBoardCount(@PathVariable String crewSeq) {
         int totalCount = crewBoardService.getTotalCount(crewSeq);
         return ResponseEntity.ok(totalCount);
     }
 
-    /** 이번주 게시글 총 갯수*/
+    /**
+     * 이번주 게시글 총 갯수
+     */
     @GetMapping("/boardtop2count/{crewSeq}")
     public ResponseEntity<?> getBoardTop2Count(@PathVariable String crewSeq) {
         int totalCount = crewBoardService.getTotalCount2Week(crewSeq);
         return ResponseEntity.ok(totalCount);
     }
 
-    /** 이번주 게시글 조회수 top1  */
+    /**
+     * 이번주 게시글 조회수 top1
+     */
     @GetMapping("/boardtop2/{crewSeq}")
     public ResponseEntity<BoardDTO> getBoardTop2(@PathVariable String crewSeq) {
         BoardDTO dto = crewBoardService.getWeeklyTop2Posts(crewSeq);
         return ResponseEntity.ok(dto);
     }
 
-    /** ✅ 게시글 등록 */
+    /**
+     * ✅ 게시글 등록
+     */
     @PostMapping
     public ResponseEntity<?> add(
             @ModelAttribute BoardDTO boardDTO,
@@ -107,7 +117,9 @@ public class CrewBoardRestController {
         }
     }
 
-    /** ✅ 좋아요 기능 */
+    /**
+     * ✅ 좋아요 기능
+     */
     @PostMapping("/{boardContentSeq}/like")
     public ResponseEntity<?> likebtn(@PathVariable("boardContentSeq") String boardContentSeq) {
         try {
@@ -124,7 +136,20 @@ public class CrewBoardRestController {
         }
     }
 
-    /** ✅ 게시글 수정 */
+    /**
+     * 이번주 좋아요 1위 글
+     */
+    @GetMapping("/boardliketop/{crewSeq}")
+    public ResponseEntity<BoardDTO> getLikeTop1BoardContent(
+            @PathVariable String crewSeq
+    ) {
+        BoardDTO dto = crewBoardService.getLikeTop1BoardContent(crewSeq);
+        return ResponseEntity.ok(dto);
+    }
+
+    /**
+     * ✅ 게시글 수정
+     */
     @PutMapping("/{boardContentSeq}/edit")
     public ResponseEntity<?> edit(
             @ModelAttribute BoardDTO boardDTO,
@@ -174,7 +199,9 @@ public class CrewBoardRestController {
         }
     }
 
-    /** ✅ 게시글 삭제 */
+    /**
+     * ✅ 게시글 삭제
+     */
     @DeleteMapping("/{boardContentSeq}/del")
     public ResponseEntity<?> delete(
             @PathVariable String boardContentSeq,

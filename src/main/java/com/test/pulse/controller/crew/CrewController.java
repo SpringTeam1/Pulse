@@ -109,7 +109,12 @@ public class CrewController {
         CrewDTO crewdto = crewService.getCrew(crewSeq);
         Boolean isLeader = crewService.isCrewLeader(accountId, crewSeq);
         String attach = crewdto.getCrewAttach();
+        String nickname = crewService.getAccountIdsNickname(accountId);
+        String profile = "/crewboardFile/default.png";
 
+        model.addAttribute("profileUrl", profile);
+        model.addAttribute("nickname", nickname);
+        model.addAttribute("accountId", accountId);
         model.addAttribute("crewSeq", crewSeq);
         model.addAttribute("isLeader", isLeader);
         model.addAttribute("attach", attach);

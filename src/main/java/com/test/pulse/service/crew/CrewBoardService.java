@@ -45,6 +45,10 @@ public class CrewBoardService {
         return mapper.getFavoriteCount(boardContentSeq);
     }
 
+    public BoardDTO getLikeTop1BoardContent(String crewSeq) {
+        return mapper.getLikeTop1BoardContent(crewSeq);
+    }
+
     public int getTotalCount(String crewSeq) {
         return mapper.getTotalCount(crewSeq);
     }

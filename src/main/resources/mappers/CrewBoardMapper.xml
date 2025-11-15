@@ -141,4 +141,19 @@
         WHERE ROWNUM = 1
     </select>
 
+    <!-- 좋아요가 제일 많은 게시물 -->
+    <select id="getLikeTop1BoardContent" parameterType="String" resultType="BoardDTO">
+        SELECT *
+        FROM (
+        SELECT *
+        FROM tblCrewBoardGeneral
+        WHERE crewSeq = #{crewSeq}
+        AND regdate >= TRUNC(SYSDATE, 'IW')
+        ORDER BY favoriteCount DESC
+        )
+        WHERE ROWNUM = 1
+    </select>
+
+
+
 </mapper>

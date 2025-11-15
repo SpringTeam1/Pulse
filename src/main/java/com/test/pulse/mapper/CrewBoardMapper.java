@@ -36,4 +36,6 @@ public interface CrewBoardMapper {
     BoardDTO getTotalCount2Week(@Param("crewSeq") String crewSeq);
 
     int getTotalPostCountWeek(String crewSeq);
+
+    BoardDTO getLikeTop1BoardContent(@Param("crewSeq") String crewSeq);
 }
