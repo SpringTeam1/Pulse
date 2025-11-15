@@ -3,7 +3,7 @@ DROP TABLE tblWorkout;
 
 CREATE SEQUENCE seqWorkout;
 CREATE TABLE tblWorkout (
-	exerciseRecordSeq	NUMBER			NOT NULL, -- 운동 기록 번호(PK)
+	workoutSeq	        NUMBER			NOT NULL, -- 운동 기록 번호(PK)
 	accountId			VARCHAR2(100)	NOT NULL, -- 아이디(FK)
 	trackData			CLOB			NOT NULL, -- JSON 파일(.gpx)
 	totalTime			NUMBER			NOT NULL, -- 운동 시간
@@ -15,7 +15,7 @@ CREATE TABLE tblWorkout (
 	exerciseComment		VARCHAR2(500)	NULL      -- 사용자 코멘트(운동 기록에 대한)
 );
 
-ALTER TABLE tblWorkout ADD CONSTRAINT "PK_TBLWORKOUT" PRIMARY KEY (exerciseRecordSeq);
+ALTER TABLE tblWorkout ADD CONSTRAINT "PK_TBLWORKOUT" PRIMARY KEY (workoutSeq);
 
 ALTER TABLE tblWorkout ADD CONSTRAINT "FK_tblAccountInfo_TO_tblWorkout_1"
 FOREIGN KEY (accountId)

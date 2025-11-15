@@ -6,6 +6,29 @@
  <mapper namespace="com.test.pulse.mapper.WorkoutMapper">
 	
 	<!-- WorkoutDTO alias - wdto -->
+	<insert id="insertWorkout" parameterType="wdto">
+        <selectKey keyProperty="workoutSeq" resultType="int" order="BEFORE">
+            SELECT seqWorkout.NEXTVAL FROM DUAL
+        </selectKey>
+        
+        INSERT INTO tblWorkout (
+            workoutSeq, accountId, trackData, totalTime, totalDistance, 
+            totalCalories, workoutDate, avgPace, attachment, exerciseComment
+        ) VALUES (
+            #{workoutSeq}, #{accountId}, #{trackData, jdbcType=CLOB}, 
+            #{totalTime}, #{totalDistance}, #{totalCalories}, #{workoutDate}, 
+            #{avgPace}, #{attachment}, #{exerciseComment}
+        )
+    </insert>
+    
+    <select id="getWorkoutsByAccountId" parameterType="string" resultType="wldto">
+        SELECT
+            workoutSeq, accountId, totalTime, totalDistance,
+            totalCalories, workoutDate, avgPace
+        FROM tblWorkout
+        WHERE accountId = #{accountId}
+        ORDER BY workoutDate DESC, workoutSeq DESC
+    </select>
 	
 	
 </mapper>

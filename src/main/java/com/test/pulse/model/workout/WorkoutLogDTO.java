@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter @Setter @ToString
 public class WorkoutLogDTO {
 
-	private int exerciseRecordSeq;
+	private int workoutSeq;
 	private String accountId;
 	//private String trackData;
 	
