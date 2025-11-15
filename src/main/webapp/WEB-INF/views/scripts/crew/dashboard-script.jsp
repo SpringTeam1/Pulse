@@ -140,7 +140,7 @@
             // ⚪ 상대 메시지 (왼쪽)
             html = `
             <div class="flex items-start gap-2">
-                <img src="\${msg.profileUrl}"
+                <img src="\${msg.profilePic}"
                      class="w-8 h-8 rounded-full" />
                 <div>
                     <p class="text-xs font-semibold text-slate-600 mb-1">\${msg.nickname}</p>
@@ -196,7 +196,6 @@
         };
     }
 
-    connectSSE();
 
 
 </script>

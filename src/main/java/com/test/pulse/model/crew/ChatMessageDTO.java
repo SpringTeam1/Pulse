@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChatMessageDTO {
+    private String senderId;
     private String nickname;
     private String profilePic;
     private String message;

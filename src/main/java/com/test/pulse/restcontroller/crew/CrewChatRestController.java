@@ -42,4 +42,9 @@ public class CrewChatRestController {
 
         sseEmitterStore.sendToRoom(crewSeq, message);
     }
+
+    @GetMapping("/recent/{crewSeq}")
+    public List<ChatMessageDTO> recent(@PathVariable String crewSeq) {
+        return chatMemoryStore.getRecentMessages(crewSeq);
+    }
 }
