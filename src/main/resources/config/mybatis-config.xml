@@ -7,10 +7,27 @@
 	
 	<typeAliases>
 		<!-- 선민(course 기능 관련) -->
+		<!-- 
 		<typeAlias type="com.test.pulse.model.course.GPXCourseDTO" alias="gdto"/>
 		<typeAlias type="com.test.pulse.model.course.ManualCourseDTO" alias="mdto"/>
 		<typeAlias type="com.test.pulse.model.course.CourseCardDTO" alias="carddto"/>
+		-->
 		
+		<!-- 진혁(계정정보, 건의게시판 관련) -->
+		<!-- 
+		<typeAlias type="com.test.pulse.model.user.AccountInfoDTO" alias="adto" />
+		<typeAlias type="com.test.pulse.model.boardsuggestion.BoardSuggestionDTO" alias="sdto" />
+		-->
+		
+		<!-- 홍건(공지게시판 관련) -->
+        <!-- 
+        <typeAlias type="com.test.pulse.model.boardnotice.BoardNoticeDTO" alias="bndto" />
+        -->
+
+		<!-- 재만(크루-모델 패키지 전체) -->
+		<!--
+		<package name="com.test.pulse.model.crew" />
+		-->
 	</typeAliases>
 	
 </configuration>
