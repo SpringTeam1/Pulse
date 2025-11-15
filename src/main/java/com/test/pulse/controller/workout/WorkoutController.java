@@ -1,4 +1,4 @@
-package com.test.pulse.controller;
+package com.test.pulse.controller.workout;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
