@@ -14,12 +14,12 @@
       <nav class="hidden md:flex space-x-6">
         <!-- 📁 큰 카테고리 (드롭다운 포함) -->
         <div class="relative group">
-          <button class="text-gray-700 hover:text-brand font-medium">Products</button>
+          <button class="text-gray-700 hover:text-brand font-medium">게시판</button>
           <!-- ▼ 드롭다운 -->
-          <div class="absolute hidden group-hover:block bg-white border rounded-lg shadow-lg mt-2 w-44">
-            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">Overview</a>
-            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">Pricing</a>
-            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">FAQ</a>
+          <div class="absolute hidden group-hover:block bg-white border rounded-lg shadow-lg w-44 top-full left-0">
+            <a href="${pageContext.request.contextPath}/boardnotice/list.do" class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">공지게시판</a>
+            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">건의게시판</a>
+            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">코스게시판</a>
           </div> 
         </div>
 
@@ -36,10 +36,20 @@
           </div>
         </div>
         -->
-
-        <a href="${pageContext.request.contextPath}/about.do" class="text-gray-700 hover:text-brand font-medium">About</a>
-        <a href="${pageContext.request.contextPath}/contact.do" class="text-gray-700 hover:text-brand font-medium">Contact</a>
+		
+		<!-- 해당하는 도메인 작성하기 -->
+        <a href="${pageContext.request.contextPath}/crewmain.do" class="text-gray-700 hover:text-brand font-medium">크루</a>
+        <a href="${pageContext.request.contextPath}/crewmain.do" class="text-gray-700 hover:text-brand font-medium">코스</a>
       </nav>
+      
+      <!-- ✅ 로그인한 사람의 아이디 표시 (임시용) -->
+        <div class="flex items-center space-x-3">
+            <div class="hidden md:flex items-center bg-brand/10 text-brand text-sm font-semibold px-3 py-1 rounded-full shadow-sm border border-brand/20">
+                <span>현재 로그인:</span>
+                <span class="ml-1 text-brand-dark">
+            <%= session.getAttribute("accountId") != null ? session.getAttribute("accountId") : "게스트" %>
+          </span>
+        </div>
 
       <!-- ✅ 모바일 햄버거 버튼 -->
       <div class="md:hidden">
@@ -54,9 +64,9 @@
 
   <!-- ✅ 모바일 메뉴 -->
   <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
-    <a href="#" class="block px-4 py-3 text-gray-700 hover:bg-brand/10 hover:text-brand">Products</a>
-    <a href="#" class="block px-4 py-3 text-gray-700 hover:bg-brand/10 hover:text-brand">About</a>
-    <a href="#" class="block px-4 py-3 text-gray-700 hover:bg-brand/10 hover:text-brand">Contact</a>
+    <a href="#" class="block px-4 py-3 text-gray-700 hover:bg-brand/10 hover:text-brand">게시판</a>
+    <a href="#" class="block px-4 py-3 text-gray-700 hover:bg-brand/10 hover:text-brand">크루</a>
+    <a href="#" class="block px-4 py-3 text-gray-700 hover:bg-brand/10 hover:text-brand">코스</a>
   </div>
 </header>
 
