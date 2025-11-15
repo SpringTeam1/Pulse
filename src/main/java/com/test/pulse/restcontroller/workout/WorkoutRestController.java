@@ -2,6 +2,8 @@ package com.test.pulse.restcontroller.workout;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -33,7 +35,8 @@ public class WorkoutRestController {
 			@RequestParam("userWeight") double userWeight,
 			@RequestParam(value = "attachment", required = false) MultipartFile attachment,
             @RequestParam(value = "exerciseComment", required = false) String exerciseComment,
-			Authentication auth) {
+			Authentication auth,
+			HttpServletRequest request) {
 		//Spring Security: 사용자 아이디 받아오기
 		String accountId = null;
 		
@@ -56,7 +59,7 @@ public class WorkoutRestController {
 		}
 		
 		try {
-			List<WorkoutDTO> savedLogs = workoutService.saveWorkoutLogs(gpxFiles, accountId, userWeight, attachment, exerciseComment);
+			List<WorkoutDTO> savedLogs = workoutService.saveWorkoutLogs(gpxFiles, accountId, userWeight, attachment, exerciseComment, request);
 			return ResponseEntity.status(HttpStatus.CREATED).body(savedLogs); //json으로 만들어서 반환
 		} catch (Exception e) {
 			log.error("운동 기록 저장 실패");

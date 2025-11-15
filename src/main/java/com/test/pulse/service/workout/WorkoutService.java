@@ -1,5 +1,6 @@
 package com.test.pulse.service.workout;
 
+import java.io.File;
 import java.io.InputStream;
 import java.time.Duration;
 import java.time.Instant;
@@ -8,9 +9,14 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,17 +45,39 @@ public class WorkoutService {
 	 * 다중 gpx 파일을 저장하기
 	 * @param gpxFiles
 	 * @param accountId
+	 * @param request 
 	 * @return
 	 */
     @Transactional
 	public List<WorkoutDTO> saveWorkoutLogs(List<MultipartFile> gpxFiles, String accountId, double userWeight,
-			MultipartFile attachment, String exerciseComment) throws Exception {
+			MultipartFile attachment, String exerciseComment, HttpServletRequest request) throws Exception {
 		
 		List<WorkoutDTO> savedLogs = new ArrayList<>();
 		String attachmentUrl = null;
-        if (attachment != null && !attachment.isEmpty()) {
-            // ... (파일 저장 로직 구현) ...
-            // attachmentUrl = "저장된_파일명.jpg";
+		if (attachment != null && !attachment.isEmpty()) {
+
+            // 1. 파일을 저장할 서버의 *실제 물리 경로* 찾기
+            // (servlet-context.xml의 <resources mapping="/asset/**" ...> 경로 활용)
+            ServletContext context = request.getServletContext();
+            String saveDirectory = context.getRealPath("/asset/uploads/workout");
+
+            // 2. 저장 폴더가 없으면 생성 (mkdirs)
+            File dir = new File(saveDirectory);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            // 3. 고유한 파일명 생성 (UUID 사용, 덮어쓰기 방지)
+            // (예: 2a9b..._my_photo.jpg)
+            String originalFilename = StringUtils.cleanPath(attachment.getOriginalFilename());
+            String uniqueFilename = UUID.randomUUID().toString() + "_" + originalFilename;
+
+            // 4. 파일을 실제 경로에 저장
+            File destinationFile = new File(saveDirectory, uniqueFilename);
+            attachment.transferTo(destinationFile);
+
+            // 5. (중요) DB에는 브라우저가 접근할 수 있는 *웹 경로*를 저장
+            attachmentUrl = request.getContextPath() + "/asset/uploads/workout/" + uniqueFilename;
         }
 		
 		for (MultipartFile gpxFile : gpxFiles) {
@@ -57,13 +85,7 @@ public class WorkoutService {
 			if (wayPoints.isEmpty()) continue;
 			
 			//계산용 좌표 리스트 변환
-			List<CoordinateDTO> coords = new ArrayList<CoordinateDTO>();
-			for(Waypoint wp : wayPoints) {
-				CoordinateDTO dto = new CoordinateDTO();
-				dto.setLat(wp.getLatitude());
-				dto.setLon(wp.getLongitude());
-				coords.add(dto);
-			}
+			List<CoordinateDTO> coords = convertPointsToCoords(wayPoints);
 			
 			//핵심 데이터 계산
 			//1. 거리(km)
@@ -165,7 +187,9 @@ public class WorkoutService {
 	}
 
 	/**
-	 * (헬퍼 메서드) 좌표 리스트 변환
+	 * 좌표 리스트 변환 (헬퍼 메서드)
+	 * @param trackPoints
+	 * @return
 	 */
 	private List<CoordinateDTO> convertPointsToCoords(List<Waypoint> trackPoints) {
 	    List<CoordinateDTO> coords = new ArrayList<>();
