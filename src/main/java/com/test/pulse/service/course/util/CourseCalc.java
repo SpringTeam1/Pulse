@@ -8,6 +8,11 @@ import com.test.pulse.model.course.CoordinateDTO;
 
 @Component
 public class CourseCalc {
+	/**
+	 * 코스의 총 거리를 계산하는 메서드(단위: m)
+	 * @param coords 좌표 리스트
+	 * @return
+	 */
 	public double calculateTotalDistance(List<CoordinateDTO> coords) {
 		double totalDistance = 0.0;
         // 0번부터 마지막-1번까지 순회
@@ -20,6 +25,14 @@ public class CourseCalc {
         return totalDistance;
 	}
 	
+	/**
+	 * 하버사인 공식을 이용해 두 좌표 간의 거리를 계산하는 메서드
+	 * @param lat1
+	 * @param lon1
+	 * @param lat2
+	 * @param lon2
+	 * @return
+	 */
 	public double haversineDistance(double lat1, double lon1, double lat2, double lon2) {
 		final int R = 6371; // 지구 반지름 (km)
         
