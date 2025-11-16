@@ -20,6 +20,9 @@
 		up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="/asset/**" location="/asset/" />
+	
+	<!-- 공지게시판 파일경로 추가 (홍건) -->
+	<resources mapping="/boardnoticefiles/**" location="/boardnoticefiles/" />
 
 	<context:component-scan
 		base-package="com.test.pulse" />
