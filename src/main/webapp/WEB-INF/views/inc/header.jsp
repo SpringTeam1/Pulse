@@ -50,7 +50,7 @@
 		  <!-- 🌡️ 자동 회전 날씨 정보 -->
 		  <div id="weatherBox" class="text-gray-700 font-medium transition-opacity duration-500">
 		    <span id="weatherLabel">날씨 불러오는중</span>
-		    <span id="weatherValue">..</span>
+		    <span id="weatherValue" class="text-blue-500 font-semibold">..</span>
 		  </div>	
 			
         </nav>
