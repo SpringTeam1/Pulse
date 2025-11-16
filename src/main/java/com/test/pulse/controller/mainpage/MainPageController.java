@@ -26,4 +26,5 @@ public class MainPageController {
     	
         return "main.index"; // WEB-INF/views/main/index.jsp
     }
+
 }
