@@ -13,5 +13,7 @@ public interface WorkoutMapper {
 	void insertWorkout(WorkoutDTO log);
 
 	List<WorkoutLogDTO> getWorkoutsByAccountId(String accountId);
+
+	WorkoutDTO getWorkoutDetail(int workoutSeq);
 	
 }

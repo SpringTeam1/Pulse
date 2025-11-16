@@ -30,5 +30,20 @@
         ORDER BY workoutDate DESC, workoutSeq DESC
     </select>
 	
+	<select id="getWorkoutDetail" parameterType="int" resultType="wdto">
+	    SELECT 
+	        workoutSeq,
+	        accountId,
+	        trackData,
+	        totalTime,
+	        totalDistance,
+	        totalCalories,
+	        avgPace,
+	        TO_CHAR(workoutDate, 'YYYY-MM-DD') as workoutDate,
+	        attachment,
+	        exerciseComment
+	    FROM tblWorkout
+	    WHERE workoutSeq = #{workoutSeq}
+	</select>
 	
 </mapper>

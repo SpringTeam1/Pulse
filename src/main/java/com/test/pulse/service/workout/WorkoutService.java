@@ -201,6 +201,12 @@ public class WorkoutService {
 	    }
 	    return coords;
 	}
+
+	@Transactional(readOnly = true)
+	public WorkoutDTO getWorkoutDetail(int workoutSeq) {
+		
+		return workoutMapper.getWorkoutDetail(workoutSeq);
+	}
 	
 
 }

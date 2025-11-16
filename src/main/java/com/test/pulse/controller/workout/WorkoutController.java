@@ -6,9 +6,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.test.pulse.model.user.CustomUser;
+import com.test.pulse.model.workout.WorkoutDTO;
 import com.test.pulse.model.workout.WorkoutLogDTO;
 import com.test.pulse.service.workout.WorkoutService;
 
@@ -39,11 +41,18 @@ public class WorkoutController {
 			model.addAttribute("activityLogs", logs);
 		}
 		
-		return "workout.workoutlog";
+		return "script.workout.workoutlog";
 	}
 	
 	@GetMapping("/record")
 	public String workoutRecord() {
 		return "script.workout.workoutrecord";
+	}
+	
+	@GetMapping("/detail/{workoutSeq}")
+	public String workoutDetail(@PathVariable("workoutSeq") int workoutSeq, Model model) {
+		WorkoutDTO workout = workoutService.getWorkoutDetail(workoutSeq);
+		model.addAttribute("workout", workout);
+		return "script.workout.workoutdetail";
 	}
 }
