@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <section
 	class="max-w-6xl mx-auto mt-8 p-6 lg:p-10 bg-gray-50 rounded-3xl shadow-2xl space-y-10">
 
@@ -81,58 +83,24 @@
 	<div class="flex justify-between items-center border-b pb-3">
 		<h2 class="text-3xl font-bold text-gray-800 flex items-center gap-2">
 			📍 인기 러닝 코스</h2>
-		<!-- 해당하는 도메인 입력하기 -->
 		<a href="${pageContext.request.contextPath}/course/coursemain.do"
-			class="text-brand-dark font-medium hover:text-brand transition">전체
-			코스 보기 →</a>
+			class="text-brand-dark font-medium hover:text-brand transition">전체 코스 보기 →</a>
 	</div>
 
 	<div class="grid md:grid-cols-3 gap-6">
-		<div
-			class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
-			<img src="https://picsum.photos/400/200?random=1" alt="한강 러닝 코스"
+		
+		<c:forEach var="course" items="${popularCourses}" varStatus="status">
+		<div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
+			<img src="https://picsum.photos/400/200?course=${course.courseSeq}" alt="${course.courseName}"
 				class="w-full h-40 object-cover">
 			<div class="p-4">
-				<h3 class="text-xl font-bold text-gray-800">🌳 한강 시민 공원</h3>
-				<p class="text-gray-600 text-sm mt-1">거리: 10km, 추천 시간: 저녁 7시</p>
-				<div class="flex justify-between items-center mt-3">
-					<span class="text-sm font-semibold text-brand-dark">⭐ 4.8 평점</span>
-					<button
-						class="text-sm bg-brand-light text-brand-dark py-1 px-3 rounded-full hover:bg-brand-dark hover:text-white transition">코스
-						보기</button>
-				</div>
+				<h3 class="text-xl font-bold text-gray-800">🌳 ${course.courseName}</h3>
+				<p class="text-gray-600 text-sm mt-1">
+					거리: ${course.courseLength}km | 시작: ${course.startAddress}
+				</p>
 			</div>
 		</div>
-		<div
-			class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
-			<img src="https://picsum.photos/400/200?random=2" alt="남산 둘레길 코스"
-				class="w-full h-40 object-cover">
-			<div class="p-4">
-				<h3 class="text-xl font-bold text-gray-800">⛰️ 남산 둘레길</h3>
-				<p class="text-gray-600 text-sm mt-1">거리: 7km, 추천 시간: 오전 6시</p>
-				<div class="flex justify-between items-center mt-3">
-					<span class="text-sm font-semibold text-brand-dark">⭐ 4.5 평점</span>
-					<button
-						class="text-sm bg-brand-light text-brand-dark py-1 px-3 rounded-full hover:bg-brand-dark hover:text-white transition">코스
-						보기</button>
-				</div>
-			</div>
-		</div>
-		<div
-			class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
-			<div class="h-40 bg-gray-200 flex items-center justify-center">
-				<span class="text-gray-500">지도가 들어갈 영역</span>
-			</div>
-			<div class="p-4">
-				<h3 class="text-xl font-bold text-gray-800">🗺️ 내 주변 코스 지도</h3>
-				<p class="text-gray-600 text-sm mt-1">현재 위치 주변의 추천 코스를 확인하세요.</p>
-				<div class="mt-3 text-center">
-					<a href="/map"
-						class="w-full inline-block bg-brand-dark text-white py-2 rounded-lg hover:bg-brand transition">지도로
-						확인하기</a>
-				</div>
-			</div>
-		</div>
+		</c:forEach>
 	</div>
 </section>
 
