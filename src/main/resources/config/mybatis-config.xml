@@ -7,19 +7,19 @@
 	
 	<typeAliases>
 		<!-- 선민(course 기능 관련) -->
-		<!-- 
+		
 		<typeAlias type="com.test.pulse.model.course.GPXCourseDTO" alias="gdto"/>
 		<typeAlias type="com.test.pulse.model.course.ManualCourseDTO" alias="mdto"/>
 		<typeAlias type="com.test.pulse.model.course.CourseCardDTO" alias="carddto"/>
 		<typeAlias type="com.test.pulse.model.workout.WorkoutDTO" alias="wdto"/>
 		<typeAlias type="com.test.pulse.model.workout.WorkoutLogDTO" alias="wldto"/>
-		-->
+		
 		
 		<!-- 진혁(계정정보, 건의게시판 관련) -->
-		<!-- 
+		
 		<typeAlias type="com.test.pulse.model.user.AccountInfoDTO" alias="adto" />
 		<typeAlias type="com.test.pulse.model.boardsuggestion.BoardSuggestionDTO" alias="sdto" />
-		-->
+		
 		
 		<!-- 홍건(공지게시판 관련) -->
         <!-- 
