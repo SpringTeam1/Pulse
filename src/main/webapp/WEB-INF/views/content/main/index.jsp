@@ -96,9 +96,9 @@
             <img src="https://picsum.photos/400/200?course=${course.courseSeq}" alt="${course.courseName}"
                 class="w-full h-40 object-cover">
             <div class="p-4">
-                <h3 class="text-xl font-bold text-gray-800">🌳 ${course.courseName}</h3>
+                <h3 class="text-xl font-bold text-gray-800">🏁 ${course.courseName}</h3>
                 <p class="text-gray-600 text-sm mt-1">
-                    거리: **${course.courseLength}km** | 시작: ${course.startAddress}
+                    거리: ${course.courseLength}km | 시작: ${course.startAddress}
                 </p>
             </div>
         </a>
