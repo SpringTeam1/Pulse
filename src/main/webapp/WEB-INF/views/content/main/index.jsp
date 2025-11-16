@@ -72,7 +72,7 @@
 
 	<div class="text-center pt-4">
 		<!-- 해당하는 도메인 입력하기 -->
-		<a href="${pageContext.request.contextPath}/record"
+		<a href="${pageContext.request.contextPath}/workout/record"
 			class="inline-block px-12 py-4 bg-brand-dark text-white text-xl font-bold rounded-full shadow-lg hover:bg-brand transition duration-300 transform hover:scale-105">
 			🏃‍♂️ 오늘의 러닝 기록하기 </a>
 	</div>
@@ -83,25 +83,27 @@
 	<div class="flex justify-between items-center border-b pb-3">
 		<h2 class="text-3xl font-bold text-gray-800 flex items-center gap-2">
 			📍 인기 러닝 코스</h2>
-		<a href="${pageContext.request.contextPath}/course/coursemain.do"
+		<a href="${pageContext.request.contextPath}/course/main"
 			class="text-brand-dark font-medium hover:text-brand transition">전체 코스 보기 →</a>
 	</div>
 
 	<div class="grid md:grid-cols-3 gap-6">
-		
-		<c:forEach var="course" items="${popularCourses}" varStatus="status">
-		<div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
-			<img src="https://picsum.photos/400/200?course=${course.courseSeq}" alt="${course.courseName}"
-				class="w-full h-40 object-cover">
-			<div class="p-4">
-				<h3 class="text-xl font-bold text-gray-800">🌳 ${course.courseName}</h3>
-				<p class="text-gray-600 text-sm mt-1">
-					거리: ${course.courseLength}km | 시작: ${course.startAddress}
-				</p>
-			</div>
-		</div>
-		</c:forEach>
-	</div>
+    
+    <c:forEach var="course" items="${popularCourses}" varStatus="status">
+        <a href="<c:url value='/course/detail/${course.courseSeq}' />" 
+           class="block bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
+            
+            <img src="https://picsum.photos/400/200?course=${course.courseSeq}" alt="${course.courseName}"
+                class="w-full h-40 object-cover">
+            <div class="p-4">
+                <h3 class="text-xl font-bold text-gray-800">🌳 ${course.courseName}</h3>
+                <p class="text-gray-600 text-sm mt-1">
+                    거리: **${course.courseLength}km** | 시작: ${course.startAddress}
+                </p>
+            </div>
+        </a>
+    </c:forEach>
+</div>
 </section>
 
 
