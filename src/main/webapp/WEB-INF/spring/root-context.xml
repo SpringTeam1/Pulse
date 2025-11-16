@@ -29,7 +29,8 @@
 		<property name="maximumPoolSize" value="5" />
 		<property name="dataSourceProperties">
 			<props>
-				<prop key="oracle.net.tns_admin">C:/dev/Wallet_jspteam1</prop>
+				<!--<prop key="oracle.net.tns_admin">C:/dev/Wallet_jspteam1</prop>-->
+                <prop key="oracle.net.tns_admin">/Users/jeonjaeman/Desktop/workspace/dev/Wallet_jspteam1</prop>
 			</props>
 		</property>
 	</bean>

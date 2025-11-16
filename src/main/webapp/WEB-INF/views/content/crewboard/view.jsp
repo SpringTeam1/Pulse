@@ -1,0 +1,103 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<section class="max-w-4xl mx-auto mt-12 bg-white rounded-2xl shadow p-10 space-y-8">
+
+    <!-- Title -->
+    <div class="space-y-3">
+        <h1 class="text-4xl font-extrabold text-gray-900 leading-tight">${board.title}</h1>
+        <div class="flex flex-wrap justify-between items-center text-sm text-gray-500">
+            <div class="flex items-center gap-2">
+                <span class="text-black px-2">${board.nickname}</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <span>${board.regdate}</span>
+                <span>👁️ ${board.readCount}</span>
+                <span id="like-count">❤️ ${board.favoriteCount}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="text-gray-800 text-[15px] leading-relaxed whitespace-pre-wrap">
+        ${board.content}
+    </div>
+
+    <!-- Attachment -->
+    <c:if test="${not empty board.attach}">
+        <c:choose>
+
+            <c:when test="${fileExt eq 'jpg' or fileExt eq 'jpeg' or fileExt eq 'png' or fileExt eq 'gif'}">
+                <div class="mt-8">
+                    <img src="${pageContext.request.contextPath}/crewboardFile/${board.attach}"
+                         alt="첨부 이미지"
+                         class="w-full max-h-[500px] object-contain rounded-xl border border-gray-200 shadow-sm"/>
+                </div>
+            </c:when>
+
+
+            <c:otherwise>
+                <div class="bg-gray-50 rounded-xl p-5 shadow-sm mt-8">
+                    <div class="flex items-center gap-2 text-gray-700 font-semibold mb-2">
+                        <span>📎</span> <span>첨부파일</span>
+                    </div>
+                    <a href="${pageContext.request.contextPath}/crewboardFile/${board.attach}"
+                       download="${board.attach}"
+                       class="inline-flex items-center px-4 py-2 text-sm rounded-lg bg-gray-100 hover:bg-brand hover:text-white transition">
+                            ${board.attach}
+                    </a>
+                </div>
+            </c:otherwise>
+        </c:choose>
+    </c:if>
+
+    <!-- Buttons -->
+    <div class="flex justify-between items-center pt-4">
+
+        <img id="like-img"
+             src="${pageContext.request.contextPath}/crewboardFile/heart.png"
+             alt="좋아요"
+             class="w-5 h-5 cursor-pointer transition hover:scale-110"
+             data-board="${board.boardContentSeq}" />
+
+        <div class="flex gap-2">
+            <button type="button"
+                    onclick="location.href='${pageContext.request.contextPath}/crewboard/list?crewSeq=${board.crewSeq}'"
+                    class="px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium transition">
+                목록
+            </button>
+
+            <button type="button"
+                    onclick="location.href='${pageContext.request.contextPath}/crewboard/edit?boardContentSeq=${board.boardContentSeq}'"
+                    class="px-3 py-1.5 rounded-lg bg-brand text-white text-sm font-medium hover:bg-brand-dark shadow-sm hover:shadow-md transition">
+                수정
+            </button>
+
+            <button type="button" id="btn-del" data-seq="${board.boardContentSeq}"
+                    class="px-3 py-1.5 rounded-lg bg-red-500 text-white text-sm font-medium hover:bg-red-600 shadow-sm hover:shadow-md transition">
+                삭제
+            </button>
+        </div>
+    </div>
+
+</section>
+<section class="max-w-4xl mx-auto mt-10 bg-white rounded-2xl shadow p-8 space-y-6">
+
+    <!-- 댓글 제목 -->
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">댓글</h2>
+
+    <div id="comment-list" class="space-y-5"></div>
+
+    <!-- 댓글 입력 -->
+    <div class="mt-6 space-y-3">
+        <textarea id="comment-content"
+                  class="w-full p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand text-sm resize-none"
+                  placeholder="댓글을 입력하세요..." rows="3"></textarea>
+
+        <button id="btn-comment"
+                class="px-5 py-2 bg-brand text-white rounded-xl text-sm font-semibold hover:bg-brand-dark shadow">
+            댓글 등록
+        </button>
+    </div>
+
+</section>

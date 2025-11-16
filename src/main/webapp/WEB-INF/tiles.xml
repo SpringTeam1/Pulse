@@ -5,6 +5,9 @@
 
 <tiles-definitions>
 
+    <!--  알람 모달창 -->
+    <definition name="alert" template="/WEB-INF/views/content/alert/alert.jsp" />
+
 	<!-- ✅ 공통 템플릿 -->
 	<definition name="baseLayout"
 		template="/WEB-INF/views/layout/layout.jsp">

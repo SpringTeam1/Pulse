@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration
-  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
 	
@@ -26,9 +26,9 @@
        
 
 		<!-- 재만(크루-모델 패키지 전체) -->
-		<!--
+
 		<package name="com.test.pulse.model.crew" />
-		-->
+
 	</typeAliases>
 	
 </configuration>
