@@ -55,8 +55,15 @@
 	        -->
 
           <!-- 크루 해당하는 도메인입력 -->
-          <a href="${pageContext.request.contextPath}/crewmain.do"
-             class="text-gray-700 hover:text-brand font-medium">크루</a>
+          <div class="relative group">
+               <button class="text-gray-700 hover:text-brand font-medium">크루</button>
+               <div class="absolute hidden group-hover:block bg-white border rounded-lg shadow-lg w-44 top-full left-0">
+                   <a href="${pageContext.request.contextPath}/crewmain"
+                      class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">크루</a>
+                   <a href="${pageContext.request.contextPath}/crewdashboard"
+                      class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">내크루보기</a>
+               </div>
+           </div>
 
           <!-- 코스 해당하는 도메인입력 -->
           <a href="${pageContext.request.contextPath}/course/list.do"
