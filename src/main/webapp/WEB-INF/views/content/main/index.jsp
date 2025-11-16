@@ -102,12 +102,12 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .then((data) => {
           console.log("✅ 날씨 응답:", data);
-          document.getElementById("temp").textContent = data.temp ?? "-";
+          document.getElementById("temp").textContent = data.temp ?? "-";      
           document.getElementById("humidity").textContent = data.humidity ?? "-";
           document.getElementById("rainChance").textContent = data.rainChance ?? "-";
           document.getElementById("skyCondition").textContent = data.skyCondition ?? "-";
           document.getElementById("precipitationType").textContent = data.precipitationType ?? "-";
-
+          
         })
         .catch((err) => {
           console.error("🚨 날씨 API 오류:", err);
