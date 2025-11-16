@@ -3,13 +3,13 @@ package com.test.pulse.restcontroller.crew;
 
 import com.test.pulse.model.crew.CommentDTO;
 import com.test.pulse.service.crew.CrewBoardCommentService;
+import com.test.pulse.model.user.CustomUser;
 import com.test.pulse.service.crew.CrewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -23,11 +23,15 @@ public class CrewCommentRestController {
     @PostMapping("/{boardContentSeq}")
     public ResponseEntity<CommentDTO> add(
             @PathVariable String boardContentSeq,
-            HttpSession session,
+            Authentication authentication,
             @RequestBody CommentDTO commentDTO
     ) {
 
-        String accountId = (String) session.getAttribute("accountId");
+        String accountId = getAccountId(authentication);
+        if (accountId == null) {
+            return ResponseEntity.status(401).build();
+        }
+
         String crewSeq = crewService.getCrewSeq(accountId);
         String nickname = crewService.getAccountIdsNickname(accountId);
 
@@ -46,15 +50,24 @@ public class CrewCommentRestController {
     public ResponseEntity<List<CommentDTO>> getCommentBoardContentSeq
             (
                     @PathVariable String boardContentSeq,
-                    HttpSession session
+                    Authentication authentication
             ) {
 
-        String accountId = (String) session.getAttribute("accountId");
-        String nickname = crewService.getAccountIdsNickname(accountId);
+        String accountId = getAccountId(authentication);
+        if (accountId == null) {
+            return ResponseEntity.status(401).build();
+        }
+
         List<CommentDTO> list = commentService.getCommentBoardContentSeq(boardContentSeq);
 
 
         return ResponseEntity.ok(list);
     }
 
+    private String getAccountId(Authentication authentication) {
+        if (authentication == null || !(authentication.getPrincipal() instanceof CustomUser)) {
+            return null;
+        }
+        return ((CustomUser) authentication.getPrincipal()).getAdto().getAccountId();
+    }
 }

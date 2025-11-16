@@ -58,7 +58,7 @@
                 switch (res.status) {
                     case 401:
                         alert("로그인이 필요합니다.");
-                        location.href = `${pageContext.request.contextPath}/test-login`;
+                        location.href = `${pageContext.request.contextPath}/customlogin`;
                         break;
                     case 403:
                         alert("본인 글만 삭제할 수 있습니다.");
@@ -183,4 +183,3 @@
     });
 
 </script>
-

@@ -1,11 +1,14 @@
 package com.test.pulse.restcontroller.crew;
 
+
 import com.test.pulse.model.crew.CrewDTO;
 import com.test.pulse.model.crew.CrewMemberDTO;
+import com.test.pulse.model.user.CustomUser;
 import com.test.pulse.service.crew.CrewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,13 +29,12 @@ public class CrewRestController {
     public ResponseEntity<?> registerCrew(
             @ModelAttribute CrewDTO crew,
             @RequestParam(value = "crewAttach", required = false) MultipartFile crewAttach,
-            HttpServletRequest req) {
+            HttpServletRequest req,
+            Authentication authentication) {
 
         try {
 
-            String accountId = (String)req.getSession().getAttribute("accountId");
-
-
+            String accountId = getAccountId(authentication);
             if (accountId == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body(Map.of("success", false, "message", "로그인이 필요합니다."));
@@ -91,6 +93,13 @@ public class CrewRestController {
     @GetMapping(value = "/marathonapi", produces = "application/json; charset=UTF-8")
     public String getMarathonApi() {
         return crewService.getMarathon();
+    }
+
+    private String getAccountId(Authentication authentication) {
+        if (authentication == null || !(authentication.getPrincipal() instanceof CustomUser)) {
+            return null;
+        }
+        return ((CustomUser) authentication.getPrincipal()).getAdto().getAccountId();
     }
 
 }

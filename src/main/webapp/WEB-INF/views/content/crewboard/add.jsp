@@ -17,9 +17,6 @@
 
         <!-- 서버로 전달 -->
         <input type="hidden" name="crewSeq" value="${crewSeq}"/>
-        <!-- 닉네임은 DB 저장용이 아니라 표시용이지만, 필요 시 함께 전송 가능 -->
-        <input type="hidden" name="nickname" value="${nickname}"/>
-        <input type="hidden" name="accountId" value="${accountId}"/>
 
         <!-- 제목 -->
         <div>
@@ -68,5 +65,3 @@
         </div>
     </form>
 </section>
-
-<!-- ✅ JS (REST API로 전송) -->

@@ -1,15 +1,15 @@
 package com.test.pulse.restcontroller.crew;
 
 import com.test.pulse.model.crew.CrewJoinRequestDTO;
+import com.test.pulse.model.user.CustomUser;
 import com.test.pulse.service.crew.CrewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/crewjoin")
@@ -20,10 +20,9 @@ public class CrewJoinRestController {
     // ✅ 크루 가입 신청
     @PostMapping("/{crewSeq}")
     public ResponseEntity<?> joinCrew(@PathVariable("crewSeq") String crewSeq,
-                                      HttpSession session) {
+                                      Authentication authentication) {
 
-        String accountId = (String) session.getAttribute("accountId");
-
+        String accountId = getAccountId(authentication);
         if (accountId == null) {
             return ResponseEntity.status(401).body(Map.of(
                     "success", false,
@@ -87,5 +86,12 @@ public class CrewJoinRestController {
                 "success", result > 0,
                 "message", result > 0 ? "가입 거절 처리 완료!" : "거절 실패!"
         ));
+    }
+
+    private String getAccountId(Authentication authentication) {
+        if (authentication == null || !(authentication.getPrincipal() instanceof CustomUser)) {
+            return null;
+        }
+        return ((CustomUser) authentication.getPrincipal()).getAdto().getAccountId();
     }
 }
