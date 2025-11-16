@@ -18,7 +18,7 @@ public class WorkoutLogDTO {
 	private int totalCalories;
 	private double avgPace;
 	
-	private LocalDate workoutDate;
+	private String workoutDate;
 	//private String attachment;
 	//private String exerciseComment;
 	

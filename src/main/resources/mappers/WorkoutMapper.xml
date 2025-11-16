@@ -24,7 +24,7 @@
     <select id="getWorkoutsByAccountId" parameterType="string" resultType="wldto">
         SELECT
             workoutSeq, accountId, totalTime, totalDistance,
-            totalCalories, workoutDate, avgPace
+            totalCalories, TO_CHAR(workoutDate, 'YYYY-MM-DD') as workoutDate, avgPace
         FROM tblWorkout
         WHERE accountId = #{accountId}
         ORDER BY workoutDate DESC, workoutSeq DESC

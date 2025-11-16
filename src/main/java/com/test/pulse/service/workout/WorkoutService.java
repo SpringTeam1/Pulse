@@ -122,7 +122,7 @@ public class WorkoutService {
 			log.setTotalTime(totalTimeInSeconds);
 			log.setAvgPace(avgPace);
 			log.setTotalCalories(totalCalories);
-			log.setWorkoutDate(workoutDate);
+			log.setWorkoutDate(workoutDate.toString());
 			log.setTrackData(objectMapper.writeValueAsString(coords)); //json
 			log.setAttachment(attachmentUrl);
 			log.setExerciseComment(exerciseComment);
