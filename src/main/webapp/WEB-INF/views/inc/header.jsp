@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
+<!-- 애니메이션 css -->
 <style>
   .slide-fade-out {
     opacity: 0;
@@ -39,6 +40,20 @@
             </div>
           </div>
 
+		<!-- ✅ 커스텀 카테고리 추가 가이드
+	          - 아래 예시처럼 새로운 대메뉴 추가 가능
+	          - 링크는 Tiles 정의된 jsp로 연결 가능 (예: /crew.do → crew.jsp)
+	        -->
+	        <!--
+	        <div class="relative group">
+	          <button class="text-gray-700 hover:text-brand font-medium">Services</button>
+	          <div class="absolute hidden group-hover:block bg-white border rounded-lg shadow-lg mt-2 w-44">
+	            <a href="#" class="block px-4 py-2 hover:bg-brand/10 hover:text-brand">Consulting</a>
+	            <a href="#" class="block px-4 py-2 hover:bg-brand/10 hover:text-brand">Development</a>
+	          </div>
+	        </div>
+	        -->
+
           <!-- 크루 해당하는 도메인입력 -->
           <a href="${pageContext.request.contextPath}/crewmain.do"
              class="text-gray-700 hover:text-brand font-medium">크루</a>
@@ -57,49 +72,49 @@
       </div>
 
       <!-- 🔥 로그인 네비게이션 영역 -->
-<nav class="hidden md:flex items-center space-x-5">
-
-  <%
-    String nickname = (String) session.getAttribute("nickname");
-    boolean isLogin = nickname != null;
-  %>
-
-  <!-- 현재 로그인 상태 -->
-  <span class="font-semibold text-brand-dark bg-white bg-brand/10 px-3 py-1 rounded-full">
-    현재 로그인 상태: <%= isLogin ? nickname : "게스트" %>
-  </span>
-
-  <% if (isLogin) { %>
-
-    <!-- 마이페이지 해당하는 도메인입력 -->
-    <a href="${pageContext.request.contextPath}/mypage.do"
-       class="w-24 text-center px-3 py-1 rounded-full text-brand bg-white border border-brand hover:bg-brand/10 transition shadow-sm">
-       마이페이지
-    </a>
-
-    <!-- 로그아웃 해당하는 도메인입력 -->
-    <a href="${pageContext.request.contextPath}/logout.do"
-       class="w-24 text-center px-3 py-1 rounded-full text-brand bg-white border border-brand hover:bg-brand/10 transition shadow-sm">
-       로그아웃
-    </a>
-
-  <% } else { %>
-
-    <!-- 로그인 해당하는 도메인입력 -->
-    <a href="${pageContext.request.contextPath}/login.do"
-       class="w-24 text-center px-3 py-1 rounded-full text-brand bg-white border border-brand hover:bg-brand/10 transition shadow-sm">
-       로그인
-    </a>
-
-    <!-- 회원가입 해당하는 도메인입력 -->
-    <a href="${pageContext.request.contextPath}/register.do"
-       class="w-24 text-center px-3 py-1 rounded-full text-brand bg-white border border-brand hover:bg-brand/10 transition shadow-sm">
-       회원가입
-    </a>
-
-  <% } %>
-
-</nav>
+		<nav class="hidden md:flex items-center space-x-5">
+		
+		  <%
+		    String nickname = (String) session.getAttribute("nickname");
+		    boolean isLogin = nickname != null;
+		  %>
+		
+		  <!-- 현재 로그인 상태 -->
+		  <span class="font-semibold text-brand-dark bg-white bg-brand/10 px-3 py-1 rounded-full">
+		    현재 로그인 상태: <%= isLogin ? nickname : "게스트" %>
+		  </span>
+		
+		  <% if (isLogin) { %>
+		
+		    <!-- 마이페이지 해당하는 도메인입력 -->
+		    <a href="${pageContext.request.contextPath}/mypage.do"
+		       class="w-24 text-center px-3 py-1 rounded-full text-brand bg-white border border-brand hover:bg-brand/10 transition shadow-sm">
+		       마이페이지
+		    </a>
+		
+		    <!-- 로그아웃 해당하는 도메인입력 -->
+		    <a href="${pageContext.request.contextPath}/logout.do"
+		       class="w-24 text-center px-3 py-1 rounded-full text-brand bg-white border border-brand hover:bg-brand/10 transition shadow-sm">
+		       로그아웃
+		    </a>
+		
+		  <% } else { %>
+		
+		    <!-- 로그인 해당하는 도메인입력 -->
+		    <a href="${pageContext.request.contextPath}/login.do"
+		       class="w-24 text-center px-3 py-1 rounded-full text-brand bg-white border border-brand hover:bg-brand/10 transition shadow-sm">
+		       로그인
+		    </a>
+		
+		    <!-- 회원가입 해당하는 도메인입력 -->
+		    <a href="${pageContext.request.contextPath}/register.do"
+		       class="w-24 text-center px-3 py-1 rounded-full text-brand bg-white border border-brand hover:bg-brand/10 transition shadow-sm">
+		       회원가입
+		    </a>
+		
+		  <% } %>
+		
+		</nav>
 
       <!-- 🔥 모바일 햄버거 -->
       <div class="md:hidden">
@@ -281,4 +296,3 @@ function startWeatherRotation(data) {
   setInterval(updateWeather, 4000);
 }
 </script>
-
