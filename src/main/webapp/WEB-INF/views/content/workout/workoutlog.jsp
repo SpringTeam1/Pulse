@@ -68,5 +68,15 @@
 			</tbody>
 		</table>
 	</div>
-
+	
+	<div class="mt-8 flex justify-end">
+        <a href="<c:url value='/workout/record' />"
+           class="inline-flex items-center justify-center py-2 px-4 
+                  border border-transparent shadow-sm 
+                  text-sm font-medium rounded-md text-white 
+                  bg-indigo-600 hover:bg-indigo-700">
+            운동 기록하기
+        </a>
+    </div>
+	
 </div>
