@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!-- 애니메이션 css -->
 <style>
@@ -36,7 +37,7 @@
               <a href="${pageContext.request.contextPath}/boardnotice/list.do"
                  class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">공지게시판</a>
               <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">건의게시판</a>
-              <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">코스게시판</a>
+              <a href="${pageContext.request.contextPath}/course/list.do" class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">코스게시판</a>
             </div>
           </div>
 
@@ -88,7 +89,7 @@
 		
 		  <!-- 현재 로그인 상태 -->
 		  <span class="font-semibold text-brand-dark bg-white bg-brand/10 px-3 py-1 rounded-full">
-		    현재 로그인 상태: <%= isLogin ? nickname : "게스트" %>
+		    현재 로그인 상태: <%= isLogin ? nickname : "비회원" %>
 		  </span>
 		
 		  <% if (isLogin) { %>
@@ -100,7 +101,7 @@
 		    </a>
 		
 		    <!-- 로그아웃 해당하는 도메인입력 -->
-		    <a href="${pageContext.request.contextPath}/logout.do"
+		    <a href="${pageContext.request.contextPath}/customlogout"
 		       class="w-24 text-center px-3 py-1 rounded-full text-brand bg-white border border-brand hover:bg-brand/10 transition shadow-sm">
 		       로그아웃
 		    </a>
@@ -108,7 +109,7 @@
 		  <% } else { %>
 		
 		    <!-- 로그인 해당하는 도메인입력 -->
-		    <a href="${pageContext.request.contextPath}/login.do"
+		    <a href="${pageContext.request.contextPath}/customlogin"
 		       class="w-24 text-center px-3 py-1 rounded-full text-brand bg-white border border-brand hover:bg-brand/10 transition shadow-sm">
 		       로그인
 		    </a>
