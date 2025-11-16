@@ -36,7 +36,7 @@
 		</multipart-config>
 
         <!-- 🔥 SSE 필수 -->
-       <async-supported>true</async-supported>
+<!--       <async-supported>true</async-supported>-->
 
 	</servlet>
 
@@ -58,7 +58,7 @@
 			<param-value>true</param-value>
 		</init-param>
         <!--SSE 필수 -->
-        <async-supported>true</async-supported>
+<!--        <async-supported>true</async-supported>-->
 	</filter>
 
 	<filter-mapping>
