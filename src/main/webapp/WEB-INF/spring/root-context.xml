@@ -47,8 +47,8 @@
 	
 	<mybatis-spring:scan base-package="com.test.pulse.mapper"/>
 
-	<!-- 선민: jackson databind bean 추가 -->
-	<bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
+	<!-- 선민: jackson databind bean 추가(25-11-16 확장 모듈 추가하면서 수정) -->
+	<bean id="objectMapper" class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean" />
 	<!-- 선민: service 패키지 scan 설정 -->
 	<context:component-scan base-package="com.test.pulse.service" />
 	<!-- 선민: restTemplate bean(카카오맵 api 관련) -->
