@@ -11,28 +11,19 @@
 		<typeAlias type="com.test.pulse.model.course.GPXCourseDTO" alias="gdto"/>
 		<typeAlias type="com.test.pulse.model.course.ManualCourseDTO" alias="mdto"/>
 		<typeAlias type="com.test.pulse.model.course.CourseCardDTO" alias="carddto"/>
-<<<<<<< HEAD
 		<typeAlias type="com.test.pulse.model.workout.WorkoutDTO" alias="wdto"/>
 		<typeAlias type="com.test.pulse.model.workout.WorkoutLogDTO" alias="wldto"/>
-		-->
-=======
-		
->>>>>>> f105fe6ae964b51abf3c463474c069a422c14123
 		
 		<!-- 진혁(계정정보, 건의게시판 관련) -->
 		
 		<typeAlias type="com.test.pulse.model.user.AccountInfoDTO" alias="adto" />
 		<typeAlias type="com.test.pulse.model.boardsuggestion.BoardSuggestionDTO" alias="sdto" />
-<<<<<<< HEAD
-		-->
-		
+	
 		<!-- 홍건(공지게시판 관련) -->
         <!-- 
         <typeAlias type="com.test.pulse.model.boardnotice.BoardNoticeDTO" alias="bndto" />
         -->
-=======
-		
->>>>>>> f105fe6ae964b51abf3c463474c069a422c14123
+
 
 		<!-- 재만(크루-모델 패키지 전체) -->
 		<!--
