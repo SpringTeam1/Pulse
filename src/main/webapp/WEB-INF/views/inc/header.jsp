@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!-- 애니메이션 css -->
 <style>
@@ -100,7 +101,7 @@
 		    </a>
 		
 		    <!-- 로그아웃 해당하는 도메인입력 -->
-		    <a href="${pageContext.request.contextPath}/logout.do"
+		    <a href="${pageContext.request.contextPath}/customlogout"
 		       class="w-24 text-center px-3 py-1 rounded-full text-brand bg-white border border-brand hover:bg-brand/10 transition shadow-sm">
 		       로그아웃
 		    </a>
