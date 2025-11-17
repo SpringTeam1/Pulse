@@ -24,3 +24,4 @@ public class BoardSuggestionDTO {
 	private AccountInfoDTO adto;
 	
 }
+
