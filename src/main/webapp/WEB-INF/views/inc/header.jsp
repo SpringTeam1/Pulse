@@ -221,8 +221,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	            addr.suburb ||
 	            "";
 	          const shortAddress = [city, district].filter(Boolean).join(" ");
-	          document.getElementById("location").textContent =
-	            shortAddress || "주소 정보를 불러올 수 없습니다.";
+	          /* document.getElementById("location").textContent =
+	            shortAddress || "주소 정보를 불러올 수 없습니다."; */
 	          console.log("📍 표시 주소:", shortAddress);
 	        })
 	        .catch((err) => {
@@ -238,11 +238,11 @@ document.addEventListener("DOMContentLoaded", () => {
 	        })
 	        .then((data) => {
 	          console.log("✅ 날씨 응답:", data);
-	          document.getElementById("temp").textContent = data.temp ?? "-";      
-	          document.getElementById("humidity").textContent = data.humidity ?? "-";
-	          document.getElementById("rainChance").textContent = data.rainChance ?? "-";
-	          document.getElementById("skyCondition").textContent = data.skyCondition ?? "-";
-	          document.getElementById("precipitationType").textContent = data.precipitationType ?? "-";
+	          //document.getElementById("temp").textContent = data.temp ?? "-";      
+	          //document.getElementById("humidity").textContent = data.humidity ?? "-";
+	          //document.getElementById("rainChance").textContent = data.rainChance ?? "-";
+	          //document.getElementById("skyCondition").textContent = data.skyCondition ?? "-";
+	          //document.getElementById("precipitationType").textContent = data.precipitationType ?? "-";
 	          
 	       // 🔥 여기서 회전 애니메이션 실행!
 	          startWeatherRotation(data);

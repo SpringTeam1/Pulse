@@ -17,14 +17,13 @@ public class DBConnectionTests {
 
 
 	@Autowired
-	private TestMapper test;
-	
+	private TestMapper testMapper;
 	@Test
 	public void test() {
 		
-		assertNotNull(test);
+		assertNotNull(testMapper);
 		
-		String test1 = test.getTest();
+		String test1 = testMapper.getTest();
 		
 		System.out.println(test1);
 		
