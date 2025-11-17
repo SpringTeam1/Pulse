@@ -175,7 +175,7 @@ public class MypageController {
 
 	    session.invalidate(); //세션 종료
 		
-		return "redirect:/index";
+		return "redirect:/index.do";
 	}
 
 }

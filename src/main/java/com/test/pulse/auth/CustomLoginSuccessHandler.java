@@ -42,7 +42,7 @@ public class CustomLoginSuccessHandler  implements AuthenticationSuccessHandler 
 			response.sendRedirect(request.getContextPath() + "/admin");
 			return;
 		} else if (roleNames.contains("ROLE_MEMBER")) {
-			response.sendRedirect(request.getContextPath() + "/index");
+			response.sendRedirect(request.getContextPath() + "/index.do");
 			return;
 		} else {
 			response.sendRedirect(request.getContextPath() + "/accesserror");
