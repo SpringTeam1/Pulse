@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- 
     📌 add.jsp
@@ -76,7 +78,7 @@
 </section>
 
 <script>
-    console.log("현재 로그인 계정 ID: '${sessionScope.accountId}'");
-    console.log("현재 로그인 닉네임: '${sessionScope.nickname}'");
-    console.log("현재 로그인 역할(권한): '${sessionScope.role}'");
+    console.log("현재 로그인 계정 ID: '${accountId}'");
+    console.log("현재 로그인 닉네임: '${nickname}'");
+    console.log("현재 로그인 역할(권한): '${role}'"); // ROLE_ADMIN, ROLE_USER 등으로 출력됨
 </script>

@@ -100,12 +100,14 @@
 
 </div>
 
-    <div class="flex justify-end">
-        <a href="${pageContext.request.contextPath}/boardnotice/add.do"
-           class="px-4 py-2 bg-brand text-white font-semibold rounded-lg hover:bg-brand-dark transition">
-            ✏️ 새 글 작성
-        </a>
-    </div>
+    <sec:authorize access="hasRole('ADMIN')">
+		<div class="flex justify-end">
+		    <a href="${pageContext.request.contextPath}/boardnotice/add.do"
+		       class="px-4 py-2 bg-brand text-white font-semibold rounded-lg hover:bg-brand-dark transition">
+		           ✏️ 새 글 작성
+		    </a>
+		</div>
+	</sec:authorize>
 
 </section>
 
