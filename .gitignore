@@ -67,3 +67,6 @@ src/main/webapp/asset/css/output.css
 .apt_generated_tests
 bin
 pulse.iml
+
+#vscode 설정 폴더 제외
+.vscode
