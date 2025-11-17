@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.test.pulse.model.course.CourseCardDTO;
 import com.test.pulse.model.course.GPXCourseDTO;
+import com.test.pulse.model.user.CustomUser;
 import com.test.pulse.service.course.CourseService;
 
 import lombok.RequiredArgsConstructor;
@@ -30,15 +32,25 @@ public class CourseController {
 	 * @return
 	 */
 	@GetMapping("/main")
-	public String courseMain(Model model, HttpSession session) {
-		// TODO [테스트용 하드코딩] 로그인한 척 세션에 아이디 심기
+	public String courseMain(Model model, Authentication auth) {
+		// [테스트용 하드코딩] 로그인한 척 세션에 아이디 심기
         // (실제 로그인 기능 구현 전까지만 사용하고 나중에 삭제하세요)
-        String accountId = "hong"; // DB에 실제 존재하는 아이디여야 주소를 가져옵니다.
-        session.setAttribute("accountId", accountId);
-		
+        // String accountId = "test4@naver.com"; // DB에 실제 존재하는 아이디여야 주소를 가져옵니다.
+		//session.setAttribute("accountId", accountId);
+
 		// 1. 세션에서 아이디 가져오기 (없으면 null)
         // (Spring Security @AuthenticationPrincipal 사용 시 변경 가능)
-        accountId = (String) session.getAttribute("accountId");
+		// accountId = (String) session.getAttribute("accountId");
+		String accountId = null;
+		
+		if (auth != null && auth.isAuthenticated()) {
+			Object principal = auth.getPrincipal();
+			
+			if (principal instanceof CustomUser) {
+				CustomUser customUser = (CustomUser) principal;
+				accountId = customUser.getAdto().getAccountId();
+			}
+		}
         
         // 인기 코스 조회
         int popularLimit = (accountId == null) ? 6 : 3;

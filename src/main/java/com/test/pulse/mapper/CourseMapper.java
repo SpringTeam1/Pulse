@@ -17,7 +17,12 @@ public interface CourseMapper {
 	int getTotalCourseCount(Map<String, Object> params);
 
 	List<CourseCardDTO> getPopularCourses(int count);
-	
+
+	Map<String, String> getUserLocation(String accountId);
+
 	//getRecommendedCourses
+	List<CourseCardDTO> getRecommendedCourses(Map<String, Object> params);
+	
+	
 	
 }

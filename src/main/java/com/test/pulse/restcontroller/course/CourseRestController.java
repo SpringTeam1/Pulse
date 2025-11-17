@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.test.pulse.model.course.GPXCourseDTO;
 import com.test.pulse.model.course.ManualCourseDTO;
+import com.test.pulse.model.user.CustomUser;
 import com.test.pulse.service.course.CourseService;
 
 import lombok.RequiredArgsConstructor;
@@ -32,11 +34,21 @@ public class CourseRestController {
 		@RequestParam("gpxFile") MultipartFile gpxFile,
 		@RequestParam("courseName") String courseName,
 		@RequestParam("description") String description,
-		@RequestParam("accountId") String accountId
+		Authentication auth
 		//세션 방식으로 변경 위해 필요
 		//HttpSession session
 	) {
 		//String accountId = session.getAttribute(accountId);
+		String accountId = null;
+		
+		if (auth != null && auth.isAuthenticated()) {
+			Object principal = auth.getPrincipal();
+			
+			if (principal instanceof CustomUser) {
+				CustomUser customUser = (CustomUser) principal;
+				accountId = customUser.getAdto().getAccountId();
+			}
+		}
 		
 		try {
 			GPXCourseDTO savedCourse = courseService.parseAndSaveGpxCourse(gpxFile, courseName, description, accountId);
@@ -50,16 +62,26 @@ public class CourseRestController {
 	
 	//코스 등록 요청하기(사용자가 직접)
 	@PostMapping("/manual")
-	public ResponseEntity<GPXCourseDTO> registerManualCourse(@RequestBody ManualCourseDTO request){
+	public ResponseEntity<GPXCourseDTO> registerManualCourse(@RequestBody ManualCourseDTO request, Authentication auth){
 		log.info("===== RestController (Manual) 진입 =====");
 		log.info("받은 좌표 수: {}", request.getCoords().size());
+		String accountId = null;
+		
+		if (auth != null && auth.isAuthenticated()) {
+			Object principal = auth.getPrincipal();
+			
+			if (principal instanceof CustomUser) {
+				CustomUser customUser = (CustomUser) principal;
+				accountId = customUser.getAdto().getAccountId();
+			}
+		}
 		
 		try {
 			GPXCourseDTO savedCourse = courseService.saveCourse(
 					request.getCoords(), 
 					request.getCourseName(), 
 					request.getDescription(), 
-					request.getAccountId());
+					accountId);
 			log.info("수동 코스 등록 성공. Seq: {}", savedCourse.getCourseSeq());
 			return ResponseEntity.status(HttpStatus.CREATED).body(savedCourse);
 		} catch (Exception e) {

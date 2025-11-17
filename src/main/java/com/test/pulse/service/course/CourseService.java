@@ -203,9 +203,31 @@ public class CourseService {
 		return courseMapper.getPopularCourses(count);
 	}
 
-	
+	@Transactional(readOnly = true)
 	public List<CourseCardDTO> getRecommendedCourses(String accountId, int count) {
-		// TODO Auto-generated method stub
+		Map<String, String> location = courseMapper.getUserLocation(accountId);
+		
+		if (location != null) {
+            String county = location.get("county");   // 예: "강남구"
+            String district = location.get("district"); // 예: "역삼동"
+            
+            // 2. [핵심] 주소 전처리 ("구", "동" 제거)
+            // 이유: DB에 "서울 강남 역삼"으로 저장되어 있을 수도 있고, 
+            // "서울시 강남구 역삼동"으로 저장되어 있을 수도 있습니다.
+            // "강남", "역삼" 키워드로 검색해야 검색 적중률(Hit Rate)이 높아집니다.
+            if (county != null) county = county.replace("구", ""); // "강남구" -> "강남"
+            if (district != null) district = district.replace("동", ""); // "역삼동" -> "역삼"
+
+            // 3. Mapper에 전달할 파라미터 생성
+            Map<String, Object> params = new HashMap<>();
+            params.put("county", county);
+            params.put("district", district);
+            params.put("count", count);
+
+            // 4. 추천 코스 목록 조회
+            return courseMapper.getRecommendedCourses(params);
+        }
+		
 		return null;
 	}
 	

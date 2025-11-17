@@ -36,7 +36,7 @@
               <a href="${pageContext.request.contextPath}/boardnotice/list.do"
                  class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">공지게시판</a>
               <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">건의게시판</a>
-              <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">코스게시판</a>
+              <a href="${pageContext.request.contextPath}/course/list.do" class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">코스게시판</a>
             </div>
           </div>
 
@@ -88,7 +88,7 @@
 		
 		  <!-- 현재 로그인 상태 -->
 		  <span class="font-semibold text-brand-dark bg-white bg-brand/10 px-3 py-1 rounded-full">
-		    현재 로그인 상태: <%= isLogin ? nickname : "게스트" %>
+		    현재 로그인 상태: <%= isLogin ? nickname : "비회원" %>
 		  </span>
 		
 		  <% if (isLogin) { %>
@@ -108,7 +108,7 @@
 		  <% } else { %>
 		
 		    <!-- 로그인 해당하는 도메인입력 -->
-		    <a href="${pageContext.request.contextPath}/login.do"
+		    <a href="${pageContext.request.contextPath}/customlogin"
 		       class="w-24 text-center px-3 py-1 rounded-full text-brand bg-white border border-brand hover:bg-brand/10 transition shadow-sm">
 		       로그인
 		    </a>
@@ -220,8 +220,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	            addr.suburb ||
 	            "";
 	          const shortAddress = [city, district].filter(Boolean).join(" ");
-	          document.getElementById("location").textContent =
-	            shortAddress || "주소 정보를 불러올 수 없습니다.";
+	          /* document.getElementById("location").textContent =
+	            shortAddress || "주소 정보를 불러올 수 없습니다."; */
 	          console.log("📍 표시 주소:", shortAddress);
 	        })
 	        .catch((err) => {
@@ -237,11 +237,11 @@ document.addEventListener("DOMContentLoaded", () => {
 	        })
 	        .then((data) => {
 	          console.log("✅ 날씨 응답:", data);
-	          document.getElementById("temp").textContent = data.temp ?? "-";      
-	          document.getElementById("humidity").textContent = data.humidity ?? "-";
-	          document.getElementById("rainChance").textContent = data.rainChance ?? "-";
-	          document.getElementById("skyCondition").textContent = data.skyCondition ?? "-";
-	          document.getElementById("precipitationType").textContent = data.precipitationType ?? "-";
+	          //document.getElementById("temp").textContent = data.temp ?? "-";      
+	          //document.getElementById("humidity").textContent = data.humidity ?? "-";
+	          //document.getElementById("rainChance").textContent = data.rainChance ?? "-";
+	          //document.getElementById("skyCondition").textContent = data.skyCondition ?? "-";
+	          //document.getElementById("precipitationType").textContent = data.precipitationType ?? "-";
 	          
 	       // 🔥 여기서 회전 애니메이션 실행!
 	          startWeatherRotation(data);

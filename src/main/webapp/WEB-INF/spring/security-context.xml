@@ -22,14 +22,15 @@
 	
 		<!-- 허가 -->
 		<security:intercept-url pattern="/pulse/**" access="permitAll" />
-		<security:csrf disabled="true"/>
 		
 		<!-- 
-		<security:intercept-url pattern="/member"
+		<security:intercept-url pattern="/index" access="permitAll" />
+		<security:intercept-url pattern="/customlogin" access="permitAll" />
+		<security:intercept-url pattern="/mypage"
 					access="hasRole('ROLE_MEMBER')" />
 		<security:intercept-url pattern="/admin"
 					access="hasRole('ROLE_ADMIN')" />
-					 -->
+		 -->
 		
 		<!-- 8.1 403 처리 -->
 		<security:access-denied-handler ref="customAccessDeniedHandler" />
@@ -39,6 +40,8 @@
 
 		<!-- 11. 로그인 성공 후 처리 핸들러 -->
 		<security:form-login login-page="/customlogin" login-processing-url="/customlogin" username-parameter="accountId" password-parameter="password" authentication-success-handler-ref="customLoginSuccessHandler" />
+		
+		<security:csrf disabled="true"/> <!-- 테스트용 -->
 		
 	</security:http>
 
