@@ -32,7 +32,7 @@
         </tr>
       </thead>
       <tbody class="text-gray-700">
-
+<%-- 
         <c:forEach items="${list}" var="dto">
           <c:if test="${dto.courseApproval == '대기'}">
             <tr class="border-b hover:bg-gray-50 transition">
@@ -44,7 +44,29 @@
             </tr>
           </c:if>
         </c:forEach>
-
+ --%>
+ 
+ 		 	<tr class="border-b hover:bg-gray-50 transition">
+              <td class="py-3 px-4 font-medium text-brand">
+                <a href="#" class="hover:text-brand-dark">고양이</a>
+              </td>
+              <td class="py-3 px-4">cat@gmail.com</td>
+              <td class="py-3 px-4 text-yellow-600 font-semibold">대기</td>
+            </tr>
+            <tr class="border-b hover:bg-gray-50 transition">
+              <td class="py-3 px-4 font-medium text-brand">
+                <a href="#" class="hover:text-brand-dark">호랑이</a>
+              </td>
+              <td class="py-3 px-4">tiger@gmail.com</td>
+              <td class="py-3 px-4 text-yellow-600 font-semibold">대기</td>
+            </tr>
+            <tr class="border-b hover:bg-gray-50 transition">
+              <td class="py-3 px-4 font-medium text-brand">
+                <a href="#" class="hover:text-brand-dark">사자</a>
+              </td>
+              <td class="py-3 px-4">lion@gmail.com</td>
+              <td class="py-3 px-4 text-yellow-600 font-semibold">대기</td>
+            </tr>
       </tbody>
     </table>
 
@@ -65,7 +87,7 @@
         </tr>
       </thead>
       <tbody class="text-gray-700">
-
+<%-- 
         <c:forEach items="${list}" var="dto">
           <c:if test="${dto.courseApproval == '승인'}">
             <tr class="border-b hover:bg-gray-50 transition">
@@ -75,6 +97,22 @@
             </tr>
           </c:if>
         </c:forEach>
+         --%>
+        	<tr class="border-b hover:bg-gray-50 transition">
+              <td class="py-3 px-4">관리자</td>
+              <td class="py-3 px-4">admin@naver.com</td>
+              <td class="py-3 px-4 text-green-600 font-semibold">승인</td>
+            </tr>
+            <tr class="border-b hover:bg-gray-50 transition">
+              <td class="py-3 px-4">강아지</td>
+              <td class="py-3 px-4">dog@naver.com</td>
+              <td class="py-3 px-4 text-green-600 font-semibold">승인</td>
+            </tr>
+            <tr class="border-b hover:bg-gray-50 transition">
+              <td class="py-3 px-4">홍길동</td>
+              <td class="py-3 px-4">hong@naver.com</td>
+              <td class="py-3 px-4 text-green-600 font-semibold">승인</td>
+            </tr>
 
       </tbody>
     </table>

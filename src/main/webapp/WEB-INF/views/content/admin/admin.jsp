@@ -113,7 +113,7 @@
 
         <ul class="space-y-1 text-gray-600">
           <li>👥 <a href="#" class="text-brand hover:text-brand-dark">크루</a> : 3</li>
-          <li>📍 <a href="#" class="text-brand hover:text-brand-dark">코스</a> : ${pendingCount}</li>
+          <li>📍 <a href="/pulse/admin/course" class="text-brand hover:text-brand-dark">코스</a> : ${pendingCount}</li>
         </ul>
       </div>
     </div>

@@ -28,4 +28,11 @@ public class AdminController {
 		model.addAttribute("top3Courses", top3Courses);
 		return "script.admin.admin";
 	}
+	
+	@GetMapping("/admin/course")
+	public String adminCourse() {
+		
+		return "admin.admincourse";
+	}
+	
 }
