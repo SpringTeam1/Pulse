@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.test.pulse.mapper.CourseMapper">
+	
+	<insert id="insertCourse" parameterType="gdto">
+		<selectKey keyProperty="courseSeq" resultType="int" order="BEFORE">
+        	SELECT seqCourse.NEXTVAL FROM DUAL
+    	</selectKey>
+    	
+		insert into tblCourse 
+		(courseSeq, courseName, accountId, courseApproval, description, courseLength, startAddress, endAddress, trackData, regdate)
+		VALUES
+		(
+			#{courseSeq},
+		    #{courseName},
+		    #{accountId},
+		    default,
+		    #{description},
+		    #{courseLength},
+		    #{startAddress},
+		    #{endAddress},
+		    #{trackData, jdbcType=CLOB},
+		    default
+		)
+	</insert>
+
+	<select id="getCourseDetail" parameterType="int" resultType="gdto">
+		select * from tblCourse where courseSeq = #{courseSeq}
+	</select>
+	
+	
+	
+	<!-- 코스 목록 조회 -->
+	<sql id="searchCondition">
+		<if test="keyword!=null and !keyword.equals('')">
+			and (
+				courseName Like '%'||#{keyword} || '%'
+				OR startAddress LIKE '%' || #{keyword} || '%'
+				OR endAddress LIKE '%' || #{keyword} || '%'
+			)
+		</if>
+	</sql>
+	
+	<select id="getTotalCourseCount" parameterType="map" resultType="int" >
+	    SELECT COUNT(*) FROM tblCourse WHERE courseApproval = '승인'
+	    <include refid="searchCondition" />
+	</select>
+	
+	<select id="getAllCourses" parameterType="map" resultType="carddto">
+		SELECT * FROM (
+			select a.*, ROWNUM as rnum FROM (
+				select 
+					courseSeq, courseName,
+					round(courseLength, 2) as courseLength,
+					startAddress, endAddress, accountId,
+					(SELECT COUNT(*) FROM tblScrapCourse WHERE courseSeq = tblCourse.courseSeq) as favoriteCount
+				FROM tblCourse
+	            WHERE courseApproval = '승인'
+	            <include refid="searchCondition" />
+	            ORDER BY courseSeq DESC
+			) a
+		) where rnum between #{startRow} and #{endRow}
+		
+	</select>
+	
+	<!-- 인기 코스 조회 -->
+	<select id="getPopularCourses" parameterType="int" resultType="carddto">
+        SELECT * FROM (
+            SELECT 
+                courseSeq, courseName, ROUND(courseLength, 2) as courseLength, 
+                startAddress, endAddress, accountId,
+                (SELECT COUNT(*) FROM tblScrapCourse WHERE courseSeq = tblCourse.courseSeq) as favoriteCount
+            FROM tblCourse
+            WHERE courseApproval = '승인'
+            ORDER BY favoriteCount DESC, courseSeq DESC
+        ) WHERE ROWNUM &lt;= #{count}
+	</select>
+	
+	<!-- 추천 코스 조회 -->
+	<select id="getUserLocation" parameterType="string" resultType="map">
+        SELECT 
+            regionCity as "city", 
+            regionCounty as "county", 
+            regionDistrict as "district" 
+        FROM tblAccountInfoDetail 
+        WHERE accountId = #{accountId}
+    </select>
+
+    <select id="getRecommendedCourses" parameterType="map" resultType="carddto">
+        SELECT * FROM (
+            SELECT 
+                courseSeq, courseName, ROUND(courseLength, 2) as courseLength, 
+                startAddress, endAddress, accountId,
+                (SELECT COUNT(*) FROM tblScrapCourse WHERE courseSeq = tblCourse.courseSeq) as favoriteCount
+            FROM tblCourse
+            WHERE courseApproval = '승인'
+              AND (
+                  startAddress LIKE '%' || #{county} || '%' 
+	              OR startAddress LIKE '%' || #{district} || '%'
+	              OR endAddress LIKE '%' || #{county} || '%'
+	              OR endAddress LIKE '%' || #{district} || '%'
+              )
+            ORDER BY favoriteCount DESC, courseSeq DESC
+        ) WHERE ROWNUM &lt;= #{count}
+    </select>
+	
+</mapper>
