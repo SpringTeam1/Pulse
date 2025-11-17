@@ -17,6 +17,11 @@ public class AdminController {
 	
 	private final CourseService courseService;
 	
+	/**
+	 * admin 메인 페이지 호출
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/admin")
 	public String header(Model model) {
 		List<CourseCardDTO> top3Courses = courseService.getPopularCourses(3);

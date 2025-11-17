@@ -29,7 +29,10 @@ public class BoardSuggestionController {
 	
 	private final BoardSuggestionMapper mapper;
 	
-	/** 목록 화면 */
+	/** 
+	 * 게시판 목록보기
+	 * @return
+	 */
 	@GetMapping("/list")
 	public String list() {
 		 // REST에서는 별도 데이터 전달 불필요
