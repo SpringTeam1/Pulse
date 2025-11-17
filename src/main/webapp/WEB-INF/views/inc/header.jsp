@@ -36,7 +36,7 @@
             <div class="absolute hidden group-hover:block bg-white border rounded-lg shadow-lg w-44 top-full left-0">
               <a href="${pageContext.request.contextPath}/boardnotice/list.do"
                  class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">공지게시판</a>
-              <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">건의게시판</a>
+              <a href="${pageContext.request.contextPath}/boardsuggestion/list" class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">건의게시판</a>
               <a href="${pageContext.request.contextPath}/course/list.do" class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">코스게시판</a>
             </div>
           </div>
