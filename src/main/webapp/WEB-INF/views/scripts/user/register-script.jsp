@@ -82,7 +82,10 @@
 	        if (res2 && res2.result == 1){
 	          msgEl?.classList.remove('err'); msgEl?.classList.add('ok');
 	          if (msgEl) msgEl.textContent = '인증번호를 발송했습니다. 메일함을 확인하세요.';
-	          wrap?.style && (wrap.style.display = '');
+	          	if (wrap) {
+	        	    wrap.classList.remove('hidden');
+	        	    wrap.style.display = '';
+	        	}
 	        }else{
 	          msgEl?.classList.remove('ok'); msgEl?.classList.add('err');
 	          if (msgEl) msgEl.textContent = '메일 전송 실패';

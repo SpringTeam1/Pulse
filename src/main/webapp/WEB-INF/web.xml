@@ -68,7 +68,6 @@
 
 
 	<!-- 시큐리티 필터 -->
-<<<<<<< HEAD
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -77,10 +76,8 @@
 		<filter-name>springSecurityFilterChain</filter-name> 
 		<servlet-name>appServlet</servlet-name>
 	</filter-mapping>
-=======
 	<!-- <filter> <filter-name>springSecurityFilterChain</filter-name> <filter-class>org.springframework.web.filter.DelegatingFilterProxy 
 		</filter-class> <async-supported>true</async-supported> </filter> <filter-mapping> <filter-name>springSecurityFilterChain</filter-name>
 		<servlet-name>appServlet</servlet-name> </filter-mapping> -->
->>>>>>> 000d61f529e52cbbb710e85a89368113e72560d8
 
 </web-app>
