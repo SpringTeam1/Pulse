@@ -1,118 +1,104 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<meta name="_csrf" content="${_csrf.token}"/>
 	<meta name="_csrf_header" content="${_csrf.headerName}"/>
-	
-	<title>Insert title here</title>
-<style>
-.photo-box{position:relative;width:220px;aspect-ratio:1/1}
-.photo-box img{width:100%;height:100%;object-fit:cover;display:block;cursor:pointer}
-.photo-box .overlay{position:absolute;inset:0;cursor:pointer} /* 이미지 전체를 덮는 클릭 영역 */
-.hint{margin-top:6px;font-size:12px;color:#666}
-button,
-.btn-main,
-.btn-sub {
-  cursor: pointer;
-}
-
-</style>
+	<title>회원가입</title>
+	<script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>	
-	<!-- register.jsp -->
-	
-	<h2>회원 정보 입력</h2>
-	
-	<form method="POST" action="/pulse/registerok.do">
-	<table class="vertical">
-		<tr>
-			<th>프로필 사진</th>
-			<td>
-				<!-- 미리보기 영역 -->
-			    <div class="photo-box">
-			      <img id="preview" src="${pageContext.request.contextPath}/asset/pic/pic.png" alt="프로필 미리보기">
-			      <label class="overlay" for="photo" title="이미지 선택"></label>
-			    </div>
+<body class="bg-gray-100 py-10">
+
+	<section class="max-w-5xl mx-auto mt-10 bg-white rounded-xl shadow p-8 space-y-8">
+		<h2 class="text-2xl font-bold">회원 정보 입력</h2>
+
+		<form method="POST" action="/pulse/registerok.do" enctype="multipart/form-data" class="space-y-6">
 			
-			    <!-- 실제 파일 선택 input -->
-			    <input type="file" id="photo" name="profilePhoto" accept="image/png,image/jpeg" style="display:none;">
-			
-				<button type="button" class="btn btn-main" onclick="photo.click()">이미지 선택</button>
-			    <button type="button" class="btn btn-sub" onclick="resetPhoto()">이미지 삭제</button>
-			</td>
-		</tr>
-		<tr>
-			<th>이메일</th>
-			<td>
-				<input type="text" id="accountId" name="accountId" placeholder="이메일 주소 입력" value="${empty emailValue ? 'zkfps411@naver.com' : emailValue}">
-			    <button type="button" id="btnSend" class="btn btn-sub">인증번호 발송</button>
-			    
-			    <!-- 인증번호 입력(별도 form 없음) -->
-			    <div id="verifyWrap" class="row" style="margin-top:8px; display:none;">
-			    	<input type="text" id="code" maxlength="6" placeholder="인증번호 6자리">
-			    	<button type="button" id="btnVerify" class="btn btn-sub">인증하기</button>
-			    </div>
-			
-			    <!-- 메시지 영역 -->
-			    <div id="emailMsg" class="msg"></div>
-			
-			    <!-- 검증 성공 여부를 메인 폼과 함께 제출 -->
-			    <input type="hidden" id="emailVerified" name="emailVerified" value="false">
-			</td>
-		</tr>
-		<tr>
-			<th>암호</th>
-			<td><input type="password" name="password" value="1111" required></td>
-		</tr>
-		<tr>
-			<th>이름</th>
-			<td><input type="text" name="name" value="테스트" required></td>
-		</tr>
-		<tr>
-			<th>닉네임</th>
-			<td><input type="text" id="nickname" name="nickname" value="테스트" required></td>
-		</tr>
-		<tr>
-			<th>전화번호</th>
-			<td><input type="text" name="phoneNum" value="010-1111-1111" required oninput="this.value = this.value.replace(/[^0-9]/g, '');"></td>
-			<td><div class="hint">'-' 없이 숫자로만 입력해주세요.</div></td>
-		</tr>
-		<tr>
-			<th>생년월일</th>
-			<td>
-				<div class="col">
-					<label>연도</label>
-			    	<select class="input" id="yyyy" name="yyyy"></select>
-			    </div>
-			    <div class="col">
-			    	<label>월</label>
-			    	<select class="input" id="mm" name="mm"></select>
-			    </div>
-			    <div class="col">
-			    	<label>일</label>
-			    	<select class="input" id="dd" name="dd"></select>
-			    </div>
-			    
-			    <input type="hidden" id="birthday" name="birthday" required>
-			</td>
-		</tr>
-		<tr>
-			<th>성별</th>
-			<td>
-				<label class="chip"><input type="radio" name="gender" value="남자"<c:if test="${empty gender or gender == '남자'}">checked</c:if>>남자</label>
-				<label class="chip"><input type="radio" name="gender" value="여자"<c:if test="${gender == '여자'}">checked</c:if>>여자</label>
-			</td>
-		</tr>
-		<tr>
-			<th>광역시</th>
-			<td>
-				<select id="sido" name="regionCity">
-				 	<option value="">선택</option>
-				 	<option value="서울특별시" <c:if test="${empty regionCity or regionCity == '서울특별시'}">selected</c:if>>서울특별시</option>
+			<!-- 프로필 사진 -->
+			<div>
+				<label class="block font-semibold mb-2">프로필 사진</label>
+				<div class="relative w-56 aspect-square mb-3">
+					<img id="preview" src="${pageContext.request.contextPath}/asset/pic/${empty adto.profilePhoto ? 'pic.png' : adto.profilePhoto}" alt="프로필 미리보기" class="w-full h-full object-cover rounded shadow cursor-pointer">
+					<label class="absolute inset-0 cursor-pointer" for="photo" title="이미지 선택"></label>
+				</div>
+				<input type="file" id="photo" name="profilePhoto" accept="image/png,image/jpeg" class="hidden">
+				<div class="space-x-2">
+					<button type="button" class="px-4 py-2 bg-blue-600 text-white rounded" onclick="photo.click()">이미지 선택</button>
+					<button type="button" class="px-4 py-2 bg-gray-300 rounded" onclick="resetPhoto()">이미지 삭제</button>
+				</div>
+			</div>
+
+			<!-- 이메일 -->
+			<div>
+				<label class="block font-semibold mb-1">이메일</label>
+				<div class="flex gap-2 mb-2">
+					<input type="text" id="accountId" name="accountId" placeholder="이메일 주소 입력" class="flex-1 border rounded px-3 py-2">
+					<button type="button" id="btnSend" class="px-4 py-2 bg-gray-300 rounded">인증번호 발송</button>
+				</div>
+
+				<!-- 인증번호 -->
+				<div id="verifyWrap" class="flex gap-2 mt-2 hidden">
+					<input type="text" id="code" maxlength="6" placeholder="인증번호 6자리" class="flex-1 border rounded px-3 py-2">
+					<button type="button" id="btnVerify" class="px-4 py-2 bg-gray-300 rounded">인증하기</button>
+				</div>
+
+				<div id="emailMsg" class="text-sm text-red-500 mt-1"></div>
+				<input type="hidden" id="emailVerified" name="emailVerified" value="false">
+			</div>
+
+			<!-- 암호 -->
+			<div>
+				<label class="block font-semibold mb-1">암호</label>
+				<input type="password" name="password" required class="w-full border rounded px-3 py-2">
+			</div>
+
+			<!-- 이름 -->
+			<div>
+				<label class="block font-semibold mb-1">이름</label>
+				<input type="text" id="name" name="name" required class="w-full border rounded px-3 py-2">
+			</div>
+
+			<!-- 닉네임 -->
+			<div>
+				<label class="block font-semibold mb-1">닉네임</label>
+				<input type="text" id="nickname" name="nickname" required class="w-full border rounded px-3 py-2">
+			</div>
+
+			<!-- 전화번호 -->
+			<div>
+				<label class="block font-semibold mb-1">전화번호</label>
+				<input type="text" name="phoneNum" placeholder="01012345678" required class="w-full border rounded px-3 py-2">
+				<p class="text-sm text-gray-500 mt-1">'XXX-XXXX-XXXX'형식으로 입력해주세요.</p>
+			</div>
+
+			<!-- 생년월일 -->
+			<div>
+				<label class="block font-semibold mb-2">생년월일</label>
+				<div class="grid grid-cols-3 gap-4">
+					<select class="w-full border rounded px-3 py-2" id="yyyy" name="yyyy"></select>
+					<select class="w-full border rounded px-3 py-2" id="mm" name="mm"></select>
+					<select class="w-full border rounded px-3 py-2" id="dd" name="dd"></select>
+				</div>
+				<input type="hidden" id="birthday" name="birthday" required>
+			</div>
+
+			<!-- 성별 -->
+			<div>
+				<label class="block font-semibold mb-1">성별</label>
+				<div class="flex gap-4">
+					<label class="flex items-center gap-2"><input type="radio" name="gender" value="남자" <c:if test="${gender == '남자'}">checked</c:if>>남자</label>
+					<label class="flex items-center gap-2"><input type="radio" name="gender" value="여자" <c:if test="${gender == '여자'}">checked</c:if>>여자</label>
+				</div>
+			</div>
+
+			<!-- 광역시 -->
+			<div>
+				<label class="block font-semibold mb-1">광역시</label>
+				<select id="sido" name="regionCity" class="w-full border rounded px-3 py-2">
+					<option value="" <c:if test="${empty regionCity}">selected</c:if>>선택</option>
+					<option value="서울특별시" <c:if test="${regionCity == '서울특별시'}">selected</c:if>>서울특별시</option>
 					<option value="부산광역시" <c:if test="${regionCity == '부산광역시'}">selected</c:if>>부산광역시</option>
 					<option value="대구광역시" <c:if test="${regionCity == '대구광역시'}">selected</c:if>>대구광역시</option>
 					<option value="인천광역시" <c:if test="${regionCity == '인천광역시'}">selected</c:if>>인천광역시</option>
@@ -130,61 +116,48 @@ button,
 					<option value="경상남도" <c:if test="${regionCity == '경상남도'}">selected</c:if>>경상남도</option>
 					<option value="제주특별자치도" <c:if test="${regionCity == '제주특별자치도'}">selected</c:if>>제주특별자치도</option>
 				</select>
-					<c:if test="${not empty regionCityMsg}">
-						<div class="msg err">${regionCityMsg}</div>
-					</c:if>
-			</td>
-		</tr>
-		<tr>
-			<th>시군구</th>
-			<td>
-				<input type="text" id="sigungu" name="regionCounty" value="${empty regionCounty ? '강남구' : regionCounty}">
-					<c:if test="${not empty regionCountyMsg}">
-						<div class="msg err">${regionCountyMsg}</div>
-					</c:if>
-			</td>
-		</tr>
-		<tr>
-			<th>동읍면</th>
-			<td>
-				<input type="text" id="dong" name="regionDistrict" value="${empty regionDistrict ? '삼성동' : regionDistrict}">
-					<c:if test="${not empty regionDistrictMsg}">
-						<div class="msg err">${regionDistrictMsg}</div>
-					</c:if>
-			</td>
-		</tr>
-		<tr>
-			<th>운동빈도</th>
-			<td>
-				<label class="chip"><input type="radio" name="exerciseFrequency" value="0" <c:if test="${exerciseFrequency == '0'}">checked</c:if>> 주 1회 미만</label>
-				<label class="chip"><input type="radio" name="exerciseFrequency" value="1-3" <c:if test="${empty exerciseFrequency or exerciseFrequency == '1-3'}">checked</c:if>> 주 1~3회</label>
-				<label class="chip"><input type="radio" name="exerciseFrequency" value="4-6" <c:if test="${exerciseFrequency == '4-5'}">checked</c:if>> 주 4~6회</label>
-				<label class="chip"><input type="radio" name="exerciseFrequency" value="7" <c:if test="${exerciseFrequency == '6+'}">checked</c:if>> 주 7회</label>
-			</td>
-		</tr>
-	</table>
-	<div>
-		<button>가입하기</button>
-	</div>
-	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-	</form>
-	
-	
+				<c:if test="${not empty regionCityMsg}">
+					<p class="text-sm text-red-500 mt-1">${regionCityMsg}</p>
+				</c:if>
+			</div>
 
-	
+			<!-- 시군구 -->
+			<div>
+				<label class="block font-semibold mb-1">시군구</label>
+				<input type="text" id="sigungu" name="regionCounty" class="w-full border rounded px-3 py-2">
+				<c:if test="${not empty regionCountyMsg}">
+					<p class="text-sm text-red-500 mt-1">${regionCountyMsg}</p>
+				</c:if>
+			</div>
+
+			<!-- 동읍면 -->
+			<div>
+				<label class="block font-semibold mb-1">동읍면</label>
+				<input type="text" id="dong" name="regionDistrict" class="w-full border rounded px-3 py-2">
+				<c:if test="${not empty regionDistrictMsg}">
+					<p class="text-sm text-red-500 mt-1">${regionDistrictMsg}</p>
+				</c:if>
+			</div>
+
+			<!-- 운동빈도 -->
+			<div>
+				<label class="block font-semibold mb-1">운동 빈도</label>
+				<div class="flex flex-wrap gap-4">
+					<label class="flex items-center gap-2"><input type="radio" name="exerciseFrequency" value="0" <c:if test="${exerciseFrequency == '0'}">checked</c:if>>주 1회 미만</label>
+					<label class="flex items-center gap-2"><input type="radio" name="exerciseFrequency" value="1-3" <c:if test="${exerciseFrequency == '1-3'}">checked</c:if>>주 1~3회</label>
+					<label class="flex items-center gap-2"><input type="radio" name="exerciseFrequency" value="4-6" <c:if test="${exerciseFrequency == '4-6'}">checked</c:if>>주 4~6회</label>
+					<label class="flex items-center gap-2"><input type="radio" name="exerciseFrequency" value="7" <c:if test="${exerciseFrequency == '7'}">checked</c:if>>주 7회</label>
+				</div>
+			</div>
+
+			<!-- 가입 버튼 -->
+			<div>
+				<button type="submit" class="w-full bg-blue-600 text-white py-2 rounded">가입하기</button>
+			</div>
+
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+		</form>
+	</section>
+
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

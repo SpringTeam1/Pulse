@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!-- 애니메이션 css -->
@@ -33,11 +34,10 @@
           <!-- 📁 게시판 드롭다운 해당하는 도메인입력 -->
           <div class="relative group">
             <button class="text-gray-700 hover:text-brand font-medium">게시판</button>
-            <div class="absolute hidden group-hover:block bg-white border rounded-lg shadow-lg w-44 top-full left-0">
+            <div class="absolute hidden group-hover:block bg-white rounded-lg shadow-lg w-44 top-full left-0">
               <a href="${pageContext.request.contextPath}/boardnotice/list.do"
                  class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">공지게시판</a>
-              <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">건의게시판</a>
-              <a href="${pageContext.request.contextPath}/course/list.do" class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">코스게시판</a>
+              <a href="${pageContext.request.contextPath}/boardsuggestion/list" class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">건의게시판</a>
             </div>
           </div>
 
@@ -58,7 +58,7 @@
           <!-- 크루 해당하는 도메인입력 -->
           <div class="relative group">
                <button class="text-gray-700 hover:text-brand font-medium">크루</button>
-               <div class="absolute hidden group-hover:block bg-white border rounded-lg shadow-lg w-44 top-full left-0">
+               <div class="absolute hidden group-hover:block bg-white rounded-lg shadow-lg w-44 top-full left-0">
                    <a href="${pageContext.request.contextPath}/crewmain"
                       class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">크루</a>
                    <a href="${pageContext.request.contextPath}/crewdashboard"
@@ -67,8 +67,29 @@
            </div>
 
           <!-- 코스 해당하는 도메인입력 -->
-          <a href="${pageContext.request.contextPath}/course/list.do"
+          <div class="relative group">
+               <!-- <button class="text-gray-700 hover:text-brand font-medium">코스</button> -->
+               <a href="${pageContext.request.contextPath}/course/main"
              class="text-gray-700 hover:text-brand font-medium">코스</a>
+               <div class="absolute hidden group-hover:block bg-white rounded-lg shadow-lg w-44 top-full left-0">
+                   <a href="${pageContext.request.contextPath}/course/list"
+                      class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">코스 전체 목록</a>
+                   <a href="${pageContext.request.contextPath}/course/gpxregister"
+                      class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">코스 등록하기(GPX)</a>
+                   <a href="${pageContext.request.contextPath}/course/manualregister"
+                      class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">코스 등록하기(수동)</a>
+               </div>
+           </div>
+           <div class="relative group">
+               <button class="text-gray-700 hover:text-brand font-medium">운동</button>
+               <div class="absolute hidden group-hover:block bg-white rounded-lg shadow-lg w-44 top-full left-0">
+                   <a href="${pageContext.request.contextPath}/workout/record"
+                      class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">운동 기록하기</a>
+                   <a href="${pageContext.request.contextPath}/workout/log"
+                      class="block px-4 py-2 text-gray-700 hover:bg-brand/10 hover:text-brand">운동 기록 내역</a>
+               </div>
+           </div>
+          
 			
 		  <!-- 🌡️ 자동 회전 날씨 정보 -->
 		  <div id="weatherBox" class="text-gray-700 font-medium transition-opacity duration-500">
@@ -81,46 +102,43 @@
 
       <!-- 🔥 로그인 네비게이션 영역 -->
 		<nav class="hidden md:flex items-center space-x-5">
-		
-		  <%
-		    String nickname = (String) session.getAttribute("nickname");
-		    boolean isLogin = nickname != null;
-		  %>
-		
-		  <!-- 현재 로그인 상태 -->
-		  <span class="font-semibold text-brand-dark bg-white bg-brand/10 px-3 py-1 rounded-full">
-		    현재 로그인 상태: <%= isLogin ? nickname : "비회원" %>
-		  </span>
-		
-		  <% if (isLogin) { %>
-		
-		    <!-- 마이페이지 해당하는 도메인입력 -->
-		    <a href="${pageContext.request.contextPath}/mypage.do"
-		       class="w-24 text-center px-3 py-1 rounded-full text-brand bg-white border border-brand hover:bg-brand/10 transition shadow-sm">
-		       마이페이지
-		    </a>
-		
-		    <!-- 로그아웃 해당하는 도메인입력 -->
-		    <a href="${pageContext.request.contextPath}/customlogout"
-		       class="w-24 text-center px-3 py-1 rounded-full text-brand bg-white border border-brand hover:bg-brand/10 transition shadow-sm">
-		       로그아웃
-		    </a>
-		
-		  <% } else { %>
-		
-		    <!-- 로그인 해당하는 도메인입력 -->
-		    <a href="${pageContext.request.contextPath}/customlogin"
-		       class="w-24 text-center px-3 py-1 rounded-full text-brand bg-white border border-brand hover:bg-brand/10 transition shadow-sm">
-		       로그인
-		    </a>
-		
-		    <!-- 회원가입 해당하는 도메인입력 -->
-		    <a href="${pageContext.request.contextPath}/register.do"
-		       class="w-24 text-center px-3 py-1 rounded-full text-brand bg-white border border-brand hover:bg-brand/10 transition shadow-sm">
-		       회원가입
-		    </a>
-		
-		  <% } %>
+
+		    <!-- 
+		        Spring Security를 사용해 로그인 상태 확인 및 닉네임 가져오기 
+		        CustomUser 클래스 내부에 adto(AccountInfoDTO) 객체가 있고, 
+		        adto 안에 nickname 필드가 있으므로 'principal.adto.nickname'을 사용합니다. 
+		    -->
+		    <c:set var="isLogin" value="${pageContext.request.userPrincipal != null}" />
+        
+        <c:if test="${isLogin}">
+            <sec:authentication property="principal.adto.nickname" var="nickname" />
+        </c:if>
+    
+        <div class="px-4 py-3 text-blue-800 font-medium">
+            현재 로그인 상태: 
+            <c:choose>
+                <c:when test="${isLogin}">
+                    ${nickname}
+                </c:when>
+                <c:otherwise>
+                    비회원
+                </c:otherwise>
+            </c:choose>
+        </div>
+    
+        <sec:authorize access="isAuthenticated()">
+        <a href="${pageContext.request.contextPath}/mypage.do" 
+                class="w-28 text-center px-3 py-1 rounded-full text-brand bg-white border border-brand hover:bg-brand/10 transition shadow-sm">마이페이지</a>
+            <a href="${pageContext.request.contextPath}/customlogout" 
+                class="w-24 text-center px-3 py-1 rounded-full text-brand bg-white border border-brand hover:bg-brand/10 transition shadow-sm">로그아웃</a>
+        </sec:authorize>
+    
+        <sec:authorize access="!isAuthenticated()">
+        <a href="${pageContext.request.contextPath}/customlogin" 
+                class="w-24 text-center px-3 py-1 rounded-full text-brand bg-white border border-brand hover:bg-brand/10 transition shadow-sm">로그인</a>
+            <a href="${pageContext.request.contextPath}/register.do" 
+                class="w-24 text-center px-3 py-1 rounded-full text-brand bg-white border border-brand hover:bg-brand/10 transition shadow-sm">회원가입</a>
+        </sec:authorize>
 		
 		</nav>
 
@@ -142,26 +160,55 @@
     <a href="#" class="block px-4 py-3 text-gray-700 hover:bg-brand/10 hover:text-brand">크루</a>
     <a href="#" class="block px-4 py-3 text-gray-700 hover:bg-brand/10 hover:text-brand">코스</a>
 
-    <!-- 모바일 로그인 영역 -->
     <div class="border-t mt-2">
+    
+	    <!-- Spring Security를 사용해 로그인 상태 및 닉네임 변수 정의 -->
+	    <!-- CustomUser -> adto(AccountInfoDTO) -> nickname 접근 -->
+	    <c:set var="isLogin" value="${pageContext.request.userPrincipal != null}" />
 
-      <div class="px-4 py-3 text-gray-800 font-medium">
-        현재 로그인 상태: <%= isLogin ? nickname : "게스트" %>
-      </div>
-
-      <% if (isLogin) { %>
-        <a href="${pageContext.request.contextPath}/mypage.do" 
-           class="block px-4 py-2 hover:bg-brand/10 hover:text-brand">마이페이지</a>
-        <a href="${pageContext.request.contextPath}/logout.do" 
-           class="block px-4 py-2 hover:bg-brand/10 hover:text-brand">로그아웃</a>
-      <% } else { %>
-        <a href="${pageContext.request.contextPath}/login.do" 
-           class="block px-4 py-2 hover:bg-brand/10 hover:text-brand">로그인</a>
-        <a href="${pageContext.request.contextPath}/register.do" 
-           class="block px-4 py-2 hover:bg-brand/10 hover:text-brand">회원가입</a>
-      <% } %>
-
-    </div>
+	    <c:if test="${isLogin}">
+	        <sec:authentication property="principal.adto.nickname" var="nickname" />
+	    </c:if>
+	    
+	    <span class="font-semibold text-brand-dark bg-white bg-brand/10 px-3 py-1 rounded-full">
+	        현재 로그인 상태: 
+	        <c:choose>
+	            <c:when test="${isLogin}">
+	                ${nickname}
+	            </c:when>
+	            <c:otherwise>
+	                비회원
+	            </c:otherwise>
+	        </c:choose>
+	    </span>
+	    
+	    <sec:authorize access="isAuthenticated()">
+	    <a href="${pageContext.request.contextPath}/mypage.do"
+	            class="w-24 text-center px-3 py-1 rounded-full text-brand bg-white border border-brand hover:bg-brand/10 transition shadow-sm">
+	                마이페이지
+	        </a>
+	    
+	        <a href="${pageContext.request.contextPath}/customlogout"
+	            class="w-24 text-center px-3 py-1 rounded-full text-brand bg-white border border-brand hover:bg-brand/10 transition shadow-sm">
+	                로그아웃
+	        </a>
+	    
+	    </sec:authorize>
+	    
+	    <sec:authorize access="!isAuthenticated()">
+	    <a href="${pageContext.request.contextPath}/customlogin"
+	            class="w-24 text-center px-3 py-1 rounded-full text-brand bg-white border border-brand hover:bg-brand/10 transition shadow-sm">
+	                로그인
+	        </a>
+	    
+	        <a href="${pageContext.request.contextPath}/register.do"
+	            class="w-24 text-center px-3 py-1 rounded-full text-brand bg-white border border-brand hover:bg-brand/10 transition shadow-sm">
+	                회원가입
+	        </a>
+	    
+	    </sec:authorize>
+	
+	</div>
   </div>
 </header>
 
@@ -221,8 +268,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	            addr.suburb ||
 	            "";
 	          const shortAddress = [city, district].filter(Boolean).join(" ");
-	          /* document.getElementById("location").textContent =
-	            shortAddress || "주소 정보를 불러올 수 없습니다."; */
+	          //document.getElementById("location").textContent =
+	            shortAddress || "주소 정보를 불러올 수 없습니다.";
 	          console.log("📍 표시 주소:", shortAddress);
 	        })
 	        .catch((err) => {

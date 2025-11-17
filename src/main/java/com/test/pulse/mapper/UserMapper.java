@@ -17,7 +17,13 @@ public interface UserMapper {
 	
 	void update(AccountInfoDTO adto);
 	
-	void updateDetail(AccountInfoDTO adto);
+	int update(AccountInfoDTO adto);
+	
+	int updateDetail(AccountInfoDTO adto);
+	
+	void deleteaccount(AccountInfoDTO adto);
+	
+	void deleteaccountDetail(AccountInfoDTO adto);
 	
 	void deleteaccount(AccountInfoDTO adto);
 	

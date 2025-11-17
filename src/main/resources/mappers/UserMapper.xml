@@ -8,7 +8,7 @@
 	<insert id="add" parameterType="com.test.pulse.model.user.AccountInfoDTO">
 	
 		INSERT INTO tblAccountInfo(accountId, password, profilePhoto, nickname, accountRole, accountSeq, accountLevel, registerType, accountCategory)
-			VALUES (#{accountId}, #{password}, DEFAULT, #{nickname}, DEFAULT, seqaccountinfo.nextval, DEFAULT, DEFAULT, DEFAULT)
+			VALUES (#{accountId}, #{password}, #{profilePhoto}, #{nickname}, DEFAULT, seqaccountinfo.nextval, DEFAULT, DEFAULT, DEFAULT)
 	
 	</insert>
 	
@@ -59,7 +59,6 @@
 	
 		UPDATE tblAccountInfo
 		SET
-			password = #{password},
 			profilePhoto = #{profilePhoto},
 			nickname = #{nickname}
 		WHERE accountId = #{accountId}
