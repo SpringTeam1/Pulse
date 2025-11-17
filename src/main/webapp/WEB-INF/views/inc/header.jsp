@@ -268,7 +268,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	            addr.suburb ||
 	            "";
 	          const shortAddress = [city, district].filter(Boolean).join(" ");
-	          //document.getElementById("location").textContent =
+	          document.getElementById("location").textContent =
 	            shortAddress || "주소 정보를 불러올 수 없습니다.";
 	          console.log("📍 표시 주소:", shortAddress);
 	        })
