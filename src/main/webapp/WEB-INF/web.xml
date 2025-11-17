@@ -36,7 +36,7 @@
 		</multipart-config>
 
         <!-- 🔥 SSE 필수 -->
-       <!-- <async-supported>true</async-supported> -->
+      <async-supported>true</async-supported>
 
 	</servlet>
 
@@ -58,7 +58,7 @@
 			<param-value>true</param-value>
 		</init-param>
         <!--SSE 필수 -->
-        <!--<async-supported>true</async-supported>-->
+       <async-supported>true</async-supported>
 	</filter>
 
 	<filter-mapping>
@@ -68,6 +68,15 @@
 
 
 	<!-- 시큐리티 필터 -->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<async-supported>true</async-supported>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name> 
+		<servlet-name>appServlet</servlet-name>
+	</filter-mapping>
 	<!-- <filter> <filter-name>springSecurityFilterChain</filter-name> <filter-class>org.springframework.web.filter.DelegatingFilterProxy 
 		</filter-class> <async-supported>true</async-supported> </filter> <filter-mapping> <filter-name>springSecurityFilterChain</filter-name>
 		<servlet-name>appServlet</servlet-name> </filter-mapping> -->

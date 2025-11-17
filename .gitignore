@@ -60,7 +60,7 @@ package-lock.json
 
 package.json
 
-output.css
+# output.css
 src/main/webapp/asset/css/output.css
 .idea
 .apt_generated

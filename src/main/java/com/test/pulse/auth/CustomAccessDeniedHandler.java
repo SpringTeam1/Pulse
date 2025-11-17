@@ -15,12 +15,9 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 	public void handle(HttpServletRequest request, HttpServletResponse response,
 			AccessDeniedException accessDeniedException) throws IOException, ServletException {
 		
-		//403 발생 > handle() 호출
-		
-		//403 오류 발생과 연관된 여러가지 업무를 진행
 		System.out.println("403 오류 관련 처리 진행..");
 		
-		response.sendRedirect("/java/accesserror.do");		
+		response.sendRedirect("/pulse/accesserror");
 	}
 
 }

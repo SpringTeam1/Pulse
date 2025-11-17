@@ -5,6 +5,9 @@
 
 <tiles-definitions>
 
+    <!--  알람 모달창 -->
+    <definition name="alert" template="/WEB-INF/views/content/alert/alert.jsp" />
+
 	<!-- ✅ 공통 템플릿 -->
 	<definition name="baseLayout"
 		template="/WEB-INF/views/layout/layout.jsp">
@@ -16,7 +19,7 @@
 	<definition name="index" extends="baseLayout">
     	<put-attribute name="content" value="/WEB-INF/views/index.jsp" />
 	</definition>
-
+	
 	<!-- javascript가 있는 경우 이 템플릿 사용 -->
 	<definition name="script.*.*" extends="baseLayout">
         <put-attribute name="content" value="/WEB-INF/views/content/{1}/{2}.jsp" />

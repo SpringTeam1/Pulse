@@ -5,9 +5,52 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<!-- 403 핸들러 -->
+	<bean id="customAccessDeniedHandler" class="com.test.pulse.auth.CustomAccessDeniedHandler" />
+	
+	<!-- 로그인 성공 핸들러 -->
+	<bean id="customLoginSuccessHandler" class="com.test.pulse.auth.CustomLoginSuccessHandler" />
 
+	<!-- 14. PasswordEncoder 생성하기(정식) -->
+	<bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
+
+	<!-- 18. 17번 기반 + 로그인 처리 + 인증 정보 관리  -->
+	<bean id="customUserDetailsService" class="com.test.pulse.auth.CustomUserDetailsService"></bean>
+
+	<!-- 6. 로그인/로그아웃 구현 -->
+	<security:http>
 	
-	
+		<!-- 허가 -->
+		<security:intercept-url pattern="/pulse/**" access="permitAll" />
+		
+		<!-- 
+		<security:intercept-url pattern="/index" access="permitAll" />
+		<security:intercept-url pattern="/customlogin" access="permitAll" />
+		<security:intercept-url pattern="/mypage"
+					access="hasRole('ROLE_MEMBER')" />
+		<security:intercept-url pattern="/admin"
+					access="hasRole('ROLE_ADMIN')" />
+		 -->
+		
+		<!-- 8.1 403 처리 -->
+		<security:access-denied-handler ref="customAccessDeniedHandler" />
+
+		<!-- 10. 로그아웃 처리 -->
+		<security:logout logout-url="/customlogout" invalidate-session="true" logout-success-url="/index" />
+
+		<!-- 11. 로그인 성공 후 처리 핸들러 -->
+		<security:form-login login-page="/customlogin" login-processing-url="/customlogin" username-parameter="accountId" password-parameter="password" authentication-success-handler-ref="customLoginSuccessHandler" />
+		
+		<security:csrf disabled="true"/> <!-- 테스트용 -->
+		
+	</security:http>
+
+	<!-- 18. 17번 기반 + 로그인 처리 + 인증 정보 관리  -->
+	<security:authentication-manager>
+		<security:authentication-provider user-service-ref="customUserDetailsService">
+			<security:password-encoder ref="bCryptPasswordEncoder" />
+		</security:authentication-provider>
+	</security:authentication-manager>
 
 </beans>
 
