@@ -5,12 +5,15 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.test.pulse.mapper.UserMapper;
+import com.test.pulse.model.user.AccountInfoDTO;
 import com.test.pulse.service.user.MailService;
 import com.test.pulse.service.user.VerificationService;
 
@@ -22,6 +25,18 @@ public class UserMailController {
     private VerificationService verificationService;
     @Resource
     private MailService mailService;
+    @Autowired
+    private UserMapper userMapper;
+
+    
+    @PostMapping("/checkEmail")
+    @ResponseBody
+    public Map<String, Object> checkEmail(@RequestParam String email) {
+        Map<String, Object> result = new HashMap<>();
+        AccountInfoDTO dto = userMapper.get(email); // 또는 infoEditService.get(email)
+        result.put("exists", dto != null);
+        return result;
+    }
 
     // AJAX: 인증번호 발송
     @PostMapping(value="/sendmail.do")
