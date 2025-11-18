@@ -59,7 +59,7 @@
 	</beans:bean> -->
 	
 	
-    <bean name="applicationSwaggerConfig" class="com.test.pulse.config.SwaggerConfig"/>
+    <beans:bean name="applicationSwaggerConfig" class="com.test.pulse.config.SwaggerConfig"/>
     <resources mapping="/swagger-ui.html" location="classpath:/META-INF/resources/"/>
     <resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
     
