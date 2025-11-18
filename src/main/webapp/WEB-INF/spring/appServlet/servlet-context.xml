@@ -57,7 +57,12 @@
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="maxUploadSize" value="10485760" />
 	</beans:bean> -->
-
+	
+	
+    <bean name="applicationSwaggerConfig" class="com.test.pulse.config.SwaggerConfig"/>
+    <resources mapping="/swagger-ui.html" location="classpath:/META-INF/resources/"/>
+    <resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
+    
 	
 </beans:beans>
 
