@@ -8,3 +8,5 @@ dev 브랜치 변경사항(2025.11.11 18시 이후 변경된 내용)
    - `npm install @tailwindcss/forms` 를 cmd창에서 실행
    - 나머지 파일도 추가되었는데 pull하면 됨
 3. layout.jsp의 공통 javascript 경로가 우리 프로젝트와 다르고 common.js파일도 없어서 추가하였음
+### Swagger UI
+http://localhost:8080/pulse/swagger-ui.html
