@@ -25,7 +25,7 @@ public class SwaggerConfig {
 	@Bean
     public Docket api(){
 		List<Predicate<RequestHandler>> predicateList = new ArrayList<>();
-		predicateList.add(RequestHandlerSelectors.basePackage("com.test.pulse.controller"));
+		//predicateList.add(RequestHandlerSelectors.basePackage("com.test.pulse.controller"));
 		predicateList.add(RequestHandlerSelectors.basePackage("com.test.pulse.restcontroller"));
 		
         return new Docket(DocumentationType.SWAGGER_2)
@@ -40,9 +40,9 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("SAMPLE-API")
-                .description("샘플 API 입니다.")
-                .termsOfServiceUrl("coding.toast.co.kr/api/")
+                .title("Pulse")
+                .description("Spring Legacy Project - Pulse")
+                //.termsOfServiceUrl("coding.toast.co.kr/api/")
                 .version("1.0.0")
                 .build();
     }
