@@ -21,11 +21,12 @@
 	<security:http>
 		
 		<!-- swagger 관련 intercept 추가(START) -->
-		<security:intercept-url pattern="/swagger-ui.html/**" access="isAnonymous()" />
-		<security:intercept-url pattern="/swagger-resources/**" access="isAnonymous()" />
-		<security:intercept-url pattern="/v2/api-docs" access="isAnonymous()" />
-		<security:intercept-url pattern="/webjars/**" access="isAnonymous()" />
-		<security:intercept-url pattern="/webjars/springfox-swagger-ui/*.{js,css}" access="isAnonymous()" />
+		<security:intercept-url pattern="/swagger-ui.html/**" access="permitAll" />
+		<security:intercept-url pattern="/swagger-resources/**" access="permitAll" />
+		<security:intercept-url pattern="/v2/api-docs" access="permitAll" />
+		<security:intercept-url pattern="/webjars/**" access="permitAll" />
+		<security:intercept-url pattern="/webjars/springfox-swagger-ui/*.{js,css}" access="permitAll" />
+		<security:intercept-url pattern="/swagger/**" access="permitAll" />
 		<!-- swagger 관련 intercept 추가(END) -->
 		
 		<!-- 허가 -->

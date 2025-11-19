@@ -21,8 +21,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.test.pulse.mapper.BoardSuggestionMapper;
 import com.test.pulse.model.boardsuggestion.BoardSuggestionDTO;
 
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 
+@Api(tags = "Board Suggestion API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/boardsuggestion")
