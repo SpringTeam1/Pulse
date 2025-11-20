@@ -20,8 +20,10 @@ import com.test.pulse.model.workout.WorkoutDTO;
 import com.test.pulse.service.course.CourseService;
 import com.test.pulse.service.workout.WorkoutService;
 
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 
+@Api(tags = "Workout API")
 @RestController
 @RequestMapping("/api/workout")
 @RequiredArgsConstructor

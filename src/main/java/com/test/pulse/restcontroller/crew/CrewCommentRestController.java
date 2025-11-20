@@ -5,6 +5,8 @@ import com.test.pulse.model.crew.CommentDTO;
 import com.test.pulse.service.crew.CrewBoardCommentService;
 import com.test.pulse.model.user.CustomUser;
 import com.test.pulse.service.crew.CrewService;
+
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Api(tags = "Crew Board Comment API")
 @RestController
 @RequestMapping("/api/v1/crew/board/comment")
 @RequiredArgsConstructor

@@ -3,6 +3,8 @@ package com.test.pulse.restcontroller.crew;
 import com.test.pulse.model.crew.ChatMessageDTO;
 import com.test.pulse.service.crew.ChatMemoryStore;
 import com.test.pulse.service.crew.SseEmitterStore;
+
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -11,6 +13,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Api(tags = "Crew Chat API")
 @RestController
 @RequestMapping("/api/v1/crew/chat")
 @RequiredArgsConstructor

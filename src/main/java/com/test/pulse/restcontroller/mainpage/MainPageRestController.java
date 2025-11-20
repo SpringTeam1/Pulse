@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.test.pulse.model.mainpage.MainPageDTO;
 import com.test.pulse.service.mainpage.MainPageService;
 
+import io.swagger.annotations.Api;
+
+@Api(tags = "Main Page API")
 @RestController
 @RequestMapping("/api/main") // ✅ contextPath (/pulse)는 넣지 않는다!
 public class MainPageRestController {

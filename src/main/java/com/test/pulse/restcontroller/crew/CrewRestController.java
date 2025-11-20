@@ -5,6 +5,8 @@ import com.test.pulse.model.crew.CrewDTO;
 import com.test.pulse.model.crew.CrewMemberDTO;
 import com.test.pulse.model.user.CustomUser;
 import com.test.pulse.service.crew.CrewService;
+
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Api(tags = "Crew API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/crew")

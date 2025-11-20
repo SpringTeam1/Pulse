@@ -37,8 +37,16 @@ public class SwaggerConfig {
                 .pathMapping("/")
                 .useDefaultResponseMessages(false)
                 .apiInfo(apiInfo())
-                .tags(new Tag("Course API","코스 등록 및 관리 관련 REST API"),
-                  	  new Tag("Board Suggestion API", "건의 게시판 REST API")
+                .tags(
+                	new Tag("Course API","코스 등록 및 관리 관련 REST API"),
+                  	new Tag("Board Suggestion API", "건의 게시판 REST API"),
+                  	new Tag("Crew Board API", "크루 전용 게시판 REST API"),
+                  	new Tag("Crew Chat API", "크루 채팅 REST API"),
+                  	new Tag("Crew Board Comment API", "크루 전용 게시판 댓글 REST API"),
+                  	new Tag("Crew Join API", "크루 가입 신청 REST API"),
+                    new Tag("Crew API", "크루 메인 REST API"),
+                    new Tag("Main Page API", "메인 페이지 REST API"),
+                    new Tag("Workout API", "운동 기록 REST API")
                 );
     }
 
