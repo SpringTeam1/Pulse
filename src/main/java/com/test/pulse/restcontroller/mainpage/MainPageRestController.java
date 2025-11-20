@@ -23,6 +23,10 @@ public class MainPageRestController {
 
     private final MainPageService mainPageService;
 
+    /**
+     * 기본 생성자
+     * @param mainPageService 기본생성자
+     */
     public MainPageRestController(MainPageService mainPageService) {
         this.mainPageService = mainPageService;
     }

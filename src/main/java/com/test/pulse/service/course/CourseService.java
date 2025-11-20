@@ -46,7 +46,7 @@ public class CourseService {
 	 * @param description 코스 설명
 	 * @param accountId 사용자 ID
 	 * @return 생성된 코스 정보
-	 * @throws Exception
+	 * @throws Exception exception
 	 */
 	public GPXCourseDTO parseAndSaveGpxCourse(
 			MultipartFile gpxFile, 
@@ -68,7 +68,7 @@ public class CourseService {
 	 * @param description 코스 설명
 	 * @param accountId 사용자 ID
 	 * @return 저장된 코스 정보
-	 * @throws Exception
+	 * @throws Exception exception
 	 */
 	@Transactional
 	public GPXCourseDTO saveCourse(

@@ -53,7 +53,7 @@ public class WorkoutService {
 	 * @param exerciseComment 운동 코멘트
 	 * @param request HttpServletRequest 객체
 	 * @return 저장된 운동 기록 리스트
-	 * @throws Exception
+	 * @throws Exception exception
 	 */
     @Transactional
 	public List<WorkoutDTO> saveWorkoutLogs(List<MultipartFile> gpxFiles, String accountId, double userWeight,
