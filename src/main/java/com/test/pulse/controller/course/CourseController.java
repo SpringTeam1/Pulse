@@ -20,6 +20,9 @@ import com.test.pulse.service.course.CourseService;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * 코스 관련 요청을 처리하는 컨트롤러 클래스
+ */
 @Controller
 @RequestMapping("/course")
 @RequiredArgsConstructor
@@ -28,19 +31,16 @@ public class CourseController {
 	private final CourseService courseService; //주입
 	
 	/**
-	 * 코스 메인페이지
-	 * @return
+	 * 코스 메인 페이지를 반환한다.
+	 * 로그인 상태에 따라 인기 코스와 추천 코스를 조회하여 모델에 추가한다.
+	 *
+	 * @param model 뷰에 전달할 데이터를 담는 Model 객체
+	 * @param auth  Authentication 객체
+	 * @return 코스 메인 페이지 뷰 이름
 	 */
 	@GetMapping("/main")
 	public String courseMain(Model model, Authentication auth) {
-		// [테스트용 하드코딩] 로그인한 척 세션에 아이디 심기
-        // (실제 로그인 기능 구현 전까지만 사용하고 나중에 삭제하세요)
-        // String accountId = "test4@naver.com"; // DB에 실제 존재하는 아이디여야 주소를 가져옵니다.
-		//session.setAttribute("accountId", accountId);
 
-		// 1. 세션에서 아이디 가져오기 (없으면 null)
-        // (Spring Security @AuthenticationPrincipal 사용 시 변경 가능)
-		// accountId = (String) session.getAttribute("accountId");
 		String accountId = null;
 		
 		if (auth != null && auth.isAuthenticated()) {
@@ -67,16 +67,16 @@ public class CourseController {
 	}
 	
 	/**
-	 * 사용자가 gpx를 첨부하여 코스 등록 요청
-	 * @return
+	 * GPX 파일을 첨부하여 코스를 등록하는 페이지를 반환한다.
+	 * @return GPX 코스 등록 페이지 뷰 이름
 	 */
 	@GetMapping("/gpxregister")
 	public String gpxRegPage() {
 		return "script.course.gpxcourseregister";
 	}
 	/**
-	 * 사용자가 직접 지도 좌표를 찍어서 코스 등록 요청
-	 * @return
+	 * 지도에 직접 좌표를 찍어 코스를 등록하는 페이지를 반환한다.
+	 * @return 수동 코스 등록 페이지 뷰 이름
 	 */
 	@GetMapping("/manualregister")
 	public String manualRegPage() {
@@ -84,10 +84,10 @@ public class CourseController {
 	}
 	
 	/**
-	 * 코스 상세보기
-	 * @param courseSeq
-	 * @param model
-	 * @return
+	 * 코스 상세 정보를 보여주는 페이지를 반환한다.
+	 * @param courseSeq 조회할 코스의 번호
+	 * @param model     뷰에 전달할 데이터를 담는 Model 객체
+	 * @return 코스 상세 페이지 뷰 이름
 	 */
 	@GetMapping("/detail/{courseSeq}")
 	public String courseDetail(
@@ -100,9 +100,11 @@ public class CourseController {
 	}
 	
 	/**
-	 * 코스 전체 목록 보기, 메인페이지 겸용
-	 * @param model
-	 * @return
+	 * 코스 전체 목록을 보여주는 페이지를 반환한다.
+	 * @param page    요청된 페이지 번호 (기본값: 1)
+	 * @param keyword 검색 키워드
+	 * @param model   뷰에 전달할 데이터를 담는 Model 객체
+	 * @return 코스 목록 페이지 뷰 이름
 	 */
 	@GetMapping("/list") 
 	public String courseList(
@@ -111,7 +113,6 @@ public class CourseController {
 			Model model){
 		Map<String, Object> data = courseService.getCourseListPage(page, keyword);
 		
-		//List<CourseCardDTO> courseList = courseService.getAllCourses();
 		model.addAttribute("courseList", data.get("courseList"));
 		model.addAttribute("pageDTO", data.get("pageDTO"));
 		model.addAttribute("keyword", keyword);

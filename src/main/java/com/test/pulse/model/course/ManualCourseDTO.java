@@ -11,7 +11,7 @@ import lombok.ToString;
 @Getter @Setter @ToString
 @ApiModel(description = "수동 코스 등록 요청 데이터")
 public class ManualCourseDTO {
-	@ApiModelProperty(value = "사용자 입력 좌표 리스트", example = "[{\"lat\":37.56884608817254,\"lon\":126.95852585544836},{\"lat\":37.57087159948117,\"lon\":126.99909442644896}]")
+	@ApiModelProperty(value = "사용자 입력 좌표 리스트(JSON)", example = "[{\"lat\":37.56884608817254,\"lon\":126.95852585544836},{\"lat\":37.57087159948117,\"lon\":126.99909442644896}]")
 	private List<CoordinateDTO> coords;
 	
 	@ApiModelProperty(value = "코스 이름", example = "남산 산책로")

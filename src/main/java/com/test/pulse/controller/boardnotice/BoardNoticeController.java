@@ -8,8 +8,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +22,9 @@ import com.test.pulse.model.boardnotice.BoardNoticeDTO;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * 공지사항 게시판 관련 요청을 처리하는 컨트롤러 클래스
+ */
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/boardnotice")
@@ -31,58 +32,17 @@ public class BoardNoticeController {
 
     private final BoardNoticeMapper mapper;
 
-    /* -------------------------------------------
-     * 🔥 (1) 테스트 로그인 화면
-     * ------------------------------------------- */
-	/*
-	 * @GetMapping("/testlogin.do") public String testlogin() {
-	 * 
-	 * return "boardnotice.testlogin"; // testlogin.jsp 만들면 됨
-	 * 
-	 * }
-	 */
-
-    /* -------------------------------------------
-     * 🔥 (2) 테스트 로그인 처리
-     *  - 일반/관리자 계정 체크
-     *  - 세션에 저장
-     * ------------------------------------------- */
-	/*
-	 * @PostMapping("/testloginok.do") public String testloginok(HttpServletRequest
-	 * req,
-	 * 
-	 * @RequestParam String accountId,
-	 * 
-	 * @RequestParam String password, Model model) {
-	 * 
-	 * // 임시 계정 하드코딩 (DB 없어도 동작) if (accountId.equals("adminhong@naver.com") &&
-	 * password.equals("1234")) {
-	 * 
-	 * // ⭐ 세션 생성 HttpSession session = req.getSession();
-	 * session.setAttribute("accountId", "adminhong@naver.com");
-	 * session.setAttribute("nickname", "관리자"); session.setAttribute("role", "관리자");
-	 * 
-	 * return "redirect:/boardnotice/list.do";
-	 * 
-	 * } else if (accountId.equals("userhong@naver.com") && password.equals("1234"))
-	 * {
-	 * 
-	 * HttpSession session = req.getSession(); session.setAttribute("accountId",
-	 * "userhong@naver.com"); session.setAttribute("nickname", "일반회원");
-	 * session.setAttribute("role", "일반");
-	 * 
-	 * return "redirect:/boardnotice/list.do";
-	 * 
-	 * } else { model.addAttribute("error", "아이디 또는 비밀번호가 올바르지 않습니다."); return
-	 * "boardnotice.testlogin"; } }
-	 */
-
-    /* -------------------------------------------
-     * 🔥 (3) 목록 + 페이징
-     * ------------------------------------------- */
+    /**
+     * 공지게시판 글 목록을 페이징하여 보여준다.
+     *
+     * @param model 뷰에 전달할 데이터를 담는 Model 객체
+     * @param page  요청된 페이지 번호 (기본값: 1)
+     * @return 공지사항 목록 뷰 이름
+     */
     @GetMapping("/list.do")
-    public String list(Model model,
-                       @RequestParam(defaultValue = "1") int page) {
+    public String list(
+            Model model,
+            @RequestParam(defaultValue = "1") int page) {
 
         int pageSize = 10;
         int offset = (page - 1) * pageSize;
@@ -95,39 +55,45 @@ public class BoardNoticeController {
         model.addAttribute("page", page);
         model.addAttribute("totalPage", totalPage);
         
-        //jsp에서도 pageSize사용가능 10 대신에 사용
-        //model.addAttribute("pageSize", pageSize);
-
         return "boardnotice.list";
     }
 
-    /* -------------------------------------------
-     * 🔥 (4) 상세 보기 + 조회수 증가 view.do
-     * ------------------------------------------- */
+    /**
+     * 공지사항 상세 내용을 보여주고 조회수를 증가시킨다.
+     *
+     * @param model 뷰에 전달할 데이터를 담는 Model 객체
+     * @param seq   조회할 공지사항의 번호
+     * @return 공지사항 상세 뷰 이름
+     */
     @GetMapping("/view.do")
     public String view(Model model, int seq) {
 
     	mapper.increaseReadCount(seq);
         model.addAttribute("dto", mapper.view(seq));
-        // model.addAttribute("role", session.getAttribute("role")); // ❌ 세션 기반 역할 제거
 
         return "boardnotice.view";
     }
 
-    /* -------------------------------------------
-     * 🔥 (5) 글쓰기 화면 (관리자만 접근 허용) add.do
-     * ------------------------------------------- */
+    /**
+     * 공지사항 작성 화면을 보여준다. (관리자만 접근 가능)
+     *
+     * @param model 뷰에 전달할 데이터를 담는 Model 객체
+     * @return 공지사항 작성 뷰 이름
+     */
     @GetMapping("/add.do")
     public String add(Model model) {
-
-
 
         return "boardnotice.add";
     }
 
-    /* -------------------------------------------
-     * 🔥 (6) 글쓰기 처리
-     * ------------------------------------------- */
+    /**
+     * 공지사항을 등록한다.
+     *
+     * @param dto     작성된 공지사항 정보를 담은 DTO 객체
+     * @param attach  업로드된 첨부파일
+     * @param req     HttpServletRequest 객체
+     * @return 공지사항 목록으로 리다이렉트
+     */
     @PostMapping("/addok.do")
     public String addok(BoardNoticeDTO dto,
                         @RequestParam("attach") MultipartFile attach,
@@ -166,8 +132,6 @@ public class BoardNoticeController {
             	
             }
 
-            
-            
             mapper.add(dto);
             return "redirect:/boardnotice/list.do";
 
@@ -175,24 +139,29 @@ public class BoardNoticeController {
             e.printStackTrace();
             return "error";
         }
-        
-        
     }
 
-    /* -------------------------------------------
-     * 🔥 (7) 수정 화면
-     * ------------------------------------------- */
+    /**
+     * 공지사항 수정 화면을 보여준다.
+     *
+     * @param model 뷰에 전달할 데이터를 담는 Model 객체
+     * @param seq   수정할 공지사항의 번호
+     * @return 공지사항 수정 뷰 이름
+     */
     @GetMapping("/edit.do")
     public String edit(Model model, int seq) {
-
 
         model.addAttribute("dto", mapper.view(seq));
         return "boardnotice.edit";
     }
 
-    /* -------------------------------------------
-     * 🔥 (8) 수정 처리
-     * ------------------------------------------- */
+    /**
+     * 수정된 공지사항을 등록한다.
+     *
+     * @param dto     수정된 공지사항 정보를 담은 DTO 객체
+     * @param session HttpSession 객체
+     * @return 공지사항 목록으로 리다이렉트
+     */
     @PostMapping("/editok.do")
     public String editok(BoardNoticeDTO dto, HttpSession session) {
 
@@ -200,9 +169,14 @@ public class BoardNoticeController {
         return "redirect:/boardnotice/list.do";
     }
 
-    /* -------------------------------------------
-     * 🔥 (9) 삭제 처리
-     * ------------------------------------------- */
+    /**
+     * 공지사항을 삭제한다.
+     *
+     * @param seq     삭제할 공지사항의 번호
+     * @param session HttpSession 객체
+     * @param rttr    RedirectAttributes 객체
+     * @return 공지사항 목록으로 리다이렉트
+     */
     @GetMapping("/del.do")
     public String del(int seq, HttpSession session, RedirectAttributes rttr) {
 

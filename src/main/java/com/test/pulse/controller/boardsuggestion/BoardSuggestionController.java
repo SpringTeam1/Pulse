@@ -22,6 +22,9 @@ import com.test.pulse.model.user.CustomUser;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * 건의사항 게시판 관련 요청을 처리하는 컨트롤러 클래스
+ */
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/boardsuggestion")
@@ -30,8 +33,8 @@ public class BoardSuggestionController {
 	private final BoardSuggestionMapper mapper;
 	
 	/** 
-	 * 게시판 목록보기
-	 * @return
+	 * 건의사항 게시판 목록 페이지를 반환한다.
+	 * @return 건의사항 목록 페이지 뷰 이름
 	 */
 	@GetMapping("/list")
 	public String list() {
@@ -39,7 +42,12 @@ public class BoardSuggestionController {
 		return "script.boardsuggestion.list";
 	}
 	
-	/** 상세 화면 (SSR 렌더링) */
+	/**
+	 * 건의사항 상세 페이지를 반환한다.
+	 * @param model 뷰에 전달할 데이터를 담는 Model 객체
+	 * @param boardContentSeq 조회할 건의사항의 번호
+	 * @return 건의사항 상세 페이지 뷰 이름
+	 */
 	@GetMapping("/view")
 	public String view(Model model, String boardContentSeq) {
 
@@ -60,7 +68,12 @@ public class BoardSuggestionController {
 		return "script.boardsuggestion.view";
 	}
 	
-	
+	/**
+	 * 건의사항 수정 페이지를 반환한다.
+	 * @param model 뷰에 전달할 데이터를 담는 Model 객체
+	 * @param boardContentSeq 수정할 건의사항의 번호
+	 * @return 건의사항 수정 페이지 뷰 이름
+	 */
 	@GetMapping("/edit")
 	public String edit(Model model, String boardContentSeq) {
 		
@@ -70,13 +83,24 @@ public class BoardSuggestionController {
 		return "script.boardsuggestion.edit";
 	}
 	
-	
+	/**
+	 * 건의사항 작성 페이지를 반환한다.
+	 * @param model 뷰에 전달할 데이터를 담는 Model 객체
+	 * @return 건의사항 작성 페이지 뷰 이름
+	 */
 	@GetMapping("/add")
 	public String add(Model model) {
 		
 		return "script.boardsuggestion.add";
 	}
 	
+	/**
+	 * 작성된 건의사항을 등록한다.
+	 * @param model 뷰에 전달할 데이터를 담는 Model 객체
+	 * @param sdto 작성된 건의사항 정보를 담은 DTO 객체
+	 * @param auth Authentication 객체
+	 * @return 건의사항 목록으로 리다이렉트
+	 */
 	@PostMapping("/addok")
 	public String addok(Model model, BoardSuggestionDTO sdto, Authentication auth) {
 		
@@ -91,6 +115,3 @@ public class BoardSuggestionController {
 	}
 
 }
-
-
-

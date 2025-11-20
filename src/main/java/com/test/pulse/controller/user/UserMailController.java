@@ -17,6 +17,9 @@ import com.test.pulse.model.user.AccountInfoDTO;
 import com.test.pulse.service.user.MailService;
 import com.test.pulse.service.user.VerificationService;
 
+/**
+ * 사용자 이메일 인증 관련 요청을 처리하는 컨트롤러 클래스
+ */
 @Controller
 @RequestMapping("/user")
 public class UserMailController {
@@ -28,7 +31,12 @@ public class UserMailController {
     @Autowired
     private UserMapper userMapper;
 
-    
+    /**
+     * 이메일 중복 여부를 확인한다.
+     *
+     * @param email 확인할 이메일 주소
+     * @return 중복 여부를 담은 Map 객체 ({"exists": true/false})
+     */
     @PostMapping("/checkEmail")
     @ResponseBody
     public Map<String, Object> checkEmail(@RequestParam String email) {
@@ -38,7 +46,12 @@ public class UserMailController {
         return result;
     }
 
-    // AJAX: 인증번호 발송
+    /**
+     * 이메일로 인증번호를 발송한다. (AJAX)
+     *
+     * @param email 인증번호를 받을 이메일 주소
+     * @return 발송 결과를 담은 Map 객체 ({"result": 1 or 0})
+     */
     @PostMapping(value="/sendmail.do")
     @ResponseBody
     public Map<String, Object> send(@RequestParam("email") String email) {
@@ -53,7 +66,13 @@ public class UserMailController {
         return res;
     }
 
-    // AJAX: 코드 검증
+    /**
+     * 입력된 인증번호를 검증한다. (AJAX)
+     *
+     * @param email 이메일 주소
+     * @param code  사용자가 입력한 인증번호
+     * @return 검증 결과를 담은 Map 객체 ({"ok": true/false})
+     */
     @PostMapping(value="/verifycode.do")
     @ResponseBody
     public Map<String, Object> verify(@RequestParam("email") String email,

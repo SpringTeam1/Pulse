@@ -18,9 +18,21 @@ import org.springframework.web.multipart.MultipartFile;
 import com.test.pulse.model.user.AccountInfoDTO;
 import com.test.pulse.service.user.InfoEditService;
 
+/**
+ * 마이페이지 관련 요청을 처리하는 컨트롤러 클래스
+ */
 @Controller
 public class MypageController {
 	
+	@Autowired
+	private InfoEditService infoEditService;
+	
+	/**
+	 * 마이페이지를 반환한다.
+	 *
+	 * @param model 뷰에 전달할 데이터를 담는 Model 객체
+	 * @return 마이페이지 뷰 이름
+	 */
 	@GetMapping("/mypage")
 	public String mypage(Model model) {
 		
@@ -46,6 +58,12 @@ public class MypageController {
 		return "user.mypage";
 	}
 	
+	/**
+	 * 회원 정보 수정 페이지를 반환한다.
+	 *
+	 * @param model 뷰에 전달할 데이터를 담는 Model 객체
+	 * @return 회원 정보 수정 페이지 뷰 이름
+	 */
 	@GetMapping("/infoedit")
 	public String infoedit(Model model) {
 		
@@ -73,9 +91,20 @@ public class MypageController {
 		return "script.user.infoedit";
 	}
 	
-	@Autowired
-	private InfoEditService infoEditService;
-	
+	/**
+	 * 회원 정보를 수정한다.
+	 *
+	 * @param dto          수정할 회원 정보를 담은 DTO 객체
+	 * @param photoFile    프로필 사진 파일
+	 * @param profilePhoto 프로필 사진 파일
+	 * @param yyyy         생년
+	 * @param mm           생월
+	 * @param dd           생일
+	 * @param session      HttpSession 객체
+	 * @param req          HttpServletRequest 객체
+	 * @param model        뷰에 전달할 데이터를 담는 Model 객체
+	 * @return 마이페이지로 리다이렉트
+	 */
 	@PostMapping("/infoedit")
 	public String infoeditok(@ModelAttribute AccountInfoDTO dto,
 			@RequestParam("photoFile") MultipartFile photoFile,
@@ -142,24 +171,45 @@ public class MypageController {
 	    return "user/infoedit";
 	}
 	
+	/**
+	 * 비밀번호 변경 페이지를 반환한다.
+	 *
+	 * @return 비밀번호 변경 페이지 뷰 이름
+	 */
 	@GetMapping("/pwchange")
 	public String pwchange() {
 		
 		return "user.pwchange";
 	}
 	
+	/**
+	 * 내 활동 페이지를 반환한다.
+	 *
+	 * @return 내 활동 페이지 뷰 이름
+	 */
 	@GetMapping("/myactivities")
 	public String myactivities() {
 		
 		return "user.myactivities";
 	}
 	
+	/**
+	 * 회원 탈퇴 페이지를 반환한다.
+	 *
+	 * @return 회원 탈퇴 페이지 뷰 이름
+	 */
 	@GetMapping("/deleteaccount")
 	public String deleteaccount() {
 		
 		return "user.deleteaccount";
 	}
 	
+	/**
+	 * 회원 탈퇴를 처리한다.
+	 *
+	 * @param session HttpSession 객체
+	 * @return 메인 페이지로 리다이렉트
+	 */
 	@PostMapping("/deleteaccountok")
 	public String deleteaccountok(HttpSession session) {
 		

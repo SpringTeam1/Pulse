@@ -11,44 +11,44 @@ import com.test.pulse.model.boardnotice.BoardNoticeDTO;
 public interface BoardNoticeMapper {
 
     /**
-     * 🔵 공지 목록 조회 (boardContentTypeSeq = 2인 글만)
+     * 공지 목록 조회 (boardContentTypeSeq = 2인 글만)
      */
     List<BoardNoticeDTO> list();
 
     /**
-     * 🔵 상세보기 (게시글 1개 조회)
+     * 상세보기 (게시글 1개 조회)
      * @param seq 게시글 번호(PK)
      */
     BoardNoticeDTO view(int seq);
 
     /**
-     * 🔵 게시글 등록(INSERT)
+     * 게시글 등록(INSERT)
      */
     void add(BoardNoticeDTO dto);
 
     /**
-     * 🔵 게시글 수정(UPDATE)
+     * 게시글 수정(UPDATE)
      */
     void edit(BoardNoticeDTO dto);
 
     /**
-     * 🔵 게시글 삭제(DELETE)
+     * 게시글 삭제(DELETE)
      */
     void del(int seq);
     
     /**
-     * 🔵 조회수 증가
+     * 조회수 증가
      */
     int increaseReadCount(int seq);
     
     /**
-     * 🔵 페이징 목록
+     * 페이징 목록
      */
     List<BoardNoticeDTO> listPaging(@Param("offset") int offset,
                                     @Param("pageSize") int pageSize);
 	
     /**
-     * 🔵 총 게시물 수 (공지글만 카운트)
+     * 총 게시물 수 (공지글만 카운트)
      */
     int totalCount();
 }

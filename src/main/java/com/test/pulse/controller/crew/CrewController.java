@@ -11,12 +11,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.test.pulse.service.crew.CrewService;
 
+/**
+ * 크루 관련 요청을 처리하는 컨트롤러 클래스
+ */
 @Controller
 @RequiredArgsConstructor
 public class CrewController {
 
     private final CrewService crewService;
 
+    /**
+     * 크루 메인 페이지를 반환한다.
+     *
+     * @param lat            현재 위도
+     * @param lng            현재 경도
+     * @param authentication 현재 사용자 인증 정보
+     * @param model          뷰에 전달할 데이터를 담는 Model 객체
+     * @return 크루 메인 페이지 뷰 이름
+     */
     @GetMapping("/crewmain")
     public String showCrewMainPage(@RequestParam(value = "lat", required = false, defaultValue = "37.5665") double lat,
                                    @RequestParam(value = "lng", required = false, defaultValue = "126.9780") double lng,
@@ -35,14 +47,24 @@ public class CrewController {
         return "script.crew.main";
     }
 
-
+    /**
+     * 크루 등록 페이지를 반환한다.
+     *
+     * @return 크루 등록 페이지 뷰 이름
+     */
     @GetMapping("/crewregister")
     public String showCrewRegisterPage() {
 
         return "script.crew.register";
     }
 
-    //리퀘스트 진입 시점에서 로그인체크 및 크루 가입여부 확인
+    /**
+     * 크루 가입 요청 관리 페이지를 반환한다.
+     *
+     * @param authentication 현재 사용자 인증 정보
+     * @param model          뷰에 전달할 데이터를 담는 Model 객체
+     * @return 크루 가입 요청 관리 페이지 뷰 이름
+     */
     @GetMapping("/crewrequest")
     public String showCrewRequestPage(Authentication authentication, Model model){
         String accountId = getAccountId(authentication);
@@ -64,6 +86,14 @@ public class CrewController {
         return "script.crew.request";
     }
 
+    /**
+     * 크루 상세 정보 페이지를 반환한다.
+     *
+     * @param crewSeq        조회할 크루 번호
+     * @param authentication 현재 사용자 인증 정보
+     * @param model          뷰에 전달할 데이터를 담는 Model 객체
+     * @return 크루 상세 정보 페이지 뷰 이름
+     */
     @GetMapping("/crewview")
     public String showCrewView(@RequestParam("crewSeq") String crewSeq,
                                Authentication authentication,
@@ -72,7 +102,7 @@ public class CrewController {
         String accountId = getAccountId(authentication);
         model.addAttribute("dto", crewService.getCrew(crewSeq));
 
-        // ✅ 이미 가입되어 있는지 여부
+        // 이미 가입되어 있는지 여부
         boolean isUserInCrew = false;
         if (accountId != null) {
             isUserInCrew = crewService.isUserInCrew(accountId);
@@ -83,6 +113,13 @@ public class CrewController {
         return "script.crew.view";
     }
 
+    /**
+     * 크루 대시보드 페이지를 반환한다.
+     *
+     * @param authentication 현재 사용자 인증 정보
+     * @param model          뷰에 전달할 데이터를 담는 Model 객체
+     * @return 크루 대시보드 페이지 뷰 이름
+     */
     @GetMapping("/crewdashboard")
     public String crewDashBoard(
             Authentication authentication,
@@ -114,6 +151,12 @@ public class CrewController {
         return "script.crew.dashboard";
     }
 
+    /**
+     * Authentication 객체에서 사용자 계정 ID를 추출한다.
+     *
+     * @param authentication 현재 사용자 인증 정보
+     * @return 사용자 계정 ID, 없으면 null
+     */
     private String getAccountId(Authentication authentication) {
         if (authentication == null || !(authentication.getPrincipal() instanceof CustomUser)) {
             return null;
