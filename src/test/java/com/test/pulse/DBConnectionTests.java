@@ -22,7 +22,7 @@ public class DBConnectionTests {
 	@Autowired
 	private TestMapper testMapper;
 	/**
-	 * TestMapper를 통해 데이터를 조회하여 데이터베이스 연결을 테스트합니다.
+	 * TestMapper를 통해 데이터를 조회하여 데이터베이스 연결을 테스트한다.
 	 */
 	@Test
 	public void test() {

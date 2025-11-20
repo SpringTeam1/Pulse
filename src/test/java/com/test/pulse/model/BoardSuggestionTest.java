@@ -32,7 +32,7 @@ public class BoardSuggestionTest {
 	private BoardSuggestionMapper mapper;
 
 	/**
-	 * 건의 게시판 목록 조회를 테스트합니다.
+	 * 건의 게시판 목록 조회를 테스트한다.
 	 */
 	@Test
 	public void testListSuggestion() {

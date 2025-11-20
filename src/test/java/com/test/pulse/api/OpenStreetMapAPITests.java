@@ -21,7 +21,7 @@ public class OpenStreetMapAPITests {
     private OpenStreetMapAPIService mapApiService;
 	
 	/**
-	 * OpenStreetMapAPIService의 coordToAddress 메서드를 테스트합니다.
+	 * OpenStreetMapAPIService의 coordToAddress 메서드를 테스트한다.
 	 */
 	@Test
     public void coordToAddress_API_호출_테스트() {

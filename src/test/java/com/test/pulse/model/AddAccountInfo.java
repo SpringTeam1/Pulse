@@ -28,7 +28,7 @@ public class AddAccountInfo {
 	private UserMapper mapper;
 	
 	/**
-	 * 새로운 사용자 계정 추가를 테스트합니다.
+	 * 새로운 사용자 계정 추가를 테스트한다.
 	 */
 	@Test
 	public void add() {
@@ -52,7 +52,7 @@ public class AddAccountInfo {
 	}
 	
 	/**
-	 * 사용자 상세 정보 추가를 테스트합니다.
+	 * 사용자 상세 정보 추가를 테스트한다.
 	 */
 	@Test
     public void addDetail() {
@@ -78,7 +78,7 @@ public class AddAccountInfo {
     }
 	
 	/**
-	 * 사용자 계정 정보 수정을 테스트합니다.
+	 * 사용자 계정 정보 수정을 테스트한다.
 	 */
 	@Test
 	public void update() {
@@ -97,7 +97,7 @@ public class AddAccountInfo {
 	}
 	
 	/**
-	 * 사용자 상세 정보 수정을 테스트합니다.
+	 * 사용자 상세 정보 수정을 테스트한다.
 	 */
 	@Test
     public void updateDetail() {
@@ -121,7 +121,7 @@ public class AddAccountInfo {
     }
 	
 	/**
-	 * 사용자 계정 삭제를 테스트합니다.
+	 * 사용자 계정 삭제를 테스트한다.
 	 */
 	@Test
 	public void deleteaccount() {
@@ -145,7 +145,7 @@ public class AddAccountInfo {
 	}
 	
 	/**
-	 * 사용자 상세 정보 삭제를 테스트합니다.
+	 * 사용자 상세 정보 삭제를 테스트한다.
 	 */
 	@Test
     public void deleteaccountDetail() {
