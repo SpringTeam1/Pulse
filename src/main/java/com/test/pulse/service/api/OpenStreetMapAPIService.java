@@ -14,6 +14,9 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * OpenStreetMap API 관련 서비스를 제공하는 클래스
+ */
 @Service
 public class OpenStreetMapAPIService {
 	private static final Logger log = LoggerFactory.getLogger(OpenStreetMapAPIService.class);
@@ -21,6 +24,11 @@ public class OpenStreetMapAPIService {
 	private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
     
+    /**
+     * OpenStreetMapAPIService 생성자
+     * @param restTemplate RestTemplate 객체
+     * @param objectMapper ObjectMapper 객체
+     */
 	@Autowired
 	public OpenStreetMapAPIService(
 			RestTemplate restTemplate,
@@ -31,6 +39,9 @@ public class OpenStreetMapAPIService {
 	
 	/**
 	 * 위도, 경도를 주소로 변환하는 메서드 (OpenStreetMap Nominatim 사용)
+	 * @param lat 위도
+	 * @param lon 경도
+	 * @return 변환된 주소 문자열
 	 */
 	public String coordToAddress(double lat, double lon) {
 	    

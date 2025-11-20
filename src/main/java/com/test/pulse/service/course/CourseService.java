@@ -26,6 +26,9 @@ import me.himanshusoni.gpxparser.modal.Track;
 import me.himanshusoni.gpxparser.modal.TrackSegment;
 import me.himanshusoni.gpxparser.modal.Waypoint;
 
+/**
+ * 코스 관련 비즈니스 로직을 처리하는 서비스 클래스
+ */
 @Service
 @RequiredArgsConstructor
 public class CourseService {
@@ -37,12 +40,12 @@ public class CourseService {
 	private final GPXParser gpxParser = new GPXParser();
 	
 	/**
-	 * 사용자가 gpx 파일을 첨부해서 코스 등록을 요청하는 경우
-	 * @param gpxFile
-	 * @param courseName
-	 * @param description
-	 * @param accountId
-	 * @return
+	 * 사용자가 gpx 파일을 첨부해서 코스 등록을 요청하는 경우를 처리한다.
+	 * @param gpxFile GPX 파일
+	 * @param courseName 코스 이름
+	 * @param description 코스 설명
+	 * @param accountId 사용자 ID
+	 * @return 생성된 코스 정보
 	 * @throws Exception
 	 */
 	public GPXCourseDTO parseAndSaveGpxCourse(
@@ -59,12 +62,12 @@ public class CourseService {
 	}
 	
 	/**
-	 * DB에 저장하는 작업 담당
-	 * @param coords
-	 * @param courseName
-	 * @param description
-	 * @param accountId
-	 * @return
+	 * DB에 코스를 저장하는 작업을 담당한다.
+	 * @param coords 좌표 리스트
+	 * @param courseName 코스 이름
+	 * @param description 코스 설명
+	 * @param accountId 사용자 ID
+	 * @return 저장된 코스 정보
 	 * @throws Exception
 	 */
 	@Transactional
@@ -104,9 +107,9 @@ public class CourseService {
 	}
 
 	/**
-	 * gpx 파일 첨부한 경우 사용하는 헬퍼 메서드
-	 * @param gpxFile
-	 * @return
+	 * gpx 파일이 첨부된 경우 사용하는 헬퍼 메서드
+	 * @param gpxFile GPX 파일
+	 * @return 좌표 리스트
 	 * @throws Exception
 	 */
 	private List<CoordinateDTO> parseGpxFile(MultipartFile gpxFile) throws Exception {
@@ -134,9 +137,9 @@ public class CourseService {
 	}
 
 	/**
-	 * 코스 상세보기
+	 * 코스 상세 정보를 조회한다.
 	 * @param courseSeq 상세보기할 코스의 PK
-	 * @return
+	 * @return 코스 상세 정보
 	 */
 	@Transactional(readOnly = true) // (읽기 전용)
 	public GPXCourseDTO getCourseDetail(int courseSeq) {
@@ -153,10 +156,10 @@ public class CourseService {
 //	}
 
 	/**
-	 * 코스 목록 보기(페이징 처리 포함)
-	 * @param page
-	 * @param keyword 
-	 * @return
+	 * 페이징 처리된 코스 목록을 조회한다.
+	 * @param page 페이지 번호
+	 * @param keyword 검색 키워드
+	 * @return 코스 목록과 페이징 정보를 담은 Map
 	 */
 	@Transactional(readOnly = true)
 	public Map<String, Object> getCourseListPage(int page, String keyword) {
@@ -194,15 +197,21 @@ public class CourseService {
 //	}
 
 	/**
-	 * 인기 코스 조회
+	 * 인기 코스 목록을 조회한다.
 	 * @param count 조회할 개수
-	 * @return
+	 * @return 인기 코스 목록
 	 */
 	@Transactional(readOnly = true)
 	public List<CourseCardDTO> getPopularCourses(int count) {	
 		return courseMapper.getPopularCourses(count);
 	}
 
+	/**
+	 * 사용자의 위치를 기반으로 추천 코스 목록을 조회한다.
+	 * @param accountId 사용자 ID
+	 * @param count 조회할 개수
+	 * @return 추천 코스 목록
+	 */
 	@Transactional(readOnly = true)
 	public List<CourseCardDTO> getRecommendedCourses(String accountId, int count) {
 		Map<String, String> location = courseMapper.getUserLocation(accountId);

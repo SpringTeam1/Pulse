@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.mail.internet.MimeMessage;
 
+/**
+ * MailService 인터페이스의 구현 클래스
+ */
 @Service
 public class MailServiceImpl implements MailService {
 
@@ -17,6 +20,11 @@ public class MailServiceImpl implements MailService {
     @Value("${mail.username}")
     private String from;
 
+    /**
+     * 지정된 이메일 주소로 인증 코드를 발송한다.
+     * @param toEmail 수신자 이메일 주소
+     * @param code 발송할 인증 코드
+     */
     @Override
     public void sendVerificationCode(String toEmail, String code) {
         try {
@@ -30,7 +38,7 @@ public class MailServiceImpl implements MailService {
             String html = "<div style='font-size:14px; font-family:sans-serif;'>"
                     + "<p>인증번호:</p>"
                     + "<p style='font-size:24px; font-weight:bold;'>" + code + "</p>"
-                    + "<p>5분간 유효합니다.</p></div>";
+                    + "<p>5분간 유효한다.</p></div>";
 
             helper.setText(html, true);
 

@@ -33,6 +33,9 @@ import me.himanshusoni.gpxparser.modal.Track;
 import me.himanshusoni.gpxparser.modal.TrackSegment;
 import me.himanshusoni.gpxparser.modal.Waypoint;
 
+/**
+ * 운동 관련 비즈니스 로직을 처리하는 서비스 클래스
+ */
 @Service
 @RequiredArgsConstructor
 public class WorkoutService {
@@ -42,11 +45,15 @@ public class WorkoutService {
     private final ObjectMapper objectMapper;    
     private final GPXParser gpxParser = new GPXParser();
 	/**
-	 * 다중 gpx 파일을 저장하기
-	 * @param gpxFiles
-	 * @param accountId
-	 * @param request 
-	 * @return
+	 * 여러 개의 GPX 파일을 운동 기록으로 저장한다.
+	 * @param gpxFiles GPX 파일 리스트
+	 * @param accountId 사용자 ID
+	 * @param userWeight 사용자 체중
+	 * @param attachment 첨부 파일
+	 * @param exerciseComment 운동 코멘트
+	 * @param request HttpServletRequest 객체
+	 * @return 저장된 운동 기록 리스트
+	 * @throws Exception
 	 */
     @Transactional
 	public List<WorkoutDTO> saveWorkoutLogs(List<MultipartFile> gpxFiles, String accountId, double userWeight,
@@ -138,20 +145,20 @@ public class WorkoutService {
 	}
 	
 	/**
-	 * 내 운동 기록 목록 조회
-	 * @param accountId
-	 * @return
+	 * 사용자의 운동 기록 목록을 조회한다.
+	 * @param accountId 사용자 ID
+	 * @return 운동 기록 목록
 	 */
 	public List<WorkoutLogDTO> getMyLogs(String accountId) {
 		return workoutMapper.getWorkoutsByAccountId(accountId);
 	}
 	
 	/**
-	 * 칼로리 계산을 위한 헬퍼 메서드
-	 * @param avgPace
-	 * @param totalTimeInSeconds
-	 * @param userWeight
-	 * @return
+	 * 소모 칼로리를 계산하기 위한 헬퍼 메서드
+	 * @param avgPace 평균 페이스
+	 * @param totalTimeInSeconds 총 운동 시간 (초)
+	 * @param userWeight 사용자 체중
+	 * @return 소모 칼로리
 	 */
 	private int calculateCalories(double avgPace, long totalTimeInSeconds, double weightKg) {
 		//(간단한 METs 계산 예시: 페이스별로 강도 부여)
@@ -167,9 +174,9 @@ public class WorkoutService {
 	}
 
 	/**
-	 * GPX 파싱 헬퍼 메서드(time, lat, lon, ele 모두 포함)
-	 * @param gpxFile
-	 * @return
+	 * GPX 파일을 파싱하기 위한 헬퍼 메서드
+	 * @param gpxFile GPX 파일
+	 * @return 웨이포인트 리스트
 	 */
 	private List<Waypoint> parseGpxTrackPoints(MultipartFile gpxFile) throws Exception {
 		List<Waypoint> trackPoints = new ArrayList<>();
@@ -187,9 +194,9 @@ public class WorkoutService {
 	}
 
 	/**
-	 * 좌표 리스트 변환 (헬퍼 메서드)
-	 * @param trackPoints
-	 * @return
+	 * 웨이포인트 리스트를 좌표 리스트로 변환하기 위한 헬퍼 메서드
+	 * @param trackPoints 웨이포인트 리스트
+	 * @return 좌표 리스트
 	 */
 	private List<CoordinateDTO> convertPointsToCoords(List<Waypoint> trackPoints) {
 	    List<CoordinateDTO> coords = new ArrayList<>();
@@ -202,6 +209,11 @@ public class WorkoutService {
 	    return coords;
 	}
 
+	/**
+	 * 운동 기록 상세 정보를 조회한다.
+	 * @param workoutSeq 운동 기록 번호
+	 * @return 운동 기록 상세 정보
+	 */
 	@Transactional(readOnly = true)
 	public WorkoutDTO getWorkoutDetail(int workoutSeq) {
 		

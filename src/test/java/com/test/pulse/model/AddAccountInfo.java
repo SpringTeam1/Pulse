@@ -12,6 +12,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import com.test.pulse.mapper.UserMapper;
 import com.test.pulse.model.user.AccountInfoDTO;
 
+/**
+ * 사용자 계정 정보에 대한 테스트 클래스
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(locations={
@@ -24,6 +27,9 @@ public class AddAccountInfo {
 	@Autowired
 	private UserMapper mapper;
 	
+	/**
+	 * 새로운 사용자 계정 추가를 테스트합니다.
+	 */
 	@Test
 	public void add() {
 		
@@ -45,6 +51,9 @@ public class AddAccountInfo {
 		
 	}
 	
+	/**
+	 * 사용자 상세 정보 추가를 테스트합니다.
+	 */
 	@Test
     public void addDetail() {
 
@@ -68,6 +77,9 @@ public class AddAccountInfo {
 
     }
 	
+	/**
+	 * 사용자 계정 정보 수정을 테스트합니다.
+	 */
 	@Test
 	public void update() {
 		
@@ -84,6 +96,9 @@ public class AddAccountInfo {
 		
 	}
 	
+	/**
+	 * 사용자 상세 정보 수정을 테스트합니다.
+	 */
 	@Test
     public void updateDetail() {
 
@@ -105,6 +120,9 @@ public class AddAccountInfo {
 
     }
 	
+	/**
+	 * 사용자 계정 삭제를 테스트합니다.
+	 */
 	@Test
 	public void deleteaccount() {
 		
@@ -126,6 +144,9 @@ public class AddAccountInfo {
 		
 	}
 	
+	/**
+	 * 사용자 상세 정보 삭제를 테스트합니다.
+	 */
 	@Test
     public void deleteaccountDetail() {
 

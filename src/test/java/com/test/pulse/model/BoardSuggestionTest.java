@@ -15,6 +15,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import com.test.pulse.mapper.BoardSuggestionMapper;
 import com.test.pulse.model.boardsuggestion.BoardSuggestionDTO;
 
+/**
+ * 건의 게시판 기능에 대한 테스트 클래스
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(locations={
@@ -28,6 +31,9 @@ public class BoardSuggestionTest {
 	@Autowired
 	private BoardSuggestionMapper mapper;
 
+	/**
+	 * 건의 게시판 목록 조회를 테스트합니다.
+	 */
 	@Test
 	public void testListSuggestion() {
 		

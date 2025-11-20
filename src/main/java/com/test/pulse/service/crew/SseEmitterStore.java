@@ -9,11 +9,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * SSE Emitter를 관리하는 클래스
+ */
 @Component
 public class SseEmitterStore {
 
     private final Map<String, List<SseEmitter>> emitters = new ConcurrentHashMap<>();
 
+    /**
+     * 특정 크루를 위한 새로운 SSE Emitter를 추가한다.
+     * @param crewSeq 크루 번호
+     * @return 생성된 SseEmitter 객체
+     */
     public SseEmitter addEmitter(String crewSeq){
         emitters.putIfAbsent(crewSeq, Collections.synchronizedList(new ArrayList<>()));
 
@@ -34,6 +42,11 @@ public class SseEmitterStore {
         return emitter;
     }
 
+    /**
+     * 특정 크루의 채팅방에 있는 모든 Emitter에게 메시지를 전송한다.
+     * @param crewSeq 크루 번호
+     * @param message 전송할 메시지
+     */
     public void sendToRoom(String crewSeq, Object message){
         List<SseEmitter> list = emitters.get(crewSeq);
         if(list == null) return;

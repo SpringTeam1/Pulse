@@ -11,12 +11,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.test.pulse.service.api.OpenStreetMapAPIService;
 
+/**
+ * OpenStreetMap API를 테스트하는 클래스
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
 public class OpenStreetMapAPITests {
 	@Autowired
     private OpenStreetMapAPIService mapApiService;
 	
+	/**
+	 * OpenStreetMapAPIService의 coordToAddress 메서드를 테스트합니다.
+	 */
 	@Test
     public void coordToAddress_API_호출_테스트() {
         // (준비) 강남역 부근 실제 좌표

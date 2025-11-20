@@ -26,11 +26,20 @@ import org.xml.sax.InputSource;
 import com.test.pulse.model.mainpage.MainPageDTO;
 
 
+/**
+ * 메인 페이지 관련 비즈니스 로직을 처리하는 서비스 클래스
+ */
 @Service
 public class MainPageService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
+    /**
+     * 사용자의 현재 위치(위도, 경도)를 기반으로 날씨 정보를 조회한다.
+     * @param lat 위도
+     * @param lon 경도
+     * @return 날씨 정보를 담은 MainPageDTO 객체
+     */
     public MainPageDTO getMainPageData(double lat, double lon) {
 
         try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
@@ -103,13 +112,21 @@ public class MainPageService {
         return dto;
     }
 
+    /**
+     * 리스트에서 가장 빈번하게 나타나는 요소를 찾는다.
+     * @param list 리스트
+     * @return 가장 빈번한 요소
+     */
     private String mostFrequent(List<String> list) {
         return list.stream()
                 .reduce((a, b) -> Collections.frequency(list, a) > Collections.frequency(list, b) ? a : b)
                 .orElse("4");
     }
 
-    // 이하 기존 메서드 그대로 ↓↓↓
+    /**
+     * 동네예보 API의 기준 날짜와 시간을 계산한다.
+     * @return 기준 날짜와 시간을 담은 Base 객체
+     */
     private Base computeVillageBase() {
         LocalDateTime now = LocalDateTime.now().minusHours(1);
         int[] slots = {2, 5, 8, 11, 14, 17, 20, 23};
@@ -123,6 +140,10 @@ public class MainPageService {
         return new Base(baseDateStr, baseTimeStr);
     }
 
+    /**
+     * 동네예보 API의 예보 날짜와 시간을 계산한다.
+     * @return 예보 날짜와 시간을 담은 Target 객체
+     */
     private Target computeTarget() {
         LocalDateTime now = LocalDateTime.now();
         LocalDate fcstDate = now.toLocalDate();
@@ -131,6 +152,14 @@ public class MainPageService {
         return new Target(fcstDateStr, fcstTimeStr);
     }
 
+    /**
+     * 특정 카테고리, 날짜, 시간에 대한 예보 값을 조회한다.
+     * @param doc XML 문서
+     * @param category 카테고리
+     * @param fcstDate 예보 날짜
+     * @param fcstTime 예보 시간
+     * @return 예보 값
+     */
     private String getFcstValue(Document doc, String category, String fcstDate, String fcstTime) {
         NodeList items = doc.getElementsByTagName("item");
         for (int i = 0; i < items.getLength(); i++) {
@@ -145,6 +174,12 @@ public class MainPageService {
         return null;
     }
 
+    /**
+     * 특정 카테고리에 대한 예보 값을 조회한다.
+     * @param doc XML 문서
+     * @param category 카테고리
+     * @return 예보 값
+     */
     private String getAnyFcstValue(Document doc, String category) {
         NodeList items = doc.getElementsByTagName("item");
         for (int i = 0; i < items.getLength(); i++) {
@@ -155,16 +190,33 @@ public class MainPageService {
         return null;
     }
 
+    /**
+     * 태그의 텍스트 내용을 조회하거나 태그가 없으면 null을 반환한다.
+     * @param doc XML 문서
+     * @param tag 태그 이름
+     * @return 태그의 텍스트 내용 또는 null
+     */
     private String textOrNull(Document doc, String tag) {
         NodeList list = doc.getElementsByTagName(tag);
         if (list.getLength() == 0) return null;
         return list.item(0).getTextContent();
     }
 
+    /**
+     * 태그의 텍스트 내용을 조회한다.
+     * @param e 요소
+     * @param tag 태그 이름
+     * @return 태그의 텍스트 내용
+     */
     private String text(Element e, String tag) {
         return e.getElementsByTagName(tag).item(0).getTextContent();
     }
 
+    /**
+     * 하늘 상태 코드를 파싱하여 사람이 읽을 수 있는 문자열로 변환한다.
+     * @param code 하늘 상태 코드
+     * @return 변환된 문자열
+     */
     private String parseSkyCode(String code) {
         if (code == null) return "정보없음";
         switch (code) {
@@ -180,6 +232,11 @@ public class MainPageService {
     }
 
 
+    /**
+     * 강수 형태 코드를 파싱하여 사람이 읽을 수 있는 문자열로 변환한다.
+     * @param code 강수 형태 코드
+     * @return 변환된 문자열
+     */
     private String parsePtyCode(String code) {
     	if (code == null) return "정보없음";
         switch (code) {
@@ -202,6 +259,12 @@ public class MainPageService {
         }
     }
 
+    /**
+     * 위도와 경도를 격자 좌표로 변환한다.
+     * @param lat 위도
+     * @param lon 경도
+     * @return 격자 좌표 (x, y)
+     */
     private int[] convertToGrid(double lat, double lon) {
         double RE = 6371.00877, GRID = 5.0, SLAT1 = 30.0, SLAT2 = 60.0, OLON = 126.0, OLAT = 38.0;
         double XO = 43, YO = 136;
@@ -229,6 +292,10 @@ public class MainPageService {
         return new int[]{x, y};
     }
 
+    /**
+     * 비어있는 MainPageDTO 객체를 반환한다.
+     * @return 비어있는 MainPageDTO 객체
+     */
     private MainPageDTO emptyDto() {
         MainPageDTO dto = new MainPageDTO();
         dto.setTemp(0.0);
@@ -239,6 +306,12 @@ public class MainPageService {
         return dto;
     }
 
+    /**
+     * 기준 날짜와 시간을 저장하는 내부 클래스
+     */
     private static class Base { final String baseDate; final String baseTime; Base(String d, String t){this.baseDate=d;this.baseTime=t;} }
+    /**
+     * 예보 날짜와 시간을 저장하는 내부 클래스
+     */
     private static class Target { final String fcstDate; final String fcstTime; Target(String d, String t){this.fcstDate=d;this.fcstTime=t;} }
 }
