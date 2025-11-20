@@ -25,6 +25,9 @@ import com.test.pulse.model.boardsuggestion.BoardSuggestionDTO;
 import lombok.RequiredArgsConstructor;
 import springfox.documentation.annotations.ApiIgnore;
 
+/**
+ * 건의 게시판 관련 RESTful API를 제공하는 컨트롤러
+ */
 @Api(tags = "Board Suggestion API")
 @RestController
 @RequiredArgsConstructor
@@ -33,6 +36,15 @@ public class BoardSuggestionRestController {
 
 	private final BoardSuggestionMapper mapper;
 
+    /**
+     * 페이징, 검색, 정렬 기능을 포함한 건의 게시판 목록을 조회한다.
+     * @param page 페이지 번호
+     * @param size 페이지 당 게시글 수
+     * @param keyword 검색 키워드
+     * @param sort 정렬 기준
+     * @param order 정렬 순서
+     * @return 게시글 목록, 전체 게시글 수, 전체 페이지 수 정보를 담은 Map 객체
+     */
     @ApiOperation(value = "건의 게시판 목록 조회", notes = "페이징, 검색, 정렬 기능을 포함한 건의 게시판 목록을 조회한다.")
 	@GetMapping("/list")
     public Map<String, Object> getBoardList(
@@ -73,7 +85,11 @@ public class BoardSuggestionRestController {
     }
 	
 	
-	/** 좋아요 증가 */
+	/**
+     * 특정 게시글의 좋아요 수를 1 증가시킨다.
+     * @param boardContentSeq 게시글 고유 번호
+     * @return 새로운 좋아요 수를 담은 Map 객체
+     */
     @ApiOperation(value = "게시글 좋아요", notes = "특정 게시글의 좋아요 수를 1개 증가시킨다.")
     @PostMapping("/like/{boardContentSeq}")
     public Map<String, Object> like(
@@ -88,7 +104,11 @@ public class BoardSuggestionRestController {
         return result;
     }
 
-    /** 삭제 */
+    /**
+     * 특정 건의 게시글을 삭제한다.
+     * @param boardContentSeq 삭제할 게시글 고유 번호
+     * @return 삭제 성공 여부를 담은 Map 객체
+     */
     @ApiOperation(value = "게시글 삭제", notes = "특정 건의 게시글을 삭제한다.")
     @DeleteMapping("/delete/{boardContentSeq}")
     public Map<String, Object> del(
@@ -103,7 +123,15 @@ public class BoardSuggestionRestController {
     }
 	
 	
-    /** 게시글 수정 (REST + 파일 업로드) */
+    /**
+     * 게시글의 제목, 내용, 첨부파일을 수정한다.
+     * @param boardContentSeq 수정할 게시글 고유 번호
+     * @param title 수정할 제목
+     * @param content 수정할 내용
+     * @param attach 수정할 첨부파일
+     * @param req HttpServletRequest 객체
+     * @return 수정 결과와 리다이렉트 URL을 담은 ResponseEntity 객체
+     */
     @ApiOperation(value = "게시글 수정", notes = "제목, 내용, 첨부파일을 수정한다. 파일 미첨부 시 기존 파일이 유지된다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "수정 성공"),

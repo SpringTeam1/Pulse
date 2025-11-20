@@ -24,6 +24,9 @@ import io.swagger.annotations.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import springfox.documentation.annotations.ApiIgnore;
 
+/**
+ * 코스 관련 RESTful API를 제공하는 컨트롤러
+ */
 @Api(tags = "Course API") // [1] 컨트롤러 설명
 @RestController
 @RequestMapping("/api/course")
@@ -33,12 +36,12 @@ public class CourseRestController {
 	private final Logger log = LoggerFactory.getLogger(CourseService.class);
 	
 	/**
-	 * 코스 등록 요청하기(파일첨부)
-	 * @param gpxFile
-	 * @param courseName
-	 * @param description
-	 * @param auth
-	 * @return 
+	 * GPX 파일을 업로드하여 새로운 코스를 생성한다.
+	 * @param gpxFile GPX 파일
+	 * @param courseName 코스 이름
+	 * @param description 코스 설명
+	 * @param auth 인증 정보
+	 * @return 생성된 코스 정보
 	 */
 	@ApiOperation(value = "GPX 파일로 코스 등록", notes = "GPX 파일을 업로드하여 새로운 코스를 생성한다.")
 	@ApiResponse(code = 500, message = "Internal Server Error")
@@ -82,10 +85,10 @@ public class CourseRestController {
 	}
 	
 	/**
-	 * 사용자가 직접 코스 등록 요청하기
-	 * @param ManualCourseDTO
-	 * @param auth
-	 * @return
+	 * 지도에서 직접 찍은 좌표(JSON)를 이용해 코스를 등록한다.
+	 * @param request 수동 코스 등록 요청 정보
+	 * @param auth 인증 정보
+	 * @return 생성된 코스 정보
 	 */
 	@ApiOperation(value = "수동 좌표 코스 등록", notes = "지도에서 직접 찍은 좌표(JSON)를 이용해 코스를 등록한다.")
 	@ApiResponse(code = 500, message = "Internal Server Error")

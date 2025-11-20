@@ -21,6 +21,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 크루 관련 RESTful API를 제공하는 컨트롤러
+ */
 @Api(tags = "Crew API")
 @RestController
 @RequiredArgsConstructor
@@ -29,6 +32,14 @@ public class CrewRestController {
 
     private final CrewService crewService;
 
+    /**
+     * 새로운 크루를 생성한다. 크루 정보와 대표 이미지를 업로드한다.
+     * @param crew 크루 정보
+     * @param crewAttach 크루 대표 이미지 파일
+     * @param req HttpServletRequest 객체
+     * @param authentication 인증 정보
+     * @return 크루 생성 결과를 담은 ResponseEntity
+     */
     @ApiOperation(value = "크루 생성(등록)", notes = "새로운 크루를 생성한다. 크루 정보와 대표 이미지를 업로드한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "크루 생성 성공"),
@@ -51,10 +62,10 @@ public class CrewRestController {
             String accountId = getAccountId(authentication);
             if (accountId == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body(Map.of("success", false, "message", "로그인이 필요합니다."));
+                        .body(Map.of("success", false, "message", "로그인이 필요한다."));
             }
 
-            // ✅ 이미 크루에 가입된 유저는 생성 제한
+            // 이미 크루에 가입된 유저는 생성 제한
             if (crewService.isUserInCrew(accountId)) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
                         .body(Map.of("success", false, "message", "이미 크루에 가입되어 있습니다. 기존 크루 탈퇴 후 재시도 해주세요."));
@@ -62,7 +73,7 @@ public class CrewRestController {
 
             crew.setAccountId(accountId);
 
-            // ✅ 1. 파일 업로드
+            // 1. 파일 업로드
             if (crewAttach != null && !crewAttach.isEmpty()) {
                 String uploadDir = req.getServletContext().getRealPath("/crewmainFile");
                 File dir = new File(uploadDir);
@@ -77,10 +88,10 @@ public class CrewRestController {
                 crew.setCrewAttach("default.jpg");
             }
 
-            // ✅ 2. DB 저장 (MyBatis Mapper 호출)
+            // 2. DB 저장 (MyBatis Mapper 호출)
             int result = crewService.addCrew(crew);
 
-            // ✅ 3. 응답 생성
+            // 3. 응답 생성
             Map<String, Object> res = new HashMap<>();
             res.put("success", result > 0);
             res.put("message", result > 0 ? "크루가 성공적으로 등록되었습니다!" : "크루 등록에 실패했습니다.");
@@ -96,6 +107,11 @@ public class CrewRestController {
         }
     }
 
+    /**
+     * 특정 크루에 소속된 회원들의 목록을 조회한다.
+     * @param crewSeq 크루 고유 번호
+     * @return 회원 목록을 담은 ResponseEntity
+     */
     @ApiOperation(value = "크루 회원 목록 조회", notes = "특정 크루에 소속된 회원들의 목록을 조회한다.")
     @GetMapping("/member/list/{crewSeq}")
     public ResponseEntity<List<CrewMemberDTO>> getMemberList(
@@ -106,12 +122,21 @@ public class CrewRestController {
         return ResponseEntity.ok(list);
     }
 
+    /**
+     * 공공데이터포털 등 외부 API를 통해 마라톤 대회 정보를 가져온다.
+     * @return 마라톤 대회 정보 JSON 문자열
+     */
     @ApiOperation(value = "마라톤 정보 조회 (외부 API)", notes = "공공데이터포털 등 외부 API를 통해 마라톤 대회 정보를 가져온다.")
     @GetMapping(value = "/marathonapi", produces = "application/json; charset=UTF-8")
     public String getMarathonApi() {
         return crewService.getMarathon();
     }
 
+    /**
+     * 인증 정보에서 사용자 계정 ID를 가져온다.
+     * @param authentication 인증 정보
+     * @return 사용자 계정 ID
+     */
     private String getAccountId(Authentication authentication) {
         if (authentication == null || !(authentication.getPrincipal() instanceof CustomUser)) {
             return null;

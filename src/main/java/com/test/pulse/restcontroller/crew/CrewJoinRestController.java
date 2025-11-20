@@ -14,6 +14,9 @@ import springfox.documentation.annotations.ApiIgnore;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 크루 가입 신청 관련 RESTful API를 제공하는 컨트롤러
+ */
 @Api(tags = "Crew Join API")
 @RestController
 @RequiredArgsConstructor
@@ -22,8 +25,13 @@ public class CrewJoinRestController {
 
     private final CrewService crewService;
 
-    // ✅ 크루 가입 신청
-    @ApiOperation(value = "크루 가입 신청", notes = "일반 회원이 특정 크루에 가입을 신청합니다.")
+    /**
+     * 일반 회원이 특정 크루에 가입을 신청한다.
+     * @param crewSeq 가입할 크루 번호
+     * @param authentication 인증 정보
+     * @return 가입 신청 결과를 담은 ResponseEntity
+     */
+    @ApiOperation(value = "크루 가입 신청", notes = "일반 회원이 특정 크루에 가입을 신청한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "신청 완료"),
             @ApiResponse(code = 400, message = "이미 가입/신청 상태"),
@@ -39,11 +47,11 @@ public class CrewJoinRestController {
         if (accountId == null) {
             return ResponseEntity.status(401).body(Map.of(
                     "success", false,
-                    "message", "로그인이 필요합니다."
+                    "message", "로그인이 필요한다."
             ));
         }
 
-        // ✅ 이미 가입 or 신청한 경우 방지
+        // 이미 가입 or 신청한 경우 방지
         boolean alreadyJoined = crewService.isUserInCrew(accountId);
         boolean alreadyRequested = crewService.isAlreadyRequested(crewSeq, accountId);
 
@@ -62,7 +70,11 @@ public class CrewJoinRestController {
         ));
     }
 
-    //  특정 크루의 가입 요청 목록 조회
+    /**
+     * 크루장이 해당 크루에 들어온 가입 신청 목록을 확인한다.
+     * @param crewSeq 크루 번호
+     * @return 가입 신청 목록을 담은 ResponseEntity
+     */
     @ApiOperation(value = "가입 신청 목록 조회", notes = "크루장이 해당 크루에 들어온 가입 신청 목록을 확인한다.")
     @GetMapping("/list/{crewSeq}")
     public ResponseEntity<?> getJoinRequests(
@@ -72,7 +84,11 @@ public class CrewJoinRestController {
         return ResponseEntity.ok(list);
     }
 
-    // 가입 승인
+    /**
+     * 크루장이 특정 회원의 가입 요청을 승인한다.
+     * @param crewJoinSeq 가입 요청 번호
+     * @return 가입 승인 결과를 담은 ResponseEntity
+     */
     @ApiOperation(value = "가입 승인", notes = "크루장이 특정 회원의 가입 요청을 승인한다.")
     @PostMapping("/approve/{crewJoinSeq}")
     public ResponseEntity<?> approveJoin(
@@ -85,6 +101,11 @@ public class CrewJoinRestController {
         ));
     }
 
+    /**
+     * 가입 승인 후 크루의 현재 인원수를 갱신한다.
+     * @param crewSeq 크루 번호
+     * @return 인원수 갱신 결과를 담은 ResponseEntity
+     */
     @ApiOperation(value = "크루 멤버 수 갱신", notes = "가입 승인 후 크루의 현재 인원수를 갱신한다. (승인 로직 내부에서 호출될 수 있음")
     @PatchMapping("/approve/memberup/{crewSeq}")
     public ResponseEntity<?> approveMemberup(
@@ -100,7 +121,11 @@ public class CrewJoinRestController {
 
 
 
-    // 가입 거절
+    /**
+     * 크루장이 특정 회원의 가입 요청을 거절한다.
+     * @param crewJoinSeq 가입 요청 번호
+     * @return 가입 거절 결과를 담은 ResponseEntity
+     */
     @ApiOperation(value = "가입 거절", notes = "크루장이 특정 회원의 가입 요청을 거절한다.")
     @PostMapping("/reject/{crewJoinSeq}")
     public ResponseEntity<?> rejectJoin(
@@ -113,6 +138,11 @@ public class CrewJoinRestController {
         ));
     }
 
+    /**
+     * 인증 정보에서 사용자 계정 ID를 가져온다.
+     * @param authentication 인증 정보
+     * @return 사용자 계정 ID
+     */
     private String getAccountId(Authentication authentication) {
         if (authentication == null || !(authentication.getPrincipal() instanceof CustomUser)) {
             return null;

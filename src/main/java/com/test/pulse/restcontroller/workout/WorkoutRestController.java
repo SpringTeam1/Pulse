@@ -24,6 +24,9 @@ import com.test.pulse.service.workout.WorkoutService;
 import lombok.RequiredArgsConstructor;
 import springfox.documentation.annotations.ApiIgnore;
 
+/**
+ * 운동 관련 RESTful API를 제공하는 컨트롤러
+ */
 @Api(tags = "Workout API")
 @RestController
 @RequestMapping("/api/workout")
@@ -32,7 +35,16 @@ public class WorkoutRestController {
 	private final WorkoutService workoutService;
 	private final Logger log = LoggerFactory.getLogger(WorkoutRestController.class);
 	
-	//다중 gpx 파일 업로드 API
+	/**
+     * 여러 개의 GPX 파일을 업로드하여 운동 기록을 저장한다. (사진, 코멘트 포함)
+     * @param gpxFiles GPX 파일 리스트
+     * @param userWeight 사용자 체중
+     * @param attachment 운동 인증 사진
+     * @param exerciseComment 운동 한줄평
+     * @param auth 인증 정보
+     * @param request HttpServletRequest 객체
+     * @return 저장된 운동 기록 리스트를 담은 ResponseEntity
+     */
     @ApiOperation(value = "운동 기록(GPX) 업로드", notes = "여러 개의 GPX 파일을 업로드하여 운동 기록을 저장한다. (사진, 코멘트 포함)")
     @ApiResponses({
             @ApiResponse(code = 201, message = "운동 기록 저장 성공"),

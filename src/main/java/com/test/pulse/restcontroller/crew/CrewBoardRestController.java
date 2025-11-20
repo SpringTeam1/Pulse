@@ -24,6 +24,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 크루 게시판 관련 RESTful API를 제공하는 컨트롤러
+ */
 @Api(tags = "Crew Board API")
 @RestController
 @RequestMapping("/api/v1/crew/board")
@@ -33,7 +36,12 @@ public class CrewBoardRestController {
     private final CrewBoardService crewBoardService;
     private final CrewService crewService;
 
-    //게시글 목록 조회
+    /**
+     * 특정 크루의 게시글 목록을 페이징하여 조회한다.
+     * @param crewSeq 크루 번호
+     * @param page 페이지 번호
+     * @return 게시글 목록과 전체 게시글 수를 담은 ResponseEntity
+     */
     @ApiOperation(value = "크루 게시글 목록 조회", notes = "특정 크루의 게시글 목록을 페이징하여 조회한다.")
     @GetMapping("/{crewSeq}")
     public ResponseEntity<?> list(
@@ -58,7 +66,11 @@ public class CrewBoardRestController {
         ));
     }
 
-    //게시글 총 갯수
+    /**
+     * 크루의 전체 게시글 수를 반환한다.
+     * @param crewSeq 크루 번호
+     * @return 전체 게시글 수를 담은 ResponseEntity
+     */
     @ApiOperation(value = "게시글 총 개수 조회", notes = "크루의 전체 게시글 수를 반환한다.")
     @GetMapping("/boardcount/{crewSeq}")
     public ResponseEntity<?> getBoardCount(
@@ -68,7 +80,11 @@ public class CrewBoardRestController {
         return ResponseEntity.ok(totalCount);
     }
 
-    //이번주 게시글 총 갯수
+    /**
+     * 이번 주에 작성된 게시글 수를 반환한다.
+     * @param crewSeq 크루 번호
+     * @return 이번 주 게시글 수를 담은 ResponseEntity
+     */
     @ApiOperation(value = "이번 주 게시글 수 조회", notes = "이번 주에 작성된 게시글 수를 반환한다.")
     @GetMapping("/boardtop2count/{crewSeq}")
     public ResponseEntity<?> getBoardTop2Count(
@@ -78,7 +94,11 @@ public class CrewBoardRestController {
         return ResponseEntity.ok(totalCount);
     }
 
-    //이번주 게시글 조회수 top1
+    /**
+     * 이번 주 조회수가 가장 높은 게시글을 반환한다.
+     * @param crewSeq 크루 번호
+     * @return 주간 인기 게시글 정보를 담은 ResponseEntity
+     */
     @ApiOperation(value = "주간 인기 게시글(조회수) 조회", notes = "이번 주 조회수가 가장 높은 게시글을 반환한다.")
     @GetMapping("/boardtop2/{crewSeq}")
     public ResponseEntity<BoardDTO> getBoardTop2(
@@ -88,7 +108,14 @@ public class CrewBoardRestController {
         return ResponseEntity.ok(dto);
     }
 
-    //게시글 등록
+    /**
+     * 크루 게시판에 글을 작성한다. (이미지 첨부 가능)
+     * @param boardDTO 게시글 정보
+     * @param attach 첨부 파일
+     * @param req HttpServletRequest 객체
+     * @param authentication 인증 정보
+     * @return 게시글 등록 결과를 담은 ResponseEntity
+     */
     @ApiOperation(value = "게시글 등록", notes = "크루 게시판에 글을 작성한다. (이미지 첨부 가능)")
     @PostMapping
     public ResponseEntity<?> add(
@@ -103,7 +130,7 @@ public class CrewBoardRestController {
             if (accountId == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of(
                         "success", false,
-                        "message", "로그인이 필요합니다."
+                        "message", "로그인이 필요한다."
                 ));
             }
             String crewSeq = crewService.getCrewSeq(accountId);
@@ -159,7 +186,11 @@ public class CrewBoardRestController {
         }
     }
 
-    //좋아요 기능
+    /**
+     * 게시글의 좋아요 수를 증가시킨다.
+     * @param boardContentSeq 게시글 번호
+     * @return 좋아요 처리 결과를 담은 ResponseEntity
+     */
     @ApiOperation(value = "게시글 좋아요", notes = "게시글의 좋아요 수를 증가시킨다.")
     @PostMapping("/{boardContentSeq}/like")
     public ResponseEntity<?> likebtn(
@@ -179,7 +210,11 @@ public class CrewBoardRestController {
         }
     }
 
-    //이번주 좋아요 1위 글
+    /**
+     * 이번 주 좋아요 수가 가장 많은 게시글을 반환한다.
+     * @param crewSeq 크루 번호
+     * @return 주간 인기 게시글(좋아요) 정보를 담은 ResponseEntity
+     */
     @ApiOperation(value = "주간 인기 게시글(좋아요) 조회", notes = "이번 주 좋아요 수가 가장 많은 게시글을 반환한다.")
     @GetMapping("/boardliketop/{crewSeq}")
     public ResponseEntity<BoardDTO> getLikeTop1BoardContent(
@@ -190,7 +225,15 @@ public class CrewBoardRestController {
         return ResponseEntity.ok(dto);
     }
 
-    //게시글 수정
+    /**
+     * 작성한 게시글을 수정한다. (본인 글만 가능)
+     * @param boardDTO 수정할 게시글 정보
+     * @param boardContentSeq 게시글 번호
+     * @param attachFile 수정할 첨부 파일
+     * @param req HttpServletRequest 객체
+     * @param authentication 인증 정보
+     * @return 게시글 수정 결과를 담은 ResponseEntity
+     */
     @ApiOperation(value = "게시글 수정", notes = "작성한 게시글을 수정한다. (본인 글만 가능)")
     @PutMapping("/{boardContentSeq}/edit")
     public ResponseEntity<?> edit(
@@ -207,7 +250,7 @@ public class CrewBoardRestController {
             if (accountId == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of(
                         "success", false,
-                        "message", "로그인이 필요합니다."
+                        "message", "로그인이 필요한다."
                 ));
             }
 
@@ -270,7 +313,12 @@ public class CrewBoardRestController {
         }
     }
 
-    //게시글 삭제
+    /**
+     * 게시글을 삭제한다. (본인 글만 가능)
+     * @param boardContentSeq 삭제할 게시글 번호
+     * @param authentication 인증 정보
+     * @return 게시글 삭제 결과를 담은 ResponseEntity
+     */
     @ApiOperation(value = "게시글 삭제", notes = "게시글을 삭제한다. (본인 글만 가능)")
     @DeleteMapping("/{boardContentSeq}/del")
     public ResponseEntity<?> delete(
@@ -283,7 +331,7 @@ public class CrewBoardRestController {
             if (accountId == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of(
                         "success", false,
-                        "message", "로그인이 필요합니다."
+                        "message", "로그인이 필요한다."
                 ));
             }
 
@@ -324,6 +372,11 @@ public class CrewBoardRestController {
         }
     }
 
+    /**
+     * 인증 정보에서 사용자 계정 ID를 가져온다.
+     * @param authentication 인증 정보
+     * @return 사용자 계정 ID
+     */
     private String getAccountId(Authentication authentication) {
         if (authentication == null || !(authentication.getPrincipal() instanceof CustomUser)) {
             return null;
