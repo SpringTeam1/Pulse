@@ -6,12 +6,15 @@ import com.test.pulse.service.crew.CrewBoardService;
 import com.test.pulse.service.crew.CrewService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -30,12 +33,14 @@ public class CrewBoardRestController {
     private final CrewBoardService crewBoardService;
     private final CrewService crewService;
 
-    /**
-     * ✅ 게시글 목록 조회
-     */
+    //게시글 목록 조회
+    @ApiOperation(value = "크루 게시글 목록 조회", notes = "특정 크루의 게시글 목록을 페이징하여 조회한다.")
     @GetMapping("/{crewSeq}")
-    public ResponseEntity<?> list(@PathVariable String crewSeq,
-                                  @RequestParam(defaultValue = "1") int page) {
+    public ResponseEntity<?> list(
+            @ApiParam(value = "크루 번호(Seq)", required = true, example = "1")
+            @PathVariable String crewSeq,
+            @ApiParam(value = "페이지 번호", defaultValue = "1",  example = "1")
+            @RequestParam(defaultValue = "1") int page) {
         int pageSize = 10;
         int begin = (page - 1) * pageSize + 1;
         int end = page * pageSize;
@@ -53,42 +58,45 @@ public class CrewBoardRestController {
         ));
     }
 
-    /**
-     * 게시글 총 갯수
-     */
+    //게시글 총 갯수
+    @ApiOperation(value = "게시글 총 개수 조회", notes = "크루의 전체 게시글 수를 반환한다.")
     @GetMapping("/boardcount/{crewSeq}")
-    public ResponseEntity<?> getBoardCount(@PathVariable String crewSeq) {
+    public ResponseEntity<?> getBoardCount(
+            @ApiParam(value = "크루 번호(Seq)", required = true)
+            @PathVariable String crewSeq) {
         int totalCount = crewBoardService.getTotalCount(crewSeq);
         return ResponseEntity.ok(totalCount);
     }
 
-    /**
-     * 이번주 게시글 총 갯수
-     */
+    //이번주 게시글 총 갯수
+    @ApiOperation(value = "이번 주 게시글 수 조회", notes = "이번 주에 작성된 게시글 수를 반환한다.")
     @GetMapping("/boardtop2count/{crewSeq}")
-    public ResponseEntity<?> getBoardTop2Count(@PathVariable String crewSeq) {
+    public ResponseEntity<?> getBoardTop2Count(
+            @ApiParam(value = "크루 번호(Seq)", required = true)
+            @PathVariable String crewSeq) {
         int totalCount = crewBoardService.getTotalCount2Week(crewSeq);
         return ResponseEntity.ok(totalCount);
     }
 
-    /**
-     * 이번주 게시글 조회수 top1
-     */
+    //이번주 게시글 조회수 top1
+    @ApiOperation(value = "주간 인기 게시글(조회수) 조회", notes = "이번 주 조회수가 가장 높은 게시글을 반환한다.")
     @GetMapping("/boardtop2/{crewSeq}")
-    public ResponseEntity<BoardDTO> getBoardTop2(@PathVariable String crewSeq) {
+    public ResponseEntity<BoardDTO> getBoardTop2(
+            @ApiParam(value = "크루 번호(Seq)", required = true)
+            @PathVariable String crewSeq) {
         BoardDTO dto = crewBoardService.getWeeklyTop2Posts(crewSeq);
         return ResponseEntity.ok(dto);
     }
 
-    /**
-     * ✅ 게시글 등록
-     */
+    //게시글 등록
+    @ApiOperation(value = "게시글 등록", notes = "크루 게시판에 글을 작성한다. (이미지 첨부 가능)")
     @PostMapping
     public ResponseEntity<?> add(
             @ModelAttribute BoardDTO boardDTO,
+            @ApiParam(value = "첨부 파일(이미지)")
             @RequestParam(value = "attach", required = false) MultipartFile attach,
-            HttpServletRequest req,
-            Authentication authentication
+            @ApiIgnore HttpServletRequest req,
+            @ApiIgnore Authentication authentication
     ) {
         try {
             String accountId = getAccountId(authentication);
@@ -151,11 +159,12 @@ public class CrewBoardRestController {
         }
     }
 
-    /**
-     * ✅ 좋아요 기능
-     */
+    //좋아요 기능
+    @ApiOperation(value = "게시글 좋아요", notes = "게시글의 좋아요 수를 증가시킨다.")
     @PostMapping("/{boardContentSeq}/like")
-    public ResponseEntity<?> likebtn(@PathVariable("boardContentSeq") String boardContentSeq) {
+    public ResponseEntity<?> likebtn(
+            @ApiParam(value = "게시글 번호(Seq)", required = true)
+            @PathVariable("boardContentSeq") String boardContentSeq) {
         try {
             int newCount = crewBoardService.updateLike(boardContentSeq);
             return ResponseEntity.ok(Map.of(
@@ -170,27 +179,28 @@ public class CrewBoardRestController {
         }
     }
 
-    /**
-     * 이번주 좋아요 1위 글
-     */
+    //이번주 좋아요 1위 글
+    @ApiOperation(value = "주간 인기 게시글(좋아요) 조회", notes = "이번 주 좋아요 수가 가장 많은 게시글을 반환한다.")
     @GetMapping("/boardliketop/{crewSeq}")
     public ResponseEntity<BoardDTO> getLikeTop1BoardContent(
+            @ApiParam(value = "크루 번호(Seq)", required = true)
             @PathVariable String crewSeq
     ) {
         BoardDTO dto = crewBoardService.getLikeTop1BoardContent(crewSeq);
         return ResponseEntity.ok(dto);
     }
 
-    /**
-     * ✅ 게시글 수정
-     */
+    //게시글 수정
+    @ApiOperation(value = "게시글 수정", notes = "작성한 게시글을 수정한다. (본인 글만 가능)")
     @PutMapping("/{boardContentSeq}/edit")
     public ResponseEntity<?> edit(
             @ModelAttribute BoardDTO boardDTO,
+            @ApiParam(value = "게시글 번호(Seq)", required = true)
             @PathVariable String boardContentSeq,
+            @ApiParam(value = "수정할 첨부 파일 (없으면 유지)")
             @RequestParam(value = "attach", required = false) MultipartFile attachFile,
-            HttpServletRequest req,
-            Authentication authentication
+            @ApiIgnore HttpServletRequest req,
+            @ApiIgnore Authentication authentication
     ) {
         try {
             String accountId = getAccountId(authentication);
@@ -260,13 +270,13 @@ public class CrewBoardRestController {
         }
     }
 
-    /**
-     * ✅ 게시글 삭제
-     */
+    //게시글 삭제
+    @ApiOperation(value = "게시글 삭제", notes = "게시글을 삭제한다. (본인 글만 가능)")
     @DeleteMapping("/{boardContentSeq}/del")
     public ResponseEntity<?> delete(
+            @ApiParam(value = "삭제할 게시글 번호(Seq)", required = true)
             @PathVariable String boardContentSeq,
-            Authentication authentication
+            @ApiIgnore Authentication authentication
     ) {
         try {
             String accountId = getAccountId(authentication);

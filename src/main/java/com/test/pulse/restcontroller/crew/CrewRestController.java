@@ -6,13 +6,14 @@ import com.test.pulse.model.crew.CrewMemberDTO;
 import com.test.pulse.model.user.CustomUser;
 import com.test.pulse.service.crew.CrewService;
 
-import io.swagger.annotations.Api;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -28,12 +29,22 @@ public class CrewRestController {
 
     private final CrewService crewService;
 
+    @ApiOperation(value = "크루 생성(등록)", notes = "새로운 크루를 생성한다. 크루 정보와 대표 이미지를 업로드한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "크루 생성 성공"),
+            @ApiResponse(code = 401, message = "로그인 필요"),
+            @ApiResponse(code = 403, message = "이미 크루에 가입된 사용자"),
+            @ApiResponse(code = 500, message = "서버 오류 (파일 저장 실패 등)")
+    })
     @PostMapping
     public ResponseEntity<?> registerCrew(
+            @ApiParam(value = "크루 정보 (이름, 목표, 활동지역 등)", required = true)
             @ModelAttribute CrewDTO crew,
+
+            @ApiParam(value = "크루 대표 이미지 파일")
             @RequestParam(value = "crewAttach", required = false) MultipartFile crewAttach,
-            HttpServletRequest req,
-            Authentication authentication) {
+            @ApiIgnore HttpServletRequest req,
+            @ApiIgnore Authentication authentication) {
 
         try {
 
@@ -85,14 +96,17 @@ public class CrewRestController {
         }
     }
 
+    @ApiOperation(value = "크루 회원 목록 조회", notes = "특정 크루에 소속된 회원들의 목록을 조회한다.")
     @GetMapping("/member/list/{crewSeq}")
     public ResponseEntity<List<CrewMemberDTO>> getMemberList(
+            @ApiParam(value = "크루 고유 번호(Seq)", required = true, example = "1")
             @PathVariable("crewSeq") String crewSeq
     ) {
         List<CrewMemberDTO> list = crewService.memberList(crewSeq);
         return ResponseEntity.ok(list);
     }
 
+    @ApiOperation(value = "마라톤 정보 조회 (외부 API)", notes = "공공데이터포털 등 외부 API를 통해 마라톤 대회 정보를 가져온다.")
     @GetMapping(value = "/marathonapi", produces = "application/json; charset=UTF-8")
     public String getMarathonApi() {
         return crewService.getMarathon();

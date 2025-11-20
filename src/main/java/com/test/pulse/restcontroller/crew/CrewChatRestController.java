@@ -5,6 +5,8 @@ import com.test.pulse.service.crew.ChatMemoryStore;
 import com.test.pulse.service.crew.SseEmitterStore;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -21,8 +23,11 @@ public class CrewChatRestController {
     private final ChatMemoryStore chatMemoryStore;
     private final SseEmitterStore sseEmitterStore;
 
+    @ApiOperation(value = "채팅방 입장 (SSE 연결)", notes = "Server-Sent Events를 통해 실시간 채팅을 위한 연결을 맺는다.")
     @GetMapping(value="/stream/{crewSeq}", produces = "text/event-stream")
-    public SseEmitter connect(@PathVariable String crewSeq) {
+    public SseEmitter connect(
+            @ApiParam(value = "입장할 크루(채팅방) 번호", required = true)
+            @PathVariable String crewSeq) {
 
         SseEmitter emitter = sseEmitterStore.addEmitter(crewSeq);
 
@@ -35,8 +40,10 @@ public class CrewChatRestController {
         return emitter;
     }
 
+    @ApiOperation(value = "메시지 전송", notes = "채팅방에 메시지를 전송한다.")
     @PostMapping("/send/{crewSeq}")
     public void sendMessage(
+            @ApiParam(value = "크루 번호", required = true)
             @PathVariable String crewSeq,
             @RequestBody ChatMessageDTO message) {
         message.setTimestamp(LocalDateTime.now().toString());
@@ -46,8 +53,11 @@ public class CrewChatRestController {
         sseEmitterStore.sendToRoom(crewSeq, message);
     }
 
+    @ApiOperation(value = "최근 메시지 조회", notes = "채팅방의 최근 메시지 내역을 조회한다.")
     @GetMapping("/recent/{crewSeq}")
-    public List<ChatMessageDTO> recent(@PathVariable String crewSeq) {
+    public List<ChatMessageDTO> recent(
+            @ApiParam(value = "크루 번호", required = true)
+            @PathVariable String crewSeq) {
         return chatMemoryStore.getRecentMessages(crewSeq);
     }
 }

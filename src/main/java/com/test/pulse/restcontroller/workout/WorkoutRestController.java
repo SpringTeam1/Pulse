@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -20,8 +21,8 @@ import com.test.pulse.model.workout.WorkoutDTO;
 import com.test.pulse.service.course.CourseService;
 import com.test.pulse.service.workout.WorkoutService;
 
-import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Api(tags = "Workout API")
 @RestController
@@ -32,13 +33,27 @@ public class WorkoutRestController {
 	private final Logger log = LoggerFactory.getLogger(WorkoutRestController.class);
 	
 	//다중 gpx 파일 업로드 API
+    @ApiOperation(value = "운동 기록(GPX) 업로드", notes = "여러 개의 GPX 파일을 업로드하여 운동 기록을 저장한다. (사진, 코멘트 포함)")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "운동 기록 저장 성공"),
+            @ApiResponse(code = 400, message = "파일 누락 등 잘못된 요청"),
+            @ApiResponse(code = 401, message = "로그인 필요"),
+            @ApiResponse(code = 500, message = "서버 오류 (파일 처리 실패)")
+    })
 	@PostMapping("/record/gpx") public ResponseEntity<?> uploadWorkoutLogs(
+            @ApiParam(value = "GPX 파일 리스트 (다중 선택 가능)", required = true)
 			@RequestParam("gpxFiles") List<MultipartFile> gpxFiles,
+
+            @ApiParam(value = "사용자 체중 (kg)", required = true, example = "70.5")
 			@RequestParam("userWeight") double userWeight,
+
+            @ApiParam(value = "운동 인증 사진 (선택)")
 			@RequestParam(value = "attachment", required = false) MultipartFile attachment,
+
+            @ApiParam(value = "운동 한줄평 (선택)", required = false, example = "오늘 날씨가 좋아서 뛰기 편했다.")
             @RequestParam(value = "exerciseComment", required = false) String exerciseComment,
-			Authentication auth,
-			HttpServletRequest request) {
+            @ApiIgnore Authentication auth,
+            @ApiIgnore HttpServletRequest request) {
 		//Spring Security: 사용자 아이디 받아오기
 		String accountId = null;
 		

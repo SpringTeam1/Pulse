@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,8 +22,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.test.pulse.mapper.BoardSuggestionMapper;
 import com.test.pulse.model.boardsuggestion.BoardSuggestionDTO;
 
-import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Api(tags = "Board Suggestion API")
 @RestController
@@ -31,14 +32,24 @@ import lombok.RequiredArgsConstructor;
 public class BoardSuggestionRestController {
 
 	private final BoardSuggestionMapper mapper;
-	
+
+    @ApiOperation(value = "건의 게시판 목록 조회", notes = "페이징, 검색, 정렬 기능을 포함한 건의 게시판 목록을 조회한다.")
 	@GetMapping("/list")
     public Map<String, Object> getBoardList(
-        @RequestParam(defaultValue = "1") int page,
-        @RequestParam(defaultValue = "10") int size,
-        @RequestParam(required = false) String keyword,
-        @RequestParam(defaultValue = "regdate") String sort,
-        @RequestParam(defaultValue = "desc") String order
+            @ApiParam(value = "페이지 번호", defaultValue = "1", example = "1")
+            @RequestParam(defaultValue = "1") int page,
+
+            @ApiParam(value = "페이지 당 게시글 수", defaultValue = "10", example = "10")
+            @RequestParam(defaultValue = "10") int size,
+
+            @ApiParam(value = "검색 키워드")
+            @RequestParam(required = false) String keyword,
+
+            @ApiParam(value = "정렬 기준 (regdate: 등록일, ...)", defaultValue = "regdate")
+            @RequestParam(defaultValue = "regdate") String sort,
+
+            @ApiParam(value = "정렬 순서 (asc: 오름차순, desc: 내림차순)", defaultValue = "desc")
+            @RequestParam(defaultValue = "desc") String order
     ) {
 		int start = (page - 1) * size + 1;
 	    int end = start + size - 1;
@@ -63,8 +74,11 @@ public class BoardSuggestionRestController {
 	
 	
 	/** 좋아요 증가 */
+    @ApiOperation(value = "게시글 좋아요", notes = "특정 게시글의 좋아요 수를 1개 증가시킨다.")
     @PostMapping("/like/{boardContentSeq}")
-    public Map<String, Object> like(@PathVariable String boardContentSeq) {
+    public Map<String, Object> like(
+            @ApiParam(value = "게시글 고유 번호(Seq)", required = true)
+            @PathVariable String boardContentSeq) {
 
         mapper.updateLike(boardContentSeq);
         int newCount = mapper.getFavoriteCount(boardContentSeq);
@@ -75,8 +89,11 @@ public class BoardSuggestionRestController {
     }
 
     /** 삭제 */
+    @ApiOperation(value = "게시글 삭제", notes = "특정 건의 게시글을 삭제한다.")
     @DeleteMapping("/delete/{boardContentSeq}")
-    public Map<String, Object> del(@PathVariable String boardContentSeq) {
+    public Map<String, Object> del(
+            @ApiParam(value = "삭제할 게시글 고유 번호(Seq)", required = true)
+            @PathVariable String boardContentSeq) {
 
         mapper.delSuggestion(boardContentSeq);
 
@@ -86,14 +103,28 @@ public class BoardSuggestionRestController {
     }
 	
 	
-    /** ✏ 게시글 수정 (REST + 파일 업로드) */
+    /** 게시글 수정 (REST + 파일 업로드) */
+    @ApiOperation(value = "게시글 수정", notes = "제목, 내용, 첨부파일을 수정한다. 파일 미첨부 시 기존 파일이 유지된다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "수정 성공"),
+            @ApiResponse(code = 404, message = "게시글을 찾을 수 없음"),
+            @ApiResponse(code = 500, message = "서버 오류 (파일 처리 실패 등)")
+    })
     @PostMapping("/edit/{boardContentSeq}")
     public ResponseEntity<Map<String, Object>> editSuggestion(
+            @ApiParam(value = "수정할 게시글 고유 번호(Seq)", required = true)
             @PathVariable("boardContentSeq") String boardContentSeq,
+
+            @ApiParam(value = "수정할 제목", required = true)
             @RequestParam("title") String title,
+
+            @ApiParam(value = "수정할 내용", required = true)
             @RequestParam("content") String content,
+
+            @ApiParam(value = "수정할 첨부파일 (없으면 기존 유지)")
             @RequestParam(value = "attach", required = false) MultipartFile attach,
-            HttpServletRequest req
+
+            @ApiIgnore HttpServletRequest req
     ) {
 
         Map<String, Object> result = new HashMap<>();

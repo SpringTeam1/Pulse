@@ -4,11 +4,12 @@ import com.test.pulse.model.crew.CrewJoinRequestDTO;
 import com.test.pulse.model.user.CustomUser;
 import com.test.pulse.service.crew.CrewService;
 
-import io.swagger.annotations.Api;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 import java.util.Map;
@@ -22,9 +23,17 @@ public class CrewJoinRestController {
     private final CrewService crewService;
 
     // ✅ 크루 가입 신청
+    @ApiOperation(value = "크루 가입 신청", notes = "일반 회원이 특정 크루에 가입을 신청합니다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "신청 완료"),
+            @ApiResponse(code = 400, message = "이미 가입/신청 상태"),
+            @ApiResponse(code = 401, message = "로그인 필요")
+    })
     @PostMapping("/{crewSeq}")
-    public ResponseEntity<?> joinCrew(@PathVariable("crewSeq") String crewSeq,
-                                      Authentication authentication) {
+    public ResponseEntity<?> joinCrew(
+            @ApiParam(value = "가입할 크루 번호(Seq)", required = true, example = "1")
+            @PathVariable("crewSeq") String crewSeq,
+            @ApiIgnore Authentication authentication) {
 
         String accountId = getAccountId(authentication);
         if (accountId == null) {
@@ -54,15 +63,21 @@ public class CrewJoinRestController {
     }
 
     //  특정 크루의 가입 요청 목록 조회
+    @ApiOperation(value = "가입 신청 목록 조회", notes = "크루장이 해당 크루에 들어온 가입 신청 목록을 확인한다.")
     @GetMapping("/list/{crewSeq}")
-    public ResponseEntity<?> getJoinRequests(@PathVariable String crewSeq) {
+    public ResponseEntity<?> getJoinRequests(
+            @ApiParam(value = "크루 번호(Seq)", required = true)
+            @PathVariable String crewSeq) {
         List<CrewJoinRequestDTO> list = crewService.getJoinRequests(crewSeq);
         return ResponseEntity.ok(list);
     }
 
     // 가입 승인
+    @ApiOperation(value = "가입 승인", notes = "크루장이 특정 회원의 가입 요청을 승인한다.")
     @PostMapping("/approve/{crewJoinSeq}")
-    public ResponseEntity<?> approveJoin(@PathVariable String crewJoinSeq) {
+    public ResponseEntity<?> approveJoin(
+            @ApiParam(value = "가입 요청 번호(Seq)", required = true)
+            @PathVariable String crewJoinSeq) {
         int result = crewService.approveJoin(crewJoinSeq);
         return ResponseEntity.ok(Map.of(
                 "success", result > 0,
@@ -70,8 +85,11 @@ public class CrewJoinRestController {
         ));
     }
 
+    @ApiOperation(value = "크루 멤버 수 갱신", notes = "가입 승인 후 크루의 현재 인원수를 갱신한다. (승인 로직 내부에서 호출될 수 있음")
     @PatchMapping("/approve/memberup/{crewSeq}")
-    public ResponseEntity<?> approveMemberup(@PathVariable String crewSeq) {
+    public ResponseEntity<?> approveMemberup(
+            @ApiParam(value = "크루 번호(Seq)", required = true)
+            @PathVariable String crewSeq) {
         int result = crewService.upCountCrewMember(crewSeq);
 
         return ResponseEntity.ok(Map.of(
@@ -82,9 +100,12 @@ public class CrewJoinRestController {
 
 
 
-    //  가입 거절
+    // 가입 거절
+    @ApiOperation(value = "가입 거절", notes = "크루장이 특정 회원의 가입 요청을 거절한다.")
     @PostMapping("/reject/{crewJoinSeq}")
-    public ResponseEntity<?> rejectJoin(@PathVariable String crewJoinSeq) {
+    public ResponseEntity<?> rejectJoin(
+            @ApiParam(value = "가입 요청 번호(Seq)", required = true)
+            @PathVariable String crewJoinSeq) {
         int result = crewService.rejectJoin(crewJoinSeq);
         return ResponseEntity.ok(Map.of(
                 "success", result > 0,
