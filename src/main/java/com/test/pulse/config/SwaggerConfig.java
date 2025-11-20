@@ -22,10 +22,26 @@ import springfox.documentation.swagger.web.UiConfigurationBuilder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * Swagger Document 설정을 위한 클래스
+ * Springfox Swagger 2 설정을 위한 클래스
+ * 이 클래스는 API 문서를 자동으로 생성하고 UI를 통해 쉽게 탐색할 수 있도록 설정한다.
+ *
+ * @see EnableSwagger2
  */
 @EnableSwagger2
 public class SwaggerConfig {
+	
+	/**
+     * Swagger API 문서 생성을 위한 주요 설정을 담당하는 Docket Bean을 생성한다.
+     * <ul>
+     *     <li>API를 스캔할 기본 패키지를 지정한다 (com.test.pulse.restcontroller).</li>
+     *     <li>문서에 포함할 API 경로를 설정한다 (모든 경로).</li>
+     *     <li>기본 응답 메시지 사용을 비활성화한다.</li>
+     *     <li>API의 기본 정보(제목, 설명, 버전 등)를 설정한다.</li>
+     *     <li>API 그룹을 정의하는 태그를 설정한다.</li>
+     * </ul>
+     *
+     * @return Swagger 설정을 담은 Docket 인스턴스
+     */
 	@Bean
     public Docket api(){
 		List<Predicate<RequestHandler>> predicateList = new ArrayList<>();
@@ -53,6 +69,12 @@ public class SwaggerConfig {
                 );
     }
 
+    /**
+     * API 문서에 표시될 기본 정보를 생성한다.
+     * 제목, 설명, 버전 등의 정보를 포함한다.
+     *
+     * @return API 정보를 담은 ApiInfo 객체
+     */
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Pulse")
@@ -62,6 +84,12 @@ public class SwaggerConfig {
                 .build();
     }
 
+    /**
+     * Swagger UI의 표시 방식을 설정하는 UiConfiguration Bean을 생성한다.
+     * 여기서는 API 오퍼레이션(메소드) 목록을 알파벳 순으로 정렬하도록 설정한다.
+     *
+     * @return Swagger UI 설정을 담은 UiConfiguration 인스턴스
+     */
     @Bean
     public UiConfiguration uiconfig() {
         return UiConfigurationBuilder
