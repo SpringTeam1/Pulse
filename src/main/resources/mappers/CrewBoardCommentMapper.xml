@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.test.pulse.mapper.CrewBoardCommentMapper">
+
+    <insert id="add" parameterType="CommentDTO">
+
+        insert into tblCrewCommentGeneral (commentSeq, crewSeq, boardContentSeq, accountId, content, regdate)
+        values (seqCrewBoardComment.nextval,#{crewSeq},#{boardContentSeq},#{accountId},#{content},sysdate)
+
+    </insert>
+
+    <select id="list" resultType="CommentDTO">
+        SELECT
+        c.commentSeq,
+        c.crewSeq,
+        c.boardContentSeq,
+        c.accountId,
+        c.content,
+        c.regdate,
+        a.nickname   <!-- ★ JOIN으로 nickname 가져오기 -->
+        FROM tblCrewCommentGeneral c
+        LEFT JOIN tblAccountInfo a
+        ON c.accountId = a.accountId
+        WHERE c.boardContentSeq = #{boardContentSeq}
+        ORDER BY c.commentSeq DESC
+    </select>
+
+
+</mapper>
+

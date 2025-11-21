@@ -1,8 +1,76 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- 선민(서진): 기존에 있던것 주석처리 하고 아래 bean으로 대체
+	<context:property-placeholder location="classpath:config/db.properties", classpath:config/email.properties"/> 
+	-->
 	
-	<!-- Root Context: defines shared resources visible to all other web components -->
-		
+	<!-- 선민: .properties 파일 로딩을 위한 bean -->
+	<bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+	    <property name="locations">
+	        <list>
+	            <value>classpath:config/*.properties</value>
+	        </list>
+	    </property>
+	    <property name="fileEncoding" value="UTF-8" />
+	</bean>
+
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="driverClassName" value="${db.driverClassName}"/>
+		<property name="jdbcUrl" value="${db.jdbcUrl}"/>
+		<property name="username" value="${db.username}"/>
+		<property name="password" value="${db.password}"/>
+		<property name="maximumPoolSize" value="5" />
+		<property name="dataSourceProperties">
+			<props>
+				<prop key="oracle.net.tns_admin">C:/dev/Wallet_jspteam1</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+		<constructor-arg ref="hikariConfig"/>
+	</bean>
+
+	<bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="mapperLocations" value="classpath:mappers/*.xml"/>
+		<property name="configLocation" value="classpath:config/mybatis-config.xml"/>
+	</bean>
+	
+	<mybatis-spring:scan base-package="com.test.pulse.mapper"/>
+
+	<!-- 선민: jackson databind bean 추가(25-11-16 확장 모듈 추가하면서 수정) -->
+	<bean id="objectMapper" class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean" />
+	<!-- 선민: service 패키지 scan 설정 -->
+	<context:component-scan base-package="com.test.pulse.service" />
+	<!-- 선민: restTemplate bean(카카오맵 api 관련) -->
+	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate" />
+	
+	<!-- 서진: mailSender bean(메일 발송) -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+    <property name="host" value="${mail.host}"/>
+    <property name="port" value="${mail.port}"/>
+    <property name="username" value="${mail.username}"/>
+    <property name="password" value="${mail.password}"/>
+    <property name="defaultEncoding" value="UTF-8"/>
+    <property name="javaMailProperties">
+        <props>
+            <prop key="mail.smtp.auth">${mail.smtp.auth}</prop>
+            <prop key="mail.smtp.starttls.enable">${mail.smtp.starttls.enable}</prop>
+            <!-- Gmail 권장 옵션 -->
+            <prop key="mail.smtp.connectiontimeout">10000</prop>
+            <prop key="mail.smtp.timeout">10000</prop>
+            <prop key="mail.smtp.writetimeout">10000</prop>
+        </props>
+    </property>
+	</bean>
+	<context:component-scan base-package="com.test.pulse.service"/>
+	
 </beans>

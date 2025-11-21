@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="com.test.pulse.mapper.WorkoutMapper">
+	
+	<!-- WorkoutDTO alias - wdto -->
+	<insert id="insertWorkout" parameterType="wdto">
+        <selectKey keyProperty="workoutSeq" resultType="int" order="BEFORE">
+            SELECT seqWorkout.NEXTVAL FROM DUAL
+        </selectKey>
+        
+        INSERT INTO tblWorkout (
+            workoutSeq, accountId, trackData, totalTime, totalDistance, 
+            totalCalories, workoutDate, avgPace, attachment, exerciseComment
+        ) VALUES (
+            #{workoutSeq}, #{accountId}, #{trackData, jdbcType=CLOB}, 
+            #{totalTime}, #{totalDistance}, #{totalCalories}, #{workoutDate}, 
+            #{avgPace}, #{attachment}, #{exerciseComment}
+        )
+    </insert>
+    
+    <select id="getWorkoutsByAccountId" parameterType="string" resultType="wldto">
+        SELECT
+            workoutSeq, accountId, totalTime, totalDistance,
+            totalCalories, TO_CHAR(workoutDate, 'YYYY-MM-DD') as workoutDate, avgPace
+        FROM tblWorkout
+        WHERE accountId = #{accountId}
+        ORDER BY workoutDate DESC, workoutSeq DESC
+    </select>
+	
+	<select id="getWorkoutDetail" parameterType="int" resultType="wdto">
+	    SELECT 
+	        workoutSeq,
+	        accountId,
+	        trackData,
+	        totalTime,
+	        totalDistance,
+	        totalCalories,
+	        avgPace,
+	        TO_CHAR(workoutDate, 'YYYY-MM-DD') as workoutDate,
+	        attachment,
+	        exerciseComment
+	    FROM tblWorkout
+	    WHERE workoutSeq = #{workoutSeq}
+	</select>
+	
+</mapper>

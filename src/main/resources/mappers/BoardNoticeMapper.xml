@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+    🔵 namespace = Mapper.java 인터페이스 이름과 매핑되는 이름
+    BoardNoticeMapper.java 내부의 메서드명과
+    아래 id들이 정확히 일치해야 작동함
+-->
+<mapper namespace="com.test.pulse.mapper.BoardNoticeMapper">
+
+    <!-- 🔵 공지 목록 조회 (공지글만) -->
+    <select id="list" resultType="bndto">
+        SELECT 
+            bn.boardSeq,
+            bn.accountId,
+            ai.nickname,
+            bn.title,
+            bn.content,
+            TO_CHAR(bn.regdate, 'YYYY-MM-DD HH24:MI:SS') AS regdate,
+            bn.readCount,
+            bn.boardContentTypeSeq,
+            bn.attach
+        FROM tblBoardNotice bn
+		JOIN tblAccountInfo ai ON bn.accountId = ai.accountId
+        WHERE boardContentTypeSeq = 2   <!-- 🔹 공지글만 -->
+        ORDER BY boardSeq DESC
+    </select>
+
+    <!-- 🔵 상세보기 -->
+    <select id="view" parameterType="int" resultType="bndto">
+        SELECT 
+            bn.boardSeq,
+            bn.accountId,
+            ai.nickname,
+            bn.title,
+            bn.content,
+            TO_CHAR(bn.regdate, 'YYYY-MM-DD HH24:MI:SS') AS regdate,
+            bn.readCount,
+            bn.boardContentTypeSeq,
+            bn.attach
+        FROM tblBoardNotice bn
+		JOIN tblAccountInfo ai ON bn.accountId = ai.accountId
+        WHERE boardSeq = #{seq}
+    </select>
+
+    <!-- 🔵 글쓰기 -->
+    <insert id="add" parameterType="bndto">
+        INSERT INTO tblBoardNotice (
+            boardSeq,
+            accountId,
+            title,
+            content,
+            boardContentTypeSeq,
+            attach
+        )
+        VALUES (
+            seqBoardNotice.nextVal,
+            #{accountId},
+            #{title},
+            #{content},
+            2,              <!-- 🔹 이 게시판은 무조건 공지글 → 2로 고정 -->
+            #{attach}
+        )
+    </insert>
+    
+    <!-- 🔵 조회수 증가 -->
+    <update id="increaseReadCount" parameterType="int">
+        UPDATE tblBoardNotice
+        SET readCount = readCount + 1
+        WHERE boardSeq = #{seq}
+    </update>
+
+    <!-- 🔵 수정 -->
+    <update id="edit" parameterType="bndto">
+        UPDATE tblBoardNotice
+        SET 
+            title = #{title},
+            content = #{content},
+            attach = #{attach}
+        WHERE boardSeq = #{boardSeq}
+    </update>
+
+    <!-- 🔵 삭제 -->
+    <delete id="del" parameterType="int">
+        DELETE FROM tblBoardNotice 
+        WHERE boardSeq = #{seq}
+    </delete>
+    
+    <!-- 🔵 페이징 목록 (공지글만) -->
+    <select id="listPaging" resultType="bndto">
+    <![CDATA[
+        SELECT *
+        FROM (
+            SELECT a.*, ROWNUM rnum
+            FROM (
+                SELECT 
+                    bn.boardSeq,
+                    bn.accountId,
+                    ai.nickname,
+                    bn.title,
+                    bn.content,
+                    TO_CHAR(bn.regdate, 'YYYY-MM-DD HH24:MI:SS') AS regdate,
+                    bn.readCount,
+                    bn.boardContentTypeSeq,
+                    bn.attach
+                FROM tblBoardNotice bn
+				JOIN tblAccountInfo ai ON bn.accountId = ai.accountId
+                ORDER BY boardSeq DESC
+            ) a
+            WHERE ROWNUM <= #{offset} + #{pageSize}
+        )
+        WHERE rnum > #{offset}
+    ]]>
+    </select>
+    
+    <!-- 🔵 전체 게시물 수 (공지글만 카운트) -->
+    <select id="totalCount" resultType="int">
+        SELECT COUNT(*)
+        FROM tblBoardNotice
+        WHERE boardContentTypeSeq = 2
+    </select>
+
+</mapper>

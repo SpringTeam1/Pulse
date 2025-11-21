@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="com.test.pulse.mapper.BoardSuggestionMapper">
+	
+	<resultMap type="adto" id="accountInfoMap">
+		<id column="aid" property="accountId"/>
+		<result column="nickname" property="nickname"/>
+	</resultMap>
+	
+	<resultMap type="sdto" id="boardSuggestionMap">
+		<id column="boardContentSeq" property="boardContentSeq"/>
+		
+		<result column="title" property="title" />
+		<result column="regdate" property="regdate" />
+		<result column="content" property="content" />
+		<result column="attach" property="attach" />
+		<result column="readCount" property="readCount"/>
+		<result column="favoriteCount" property="favoriteCount"/>
+		<result column="boardContentTypeSeq" property="boardContentTypeSeq"/>
+		<result column="bid" property="accountId"/>
+		
+		<association property="adto" resultMap="accountInfoMap" />
+		
+	</resultMap>
+	
+	<!-- list 게시글 조회 -->
+	<select id="suggestionList" resultMap="boardSuggestionMap">
+	    SELECT
+	        b.boardContentSeq,
+	        b.title,
+	        b.content,
+	        b.attach,
+	        b.regdate,
+	        b.readCount,
+	        b.favoriteCount,
+	        b.boardContentTypeSeq,
+	        
+	        b.accountId AS bid,      <!-- 게시글 작성자 FK -->
+	        a.accountId AS aid,      <!-- 작성자 정보용 -->
+	        a.nickname AS nickname   <!-- 작성자 닉네임 -->
+	
+	    FROM tblBoardSuggestion b
+	        INNER JOIN tblAccountInfo a
+	            ON b.accountId = a.accountId
+	        LEFT JOIN tblAccountInfoDetail d   <!-- 상세 정보는 있어도 되고 없어도 됨 -->
+	            ON a.accountId = d.accountId
+	
+	    ORDER BY b.boardContentSeq DESC
+</select>
+	
+	 <!-- 
+         ⭐ REST API: 검색 + 정렬 + 페이지네이션
+         GET /boardsuggestion/api/list?page=&size=&keyword=&sort=&order=
+     -->
+    <select id="searchAndSort" parameterType="map" resultMap="boardSuggestionMap">
+        SELECT *
+        FROM (
+            SELECT ROWNUM AS rnum, A.*
+            FROM (
+                SELECT
+                    b.boardContentSeq,
+                    b.title,
+                    b.content,
+                    b.attach,
+                    b.regdate,
+                    b.readCount,
+                    b.favoriteCount,
+                    b.boardContentTypeSeq,
+
+                    b.accountId AS bid,
+                    a.accountId AS aid,
+                    a.nickname AS nickname
+
+                FROM tblBoardSuggestion b
+                    INNER JOIN tblAccountInfo a
+                        ON b.accountId = a.accountId
+
+                <!-- 검색 조건 -->
+                <where>
+                    <if test="keyword != null and keyword != ''">
+                        AND (
+                            b.title LIKE '%' || #{keyword} || '%' OR
+                            a.nickname LIKE '%' || #{keyword} || '%'
+                        )
+                    </if>
+                </where>
+
+                <!-- 정렬 -->
+                ORDER BY
+                    <choose>
+                        <when test="sort == 'title'"> b.title </when>
+                        <when test="sort == 'readCount'"> b.readCount </when>
+                        <otherwise> b.regdate </otherwise>
+                    </choose>
+                    <choose>
+                        <when test="order == 'asc'"> ASC </when>
+                        <otherwise> DESC </otherwise>
+                    </choose>
+
+            ) A
+        )
+        WHERE rnum BETWEEN #{start} AND #{end}
+    </select>
+
+
+    <!-- ⭐ 총 게시물 수 (검색 포함) -->
+    <select id="getTotalCount" parameterType="string" resultType="int">
+        SELECT COUNT(*)
+        FROM tblBoardSuggestion b
+            INNER JOIN tblAccountInfo a
+                ON b.accountId = a.accountId
+
+        <where>
+            <if test="keyword != null and keyword != ''">
+                AND (
+                    b.title LIKE '%' || #{keyword} || '%' OR
+                    a.nickname LIKE '%' || #{keyword} || '%'
+                )
+            </if>
+        </where>
+    </select>
+	
+	
+	<!-- view 게시글 상세보기 -->
+	<select id="getSuggestion" parameterType="String" resultMap="boardSuggestionMap">
+		SELECT
+	        b.boardContentSeq,
+	        b.accountId AS bid,
+	        b.title,
+	        b.content,
+	        b.attach,
+	        b.regdate,
+	        b.readCount,
+	        b.favoriteCount,
+	        b.boardContentTypeSeq,
+	        
+	        a.accountId AS aid,
+	        a.nickname
+        
+	    FROM tblBoardSuggestion b
+	    INNER JOIN tblAccountInfo a
+	        ON b.accountId = a.accountId
+	    INNER JOIN tblAccountInfoDetail d
+	        ON a.accountId = d.accountId
+	    WHERE b.boardContentSeq = #{boardContentSeq}
+					
+	</select>
+	
+	<!-- 좋아요 -->
+	<update id="updateLike">
+    	UPDATE tblBoardSuggestion
+	    SET favoriteCount = favoriteCount + 1
+	    WHERE boardContentSeq = #{boardContentSeq}
+	</update>
+	
+	<!-- 좋아요 수 -->
+	<select id="getFavoriteCount" resultType="int">
+	    SELECT favoriteCount 
+	    FROM tblBoardSuggestion
+	    WHERE boardContentSeq = #{boardContentSeq}
+	</select>
+	
+	
+	<!-- add 게시글 등록 -->
+	<insert id="addSuggestion" parameterType="sdto">
+	
+		insert into tblBoardSuggestion (boardContentSeq, accountId, title, content, attach, regdate, readCount, favoriteCount, boardContentTypeSeq)
+			values (boardContentSeq.nextVal, #{accountId}, #{title}, #{content}, #{attach}, default, default, default, #{boardContentTypeSeq})
+	</insert>
+	
+	
+	<!-- edit 게시글 수정 -->
+	<update id="editSuggestion" parameterType="sdto">
+		UPDATE tblBoardSuggestion
+    	SET
+	        title = #{title},
+	        content = #{content},
+	        attach = #{attach}
+	    WHERE boardContentSeq = #{boardContentSeq}
+	</update>
+	
+	
+	<!-- del 게시글 삭제 -->
+	<delete id="delSuggestion" parameterType="String">
+		delete from tblBoardSuggestion
+			where boardContentSeq = #{boardContentSeq}		
+	</delete>
+	
+	
+</mapper>

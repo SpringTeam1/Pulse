@@ -50,3 +50,24 @@ Thumbs.db
 desktop.ini
 
 # End of https://www.toptal.com/developers/gitignore/api/java,eclipse,maven
+
+/src/main/resources/config/db.properties
+/src/main/resources/config/email.properties
+/src/main/resources/config/*.properties
+.factorypath
+node_modules
+package-lock.json
+
+package.json
+
+# output.css
+src/main/webapp/asset/css/output.css
+.idea
+.apt_generated
+.apt_generated_tests
+bin
+pulse.iml
+
+#vscode 설정 폴더 제외
+.vscode
+out
